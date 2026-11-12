@@ -1,0 +1,8 @@
+# 鍵と個人設定は入れない
+.env
+tools/.env
+.DS_Store
+# 音声生成の記録（消費の控え）
+audio/log.json
+# 女性の声は配布に入れない（手元だけ）
+audio/f/

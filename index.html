@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="ja" data-book="ae" data-theme="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>動きの見本帳</title>
+<meta name="color-scheme" content="light dark">
+<style>
+/* ============================================================
+   動きの見本帳 — 紙の見本帳（スペシメンブック）として組む。
+   方針：飾りは罫線・活字・特色（巻ごとの1色）だけ。見本そのものを絵として使う。
+   ============================================================ */
+:root{
+  --paper:#f4f1ea; --paper2:#ece8dd; --paper3:#e2ddd0; --card:#fbf9f4;
+  --ink:#161513; --ink2:#55524b; --ink3:#716d64;
+  --rule:rgba(22,21,19,.15); --rule2:rgba(22,21,19,.36);
+  --stage:#0a0a0c; --gold:#a87400;
+  --ae:#c5341a; --mg:#2740d6; --vo:#0a7653;
+  --spot:var(--ae); --on-spot:#fffaf2;
+  --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+  --num:"Bodoni 72","Didot","Bodoni MT","Libre Bodoni","Hiragino Mincho ProN",Georgia,serif;
+  --sans:"Helvetica Neue","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --rail:264px; --ease:cubic-bezier(.2,.7,.2,1); --shadow:6px 6px 0 rgba(22,21,19,.14);
+}
+html[data-theme=night]{
+  --paper:#111113; --paper2:#18181b; --paper3:#222226; --card:#17171a;
+  --ink:#efece4; --ink2:#b4b0a6; --ink3:#8d897f;
+  --rule:rgba(239,236,228,.13); --rule2:rgba(239,236,228,.32);
+  --gold:#ffd76a; --ae:#ff8a5c; --mg:#8fb0ff; --vo:#5fd6a4; --on-spot:#111113;
+  --shadow:6px 6px 0 rgba(0,0,0,.5);
+}
+html[data-book=mg]{--spot:var(--mg)} html[data-book=vo]{--spot:var(--vo)}
+[data-b=ae]{--c:var(--ae)} [data-b=mg]{--c:var(--mg)} [data-b=vo]{--c:var(--vo)}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:84px}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.7 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--spot);outline-offset:2px}
+.ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ic.fill{fill:currentColor;stroke:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+a{color:inherit}
+
+/* ---------- 骨組み：左に背（巻と目次）、右にページ ---------- */
+.shell{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);min-height:100dvh}
+.rail{position:sticky;top:0;height:100dvh;overflow-y:auto;scrollbar-width:none;border-right:1px solid var(--rule2);padding:26px 22px 18px;display:flex;flex-direction:column;gap:22px}
+.rail::-webkit-scrollbar{display:none}
+.mast{display:block;text-decoration:none}
+.mast-ja{display:block;font:600 34px/1.12 var(--serif);letter-spacing:.06em}
+.mast-en{display:block;margin-top:10px;font:500 9.5px/1 var(--sans);letter-spacing:.26em;color:var(--ink2)}
+.mast-tag{display:block;margin-top:8px;font-size:12px;color:var(--ink2)}
+.colorbar{display:flex;gap:0;height:8px;border:1px solid var(--ink)}
+.colorbar i{flex:1;background:var(--c)}
+.colorbar i+i{border-left:1px solid var(--ink)}
+
+.vols{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.vols button{position:relative;display:grid;grid-template-columns:42px 1fr auto;column-gap:8px;align-items:baseline;text-align:left;padding:12px 6px 11px 10px;border-bottom:1px solid var(--rule2);transition:background .18s var(--ease)}
+.vols button::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c);transform:scaleY(0);transform-origin:top;transition:transform .25s var(--ease)}
+.vols button:hover{background:color-mix(in srgb,var(--c) 7%,transparent)}
+.vols button.on{background:color-mix(in srgb,var(--c) 10%,transparent)}
+.vols button.on::before{transform:scaleY(1)}
+.vols .vn{font:400 30px/1 var(--num);color:var(--c);font-variant-numeric:lining-nums}
+.vols .vt{grid-column:2/4;font:700 14px/1.35 var(--sans)}
+.vols .vc{grid-column:3;grid-row:2;align-self:start;margin-top:5px;font:500 10.5px/1 var(--mono);color:var(--ink2)}
+.vols .vs{grid-column:2;grid-row:2;font-size:11.5px;line-height:1.45;color:var(--ink2);margin-top:2px}
+.vols button.on .vt{color:var(--c)}
+
+.toc-h{font:500 10px/1 var(--sans);letter-spacing:.24em;color:var(--ink2);margin-bottom:-12px}
+.toc{display:flex;flex-direction:column}
+.toc button{display:grid;grid-template-columns:26px 1fr auto;gap:6px;align-items:baseline;text-align:left;padding:5px 4px 5px 6px;font-size:13px;line-height:1.45;color:var(--ink2);border-left:1px solid var(--rule2);transition:color .15s,border-color .15s}
+.toc button:hover{color:var(--ink)}
+.toc button.on{color:var(--ink);font-weight:700;border-left:3px solid var(--spot);padding-left:4px}
+.toc button.dim{opacity:.35}
+.toc .tn{font:500 10.5px/1 var(--mono);color:var(--ink3)}
+.toc .tc{font:500 10.5px/1 var(--mono);color:var(--ink3)}
+.toc .sp{height:8px}
+.rail-foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:14px;border-top:1px solid var(--rule2)}
+.seg{display:inline-flex;border:1px solid var(--rule2)}
+.seg button{padding:6px 10px;font-size:12px;color:var(--ink2)}
+.seg button.on{background:var(--ink);color:var(--paper)}
+.ib{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:34px;height:32px;padding:0 8px;border:1px solid var(--rule2);font-size:12px;color:var(--ink2)}
+.ib:hover{color:var(--ink);border-color:var(--ink)}
+
+/* ---------- ページ ---------- */
+.page{min-width:0;padding:0 clamp(18px,3.4vw,56px) 150px}
+.open{position:relative;padding:38px 0 26px;overflow:hidden}
+.open-no{position:absolute;right:-8px;top:6px;font:400 clamp(110px,15vw,230px)/.78 var(--num);color:transparent;-webkit-text-stroke:1.2px var(--spot);opacity:.5;pointer-events:none;user-select:none;font-variant-numeric:lining-nums}
+.kicker{font:500 11px/1.5 var(--mono);letter-spacing:.14em;color:var(--ink2);max-width:70%}
+.open h1{position:relative;margin:14px 0 0;font:600 clamp(28px,4.3vw,62px)/1.2 var(--serif);letter-spacing:.02em;max-width:17em;text-wrap:balance}
+.open h1 em{font-style:normal;color:var(--spot)}
+
+.bar{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:10px 0;border-top:2px solid var(--ink);border-bottom:1px solid var(--rule2);background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px)}
+.bar::after{content:"";position:absolute;left:0;right:0;bottom:-1.5px;height:2px;background:var(--spot);transform-origin:left;transform:scaleX(var(--prog,0))}
+.search{flex:1 1 170px;display:flex;align-items:center;gap:8px;border-bottom:1.5px solid var(--ink);padding:5px 2px}
+.search input{flex:1;min-width:0;border:0;background:none;outline:0;font-size:15px;padding:2px 0}
+.search input::placeholder{color:var(--ink3)}
+.search:focus-within{border-bottom-color:var(--spot);box-shadow:0 1.5px 0 var(--spot)}
+kbd{font:500 11px/1 var(--mono);border:1px solid var(--rule2);border-radius:3px;padding:3px 5px;color:var(--ink2);background:var(--paper2)}
+.views{display:flex;gap:2px}
+.views button{position:relative;padding:8px 10px;font-size:13px;color:var(--ink2);white-space:nowrap}
+.views button i{font:500 10.5px/1 var(--mono);font-style:normal;margin-left:5px;color:var(--ink3)}
+.views button::after{content:"";position:absolute;left:10px;right:10px;bottom:2px;height:2px;background:var(--spot);transform:scaleX(0);transition:transform .22s var(--ease)}
+.views button.on{color:var(--ink);font-weight:700}
+.views button.on::after{transform:scaleX(1)}
+.spd{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink2)}
+.spdw{position:relative;display:block;width:124px;padding-bottom:15px}
+.brk{display:none;flex-basis:100%;height:0}
+@media (max-width:1400px){.brk{display:block}.search{flex-basis:260px}}
+.spd input{display:block;width:100%;margin:0;accent-color:var(--spot)}
+.ticks i{position:absolute;bottom:0;transform:translateX(-50%);font:normal 10px/1 var(--mono);color:var(--ink3);padding-top:5px}
+.ticks i::before{content:"";position:absolute;left:50%;top:0;width:1px;height:3px;background:var(--ink3)}
+.spd b{font:600 12.5px/1 var(--mono);color:var(--ink);min-width:2.6em;text-align:right}
+.tb{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 11px;border:1px solid var(--rule2);font-size:13px;white-space:nowrap;transition:border-color .15s,background .15s}
+.tb:hover{border-color:var(--ink);background:var(--paper2)}
+.tb.pri{background:var(--spot);border-color:var(--spot);color:var(--on-spot);font-weight:700}
+.tb.pri:hover{filter:brightness(1.08)}
+.count{font:500 11.5px/1 var(--mono);color:var(--ink2);margin-right:auto;padding-left:4px}
+.mtoc{display:none;flex:1 1 100%;gap:6px;overflow-x:auto;scrollbar-width:none;padding-top:2px}
+.mtoc::-webkit-scrollbar{display:none}
+.mtoc button{flex:none;border:1px solid var(--rule2);padding:5px 10px;font-size:12.5px;color:var(--ink2);white-space:nowrap}
+.mtoc button.on{border-color:var(--spot);color:var(--spot);font-weight:700}
+html[data-book=vo] .spd,html[data-book=vo] #pause{display:none}
+
+.intro{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px 48px;padding:26px 0 6px;align-items:start}
+.lead{margin:0;font-size:15.5px;line-height:1.9;max-width:40em}
+.stats{display:flex;gap:30px;justify-content:flex-end}
+.stats div{text-align:right}
+.stats b{display:block;font:400 44px/1 var(--num);font-variant-numeric:lining-nums}
+.stats div:last-child b{color:var(--spot);font-size:30px;line-height:1.47;font-family:var(--mono);font-weight:600;letter-spacing:-.02em}
+.stats span{font-size:11.5px;color:var(--ink2);letter-spacing:.06em}
+.how{grid-column:1/-1;border-top:1px solid var(--rule2);padding-top:14px}
+.how h2{margin:0 0 10px;font:500 10px/1 var(--sans);letter-spacing:.24em;color:var(--ink2)}
+.how ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:s}
+.how li{counter-increment:s;font-size:13px;line-height:1.7;color:var(--ink2);padding-left:34px;position:relative}
+.how li::before{content:counter(s);position:absolute;left:0;top:-5px;font:400 28px/1 var(--num);color:var(--spot)}
+.note{margin-top:14px;font-size:12.5px;line-height:1.8;color:var(--ink2)}
+.note summary{cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink);list-style:none;border-bottom:1px dotted var(--ink2);padding-bottom:1px}
+.note summary::-webkit-details-marker{display:none}
+.note summary::before{content:"+";font:600 13px/1 var(--mono);color:var(--spot)}
+.note[open] summary::before{content:"–"}
+.note[open] summary{margin-bottom:8px}
+.note code,.how code{font:500 12px var(--mono);background:var(--paper2);border:1px solid var(--rule);padding:1px 5px}
+
+/* ---------- 動く見本の帯（フィルムの密着焼きのように流す） ---------- */
+.strip{position:relative;height:158px;margin:22px 0 6px;border-top:1px solid var(--rule2);border-bottom:1px solid var(--rule2);overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.strip-l{position:absolute;left:0;top:0;bottom:0;z-index:2;writing-mode:vertical-rl;font:500 9.5px/1 var(--sans);letter-spacing:.3em;color:var(--ink2);display:flex;align-items:center;justify-content:center;width:22px;background:var(--paper)}
+.fr{position:absolute;left:0;top:14px;width:200px;text-align:left;will-change:transform}
+.fr canvas{display:block;width:200px;height:112.5px;background:var(--stage);border-radius:2px}
+.fr span{display:block;margin-top:6px;font:500 10.5px/1.2 var(--mono);color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fr span b{color:var(--spot);font-weight:600;margin-right:6px}
+.fr:hover canvas{outline:2px solid var(--spot);outline-offset:2px}
+
+/* ---------- 見本の文字を組む欄（AEの巻だけ） ---------- */
+.samplebox{margin:26px 0 0;padding:16px 18px 14px;border:2px solid var(--spot);background:color-mix(in srgb,var(--spot) 6%,var(--card));position:relative}
+.samplebox label{display:flex;align-items:baseline;gap:12px;font:600 19px/1.3 var(--serif);margin-bottom:10px}
+.samplebox label small{font:500 10px/1 var(--sans);letter-spacing:.22em;color:var(--spot)}
+#sample{display:block;width:100%;resize:none;overflow-y:auto;max-height:8.6em;scrollbar-width:none;font:700 26px/1.45 var(--sans);color:var(--ink);caret-color:var(--spot);background:var(--card);border:2px solid var(--spot);padding:13px 16px;outline:0;animation:glow 2.2s ease-in-out infinite}
+#sample::placeholder{color:color-mix(in srgb,var(--spot) 55%,var(--ink3))}
+#sample:focus{animation:none;box-shadow:0 0 0 5px color-mix(in srgb,var(--spot) 22%,transparent),0 0 30px color-mix(in srgb,var(--spot) 45%,transparent)}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--spot) 0%,transparent),0 0 10px color-mix(in srgb,var(--spot) 18%,transparent)}50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--spot) 20%,transparent),0 0 30px color-mix(in srgb,var(--spot) 50%,transparent)}}
+.samplebox .hint{margin-top:9px;font-size:12.5px;color:var(--ink2)}
+
+/* ---------- 章（カテゴリ）と見本の版（プレート） ---------- */
+section.cat{padding-top:52px;scroll-margin-top:84px}
+.cat-h{display:grid;grid-template-columns:auto auto 1fr auto;align-items:baseline;gap:14px;border-top:2px solid var(--ink);padding:12px 0 14px}
+.cat-no{font:400 34px/1 var(--num);color:var(--spot);min-width:1.4em;font-variant-numeric:lining-nums}
+.cat-h h2{margin:0;font:600 24px/1.3 var(--serif);letter-spacing:.03em}
+.cat-sub{font-size:12.5px;color:var(--ink2);letter-spacing:.04em}
+.cat-h .rng{font:500 11.5px/1 var(--mono);color:var(--ink2)}
+.cat-h .tb{height:28px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.plate{position:relative;display:flex;flex-direction:column;gap:9px;padding:13px 14px 15px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);background:transparent;transition:background .2s var(--ease)}
+.plate::before,.plate::after{content:"";position:absolute;width:11px;height:11px;opacity:0;transition:opacity .18s;pointer-events:none}
+.plate::before{left:4px;top:4px;border-left:1.5px solid var(--spot);border-top:1.5px solid var(--spot)}
+.plate::after{right:4px;bottom:4px;border-right:1.5px solid var(--spot);border-bottom:1.5px solid var(--spot)}
+.plate:hover{background:var(--card)}
+.plate:hover::before,.plate:hover::after{opacity:1}
+.plate.sel{background:color-mix(in srgb,var(--spot) 8%,var(--card))}
+.cap{display:flex;align-items:center;justify-content:space-between;min-height:28px}
+.id{font:600 12px/1 var(--mono);letter-spacing:.06em;color:var(--spot)}
+.fav{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;margin:-3px -5px -3px 0;color:var(--ink3);transition:color .15s,transform .2s var(--ease)}
+.fav:hover{color:var(--gold)}
+.fav.on{color:var(--gold)}
+.fav.on .ic{fill:currentColor}
+.fav:active{transform:scale(.86)}
+.stage{position:relative;display:block;width:100%;aspect-ratio:16/9;background:var(--stage);border-radius:2px;overflow:hidden;cursor:zoom-in}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.07);border-radius:2px;pointer-events:none}
+.stage:hover{outline:2px solid var(--spot);outline-offset:2px}
+.name{margin:2px 0 0;font:600 17px/1.4 var(--serif);letter-spacing:.02em}
+.sub{font-size:11.5px;line-height:1.4;color:var(--ink2);letter-spacing:.03em;margin-top:-5px}
+html[data-book=vo] .plate .sub{font-family:var(--mono);letter-spacing:0}
+.desc{margin:0;flex:1;font-size:13px;line-height:1.7;color:var(--ink2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.acts{display:flex;gap:8px;margin-top:2px}
+.acts button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;border:1px solid var(--rule2);font-size:12.5px;transition:background .15s,border-color .15s,color .15s}
+.acts button:hover{border-color:var(--ink)}
+.pick .box{width:14px;height:14px;border:1.5px solid currentColor;display:inline-flex;align-items:center;justify-content:center}
+.pick .box .ic{width:12px;height:12px;stroke-width:3;opacity:0}
+.plate.sel .pick,.pick.on{background:var(--spot);border-color:var(--spot);color:var(--on-spot);font-weight:700}
+.plate.sel .pick .box .ic,.pick.on .box .ic{opacity:1}
+.cp .ic{width:15px;height:15px}
+.done{color:var(--spot)!important;border-color:var(--spot)!important}.tb.pri.done{color:var(--on-spot)!important}
+.voice{display:flex;gap:8px}
+.vp{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;border:1.5px solid var(--ink);font-size:13px;font-weight:700;transition:background .15s,color .15s}
+.vp .ic{width:13px;height:13px}
+.vp:hover{background:var(--paper2)}
+.vp.playing{background:var(--spot);border-color:var(--spot);color:var(--on-spot)}
+.vp:disabled{opacity:.35;cursor:not-allowed}
+.empty{padding:70px 0;text-align:center;color:var(--ink2);font:500 15px var(--serif)}
+.colophon{margin-top:80px;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;border-top:2px solid var(--ink);padding-top:12px;font:500 11px/1.4 var(--mono);letter-spacing:.04em;color:var(--ink2)}
+.colophon span:first-child{font:600 15px/1 var(--serif);letter-spacing:.1em;color:var(--ink)}
+.colophon i{display:inline-block;width:9px;height:9px;background:var(--c);margin-right:6px}
+.colophon span:last-child{margin-left:auto}
+footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2);max-width:60em}
+
+/* ---------- 選んだもの（注文票） ---------- */
+.tray{position:fixed;right:22px;bottom:22px;z-index:40;width:min(372px,calc(100vw - 24px));background:var(--card);border:1.5px solid var(--ink);box-shadow:var(--shadow);transform:translateY(calc(100% + 40px));transition:transform .3s var(--ease)}
+.tray.show{transform:none}
+.tray-h{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;text-align:left;border-bottom:1px dashed var(--rule2)}
+.tray-h b{font:600 15px/1 var(--serif);letter-spacing:.06em}
+.tray-h .n{font:600 12px/1 var(--mono);background:var(--ink);color:var(--paper);padding:4px 7px}
+.tray-h .ic{margin-left:auto;transition:transform .2s}
+.tray.min .tray-h{border-bottom:0}.tray.min .tray-h .ic{transform:rotate(180deg)}
+.tray.min .tray-b{display:none}
+.tray-b{padding:11px 12px 12px;display:flex;flex-direction:column;gap:10px}
+.ids{display:flex;flex-wrap:wrap;gap:6px;max-height:112px;overflow-y:auto;scrollbar-width:thin}
+.tag{display:inline-flex;align-items:center;gap:4px;font:600 11.5px/1 var(--mono);color:var(--c);border:1px solid var(--c);padding:0 2px 0 7px;height:26px}
+.tag button{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;color:var(--c);opacity:.7}
+.tag button:hover{opacity:1}
+.tag .ic{width:12px;height:12px;stroke-width:2.2}
+#memo{width:100%;border:0;border-bottom:1.5px solid var(--ink);background:none;padding:6px 2px;font-size:13.5px;outline:0}
+#memo:focus{border-bottom-color:var(--spot)}
+.tray-acts{display:flex;gap:8px}
+.tray-acts{flex-wrap:wrap}.tray-acts .tb{flex:none}.tray-acts .pri{flex:1;justify-content:center}
+#sendAI:disabled{opacity:.6;cursor:default}
+.agent{margin:0 0 14px;padding:10px 14px;background:var(--spot);color:var(--on-spot);font-size:13.5px;font-weight:700;line-height:1.6}
+
+/* ---------- 拡大表示 ---------- */
+.modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(14,13,11,.62)}
+.modal.show{display:flex;animation:fade .18s ease-out}
+.modal.vt,.modal.vt .sheet{animation:none}
+::view-transition-group(plate){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
+@keyframes fade{from{opacity:0}}
+.sheet{width:min(1180px,100%);max-height:94dvh;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--rule2) transparent;background:var(--paper);border:1.5px solid var(--ink);box-shadow:var(--shadow);animation:rise .28s var(--ease)}
+@keyframes rise{from{transform:translateY(14px);opacity:.4}}
+.sheet-top{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--rule2);background:var(--paper)}
+.sheet-top .mid{font:600 14px/1 var(--mono);letter-spacing:.06em;color:var(--spot)}
+.sheet-top .path{font-size:12px;color:var(--ink2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet-top .sp{flex:1}
+.sheet-main{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+.big{position:relative;aspect-ratio:16/9;background:var(--stage);align-self:start;margin:18px}
+.big canvas{position:absolute;inset:0;width:100%;height:100%}
+.info{min-width:0;padding:20px 20px 20px 4px;display:flex;flex-direction:column;gap:12px}
+.info h3{margin:0;font:600 28px/1.3 var(--serif);letter-spacing:.03em}
+.info .sub{font-size:13px;margin-top:-8px}
+.macts{display:flex;flex-wrap:wrap;gap:8px}
+.macts .tb{height:38px}
+.mvoice{display:flex;gap:8px}
+#mFav.on{color:var(--gold);border-color:var(--gold)}#mFav.on .ic{fill:currentColor}
+.info pre{margin:0;padding:12px 13px;background:var(--card);border:1px solid var(--rule2);font:12.5px/1.7 var(--mono);white-space:pre-wrap;word-break:break-word;color:var(--ink);max-height:46vh;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--rule2) transparent}
+
+.toast{position:fixed;left:50%;bottom:26px;z-index:90;opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,14px);transition:transform .25s var(--ease),opacity .2s,visibility 0s .25s;background:var(--ink);color:var(--paper);font:600 13px/1 var(--sans);padding:12px 16px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow)}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0);transition:transform .25s var(--ease),opacity .2s}
+.toast.bad{background:var(--ae);color:#fff}
+
+/* キー操作の早見 */
+.keys{position:fixed;left:calc(var(--rail) + 18px);bottom:18px;z-index:70;background:var(--card);border:1.5px solid var(--ink);box-shadow:var(--shadow);padding:14px 16px;width:300px}
+.keys h4{margin:0 0 8px;font:600 14px var(--serif);letter-spacing:.06em}
+.keys dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:12.5px;color:var(--ink2);align-items:center}
+.keys dt{white-space:nowrap}.keys dd{margin:0}
+
+/* 巻を替えるときの「刷り色」のワイプ */
+.wipe{position:fixed;inset:0;z-index:95;pointer-events:none;background:var(--c);clip-path:inset(0 100% 0 0);display:flex;align-items:center;justify-content:center;color:var(--on-spot);font:400 34vmin/1 var(--num)}
+.wipe.run{animation:wipe .56s var(--ease) both}
+@keyframes wipe{0%{clip-path:inset(0 100% 0 0)}42%,58%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 0 100%)}}
+
+/* 下の巻ナビ（狭い画面用） */
+.bnav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--paper);border-top:1.5px solid var(--ink);padding-bottom:env(safe-area-inset-bottom)}
+.bnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 4px 8px;min-height:52px;color:var(--ink2);border-top:3px solid transparent;margin-top:-1.5px}
+.bnav .vn{font:400 20px/1 var(--num);color:var(--c)}
+.bnav .vt{font-size:11px;font-weight:700}
+.bnav button.on{color:var(--ink);border-top-color:var(--c);background:color-mix(in srgb,var(--c) 9%,transparent)}
+
+/* はじめて開いたときの立ち上がり */
+.rise{animation:up .55s var(--ease) both}
+.rise.d1{animation-delay:.06s}.rise.d2{animation-delay:.14s}.rise.d3{animation-delay:.22s}
+@keyframes up{from{opacity:0;transform:translateY(10px)}}
+
+@media (max-width:1023px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:14px 18px;border-right:0;border-bottom:1px solid var(--rule2);overflow:visible}
+  .mast-ja{font-size:22px}.mast-ja br{display:none}.mast-en{margin-top:5px}.mast-tag,.colorbar,.vols,.toc,.toc-h{display:none}
+  .rail-foot{margin:0 0 0 auto;padding:0;border:0}
+  .mtoc{display:flex}
+  .bnav{display:flex}
+  .page{padding-bottom:210px}
+  .tray{right:12px;bottom:calc(64px + env(safe-area-inset-bottom))}
+  .toast{bottom:calc(74px + env(safe-area-inset-bottom))}
+  .keys{left:12px;bottom:74px}
+  .open-no{font-size:clamp(90px,24vw,170px)}
+}
+@media (max-width:760px){
+  .bar{position:static}
+  .intro{grid-template-columns:minmax(0,1fr);gap:16px}
+  .stats{justify-content:flex-start}.stats div{text-align:left}
+  .how ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .sheet-main{grid-template-columns:minmax(0,1fr)}
+  .big{margin:12px}.info{padding:4px 14px 16px}
+  .info pre{max-height:none}
+  .cat-h{grid-template-columns:auto 1fr auto}.cat-sub{grid-column:2/4;grid-row:2;margin-top:-10px}
+  .count{margin-left:0}
+  .kicker{max-width:100%}
+}
+@media (max-width:520px){
+  .grid{grid-template-columns:repeat(auto-fill,minmax(158px,1fr))}
+  .plate{padding:10px 10px 12px}
+  .name{font-size:15px}.desc{-webkit-line-clamp:4;font-size:12.5px}
+  .acts{flex-direction:column;gap:6px}
+  .how ol{grid-template-columns:minmax(0,1fr)}
+  .stats{gap:20px}.stats b{font-size:34px}.stats div:last-child b{font-size:22px;line-height:1.55}
+  #sample{font-size:20px;padding:11px 13px}
+  .rail-foot .ib span{display:none}
+}
+@media (pointer:coarse){
+  .acts button,.vp,.tb{min-height:44px}.fav{width:44px;height:44px;margin:-8px -10px -8px 0}.views button{padding:12px 10px}.toc button,.mtoc button{min-height:40px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  #sample{box-shadow:0 0 0 4px color-mix(in srgb,var(--spot) 22%,transparent)}
+}
+</style>
+</head>
+<body>
+<a class="sr" href="#main">本文へ</a>
+<div class="shell">
+  <aside class="rail">
+    <a class="mast" href="#top" id="mast">
+      <span class="mast-ja">動きの<br>見本帳</span>
+      <span class="mast-en">MOTION SPECIMEN BOOK</span>
+      <span class="mast-tag" id="tTag"></span>
+    </a>
+    <div class="colorbar" aria-hidden="true"><i data-b="ae"></i><i data-b="mg"></i><i data-b="vo"></i></div>
+    <nav class="vols" id="books"></nav>
+    <div class="toc-h" id="tTocH"></div>
+    <nav class="toc" id="toc"></nav>
+    <div class="rail-foot">
+      <div class="seg" id="lang"><button data-l="ja">日本語</button><button data-l="en">EN</button></div>
+      <button class="ib" id="theme"></button>
+      <button class="ib" id="keysBtn" aria-expanded="false"><kbd>?</kbd><span id="tKeys"></span></button>
+    </div>
+  </aside>
+
+  <main class="page" id="top">
+    <header class="open">
+      <div class="open-no" id="volNo" aria-hidden="true">01</div>
+      <div class="kicker rise" id="tKicker"></div>
+      <h1 class="rise d1" id="tH1"></h1>
+    </header>
+
+    <div class="agent" id="agentNote" hidden></div>
+    <div class="bar" id="bar">
+      <label class="search"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="q" type="search" autocomplete="off"><kbd>/</kbd></label>
+      <div class="views" id="views" role="tablist"></div>
+      <span class="count" id="count" aria-live="polite"></span>
+      <span class="brk" aria-hidden="true"></span>
+      <label class="spd"><span id="tSpeed"></span><span class="spdw"><input type="range" id="speed" min="0.5" max="5" step="0.5" value="1"><span class="ticks" aria-hidden="true"><i style="left:calc(8px + (100% - 16px) * 0.1111)">1x</i><i style="left:calc(8px + (100% - 16px) * 0.3333)">2x</i><i style="left:calc(8px + (100% - 16px) * 0.5556)">3x</i><i style="left:calc(8px + (100% - 16px) * 0.7778)">4x</i><i style="left:calc(8px + (100% - 16px) * 1.0000)">5x</i></span></span><b id="speedV">1x</b></label>
+      <button class="tb" id="pause"></button>
+      <button class="tb" id="copyIndex"></button>
+      <div class="mtoc" id="mtoc"></div>
+    </div>
+
+    <section class="intro rise d2">
+      <p class="lead" id="tLead"></p>
+      <div class="stats">
+        <div><b id="stN">0</b><span id="tSt1"></span></div>
+        <div><b id="stC">0</b><span id="tSt2"></span></div>
+        <div><b id="stId">AE-001</b><span id="tSt3"></span></div>
+      </div>
+      <div class="how">
+        <h2 id="tHow"></h2>
+        <ol id="tHowList"></ol>
+        <details class="note"><summary id="tNoteS"></summary><div id="tNote"></div></details>
+      </div>
+    </section>
+
+    <div class="strip rise d3" id="strip"><span class="strip-l">LIVE</span></div>
+
+    <div class="samplebox">
+      <label for="sample"><span id="tSampleL"></span><small>TYPE HERE</small></label>
+      <textarea id="sample" rows="1" autocomplete="off"></textarea>
+      <div class="hint" id="tSampleH"></div>
+    </div>
+
+    <section class="cat" id="favTop" hidden><div class="cat-h"><span class="cat-no"><svg class="ic fill" style="width:26px;height:26px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.6 9.7l5.8-.8z"/></svg></span><h2 id="favTopH"></h2><span class="cat-sub" id="favTopSub"></span><span></span></div><div class="grid" id="favGrid"></div></section>
+    <section class="cat" id="histTop" hidden><div class="cat-h"><span class="cat-no"><svg class="ic" style="width:26px;height:26px" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><h2 id="histTopH"></h2><span class="cat-sub" id="histTopSub"></span><button class="tb" id="clearHist2"></button></div><div class="grid" id="histGrid"></div></section>
+    <div id="main"></div>
+    <section class="cat" id="flatSec" hidden><div class="cat-h"><span class="cat-no"></span><h2 id="flatH"></h2><span class="cat-sub" id="flatSub"></span><button class="tb" id="clearHist" hidden></button></div><div class="grid" id="flat"></div></section>
+    <div class="empty" id="empty" hidden></div>
+    <div class="colophon" id="colo"></div>
+    <footer id="tFoot"></footer>
+  </main>
+</div>
+
+<nav class="bnav" id="bnav"></nav>
+
+<aside class="tray" id="tray" aria-label="選んだもの">
+  <button class="tray-h" id="trayToggle" aria-expanded="true"><b id="tTray"></b><span class="n" id="trayN">0</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="tray-b">
+    <div class="ids" id="trayIds"></div>
+    <input id="memo" type="text" autocomplete="off">
+    <div class="tray-acts"><button class="tb" id="clear"></button><button class="tb pri" id="copyPicks"></button><button class="tb pri" id="sendAI" hidden></button></div>
+  </div>
+</aside>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mName">
+  <div class="sheet">
+    <div class="sheet-top">
+      <span class="mid" id="mId"></span><span class="path" id="mPath"></span><span class="sp"></span>
+      <button class="ib" id="mPrev"></button><button class="ib" id="mNext"></button><button class="ib" id="mClose"></button>
+    </div>
+    <div class="sheet-main">
+      <div class="big"><canvas id="bigc"></canvas></div>
+      <div class="info">
+        <h3 id="mName"></h3>
+        <div class="sub" id="mSub"></div>
+        <div class="mvoice" id="mVoice" hidden><button class="vp" id="mPlayM" data-v="m"></button><button class="vp" id="mPlayF" data-v="f"></button></div>
+        <div class="macts"><button class="tb pick" id="mPick"></button><button class="tb" id="mFav"></button><button class="tb pri" id="mCopy"></button></div>
+        <pre id="mSpec"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="keys" id="keys" hidden></div>
+<div class="wipe" id="wipe" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="engine.js?v=20261113021613"></script>
+<script src="presets.js?v=20261113021613"></script>
+<script src="i18n.js?v=20261113021613"></script>
+<script src="mg1.js?v=20261113021613"></script>
+<script src="mg2.js?v=20261113021613"></script>
+<script src="vo.js?v=20261113021613"></script>
+<script src="audio/manifest.js?v=20261113021613"></script>
+<script src="spec.js?v=20261113021613"></script>
+<script src="app.js?v=20261113021613"></script>
+</body>
+</html>

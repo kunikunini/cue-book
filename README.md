@@ -1,0 +1,83 @@
+# 動きの見本帳 / Motion Specimen Book
+
+言葉にしにくい「動き」を、番号で受け渡すための見本帳です。動く見本を目で見て選び、番号でAIに頼めます。
+
+| 巻 | 番号 | 中身 |
+|---|---|---|
+| 01 | `AE-001`〜`AE-322` | After Effects に最初から入っているテキストアニメーションプリセット。Adobe 公式ヘルプの一覧と同じ名前・同じ並び |
+| 02 | `MG-001`〜`MG-137` | モーショングラフィックスでよく使う動き（原則、登場と退場、図形、トランジション、文字、カメラ、エフェクト、図解とUI）。動く見本と解説つき |
+| 03 | `VT-001`〜`VT-130` | 音声合成で使うオーディオタグ（Eleven v4／v3 の公式タグ、Suno の歌用タグ、公開されている使用例）。タグごとの例文つき |
+
+## 見本帳を開く
+
+公開ページ：まだありません（リポジトリを公開にしたあとで、ここにURLを書きます）
+
+手元で開く場合は、このリポジトリを取得して、フォルダの中で次を実行します。
+
+```bash
+python3 -m http.server 4370
+```
+
+ブラウザで `http://localhost:4370/` を開きます。
+
+- 見本の「選ぶ」を押すと、右下の「選んだもの」にたまります。「選んだものをコピー」で、番号・正式名・仕様がまとまった文章になるので、そのままAIに貼れます。
+- 「番号表をコピー」で、その巻の全番号の対応表をAIに渡せます。以後は「AE-150 の動きで」だけで通じます。
+- 星でお気に入り、一度選んだものは履歴に残ります（そのブラウザの中に保存）。
+- キー操作：`/` 検索、`1` `2` `3` 巻の切り替え、Space 一時停止、拡大表示中は `←` `→` `P` `F` `C`。
+
+## AIエージェントのスキルとして使う
+
+このリポジトリの `skills/motion-specimen/` が、Claude Code などのエージェント用のスキルです。エージェントが、番号から仕様を自分で取り出せるようになります。
+
+入れ方（どちらか）：
+
+```bash
+npx skills add kunikunini/motion-specimen-book
+```
+
+または `skills/motion-specimen` フォルダを、エージェントのスキル置き場（Claude Code なら `~/.claude/skills/`）へそのままコピーします。必要なのは Node.js 18 以上だけです。
+
+頼み方の例：
+
+- 「タイトルを AE-058 の動きで出して」
+- 「一覧の登場に MG-011、場面の切り替えに MG-062 を使って」
+- 「このナレーションを VT-047 みたいに読ませたい。タグを入れて」
+- 「見本帳を出して。見て選びたい」（ブラウザで見本帳が開き、選んで「AIに渡す」を押すとエージェントに届きます）
+
+スクリプトを直接使うこともできます。
+
+```bash
+node skills/motion-specimen/scripts/specimen.mjs search 文字 弾む
+```
+
+```bash
+node skills/motion-specimen/scripts/specimen.mjs get AE-058 MG-011
+```
+
+コマンドの一覧は [skills/motion-specimen/SKILL.md](skills/motion-specimen/SKILL.md) にあります。
+
+## 知っておいてほしいこと
+
+- **AE の巻の動きは近似です。** 名前とカテゴリは Adobe 公式ヘルプの一覧（2026年9月更新）どおりですが、動きの見本と仕様は After Effects 本体のプリセットファイルから取り出したものではなく、ブラウザ上で再現したものです。After Effects で使うときは、同じ名前のプリセットをそのまま当てるのがいちばん正確です。日本語の呼び名は意味が分かるように付けた訳で、公式の訳ではありません。
+- **MG の巻の見本と解説は、この見本帳のために書き起こしたものです。** 秒数や割合は目安です。
+- **VT の巻のタグは、必ず効くとは限りません。** タグの表記は各出どころのもの、例文と解説はこの見本帳のために書いたものです。Suno のタグは歌を作るためのもので、読み上げで効くとは限りません。
+- **声の見本は、男性の声だけ入っています。** 作者本人の声をもとにした合成音声（ElevenLabs の Eleven v4 で生成）です。女性の声は配布に含めていないので、「女性」の再生ボタンは押せません。
+- このリポジトリは個人の見本帳で、Adobe・ElevenLabs・Suno とは関係ありません。After Effects は Adobe の商標です。
+
+## 中身を直したとき
+
+見本帳のデータ（`presets.js`、`mg1.js`、`mg2.js`、`vo.js` など）を直したら、スキル用の一覧を作り直します。
+
+```bash
+node tools/build-skill.mjs
+```
+
+声の見本を作り直す場合は `tools/gen.mjs` を使います（ElevenLabs のAPIキーが必要で、料金がかかります。鍵は `tools/.env` に置き、リポジトリには入れません）。
+
+## English
+
+A specimen book for motion you can refer to by number: 322 built-in After Effects text animation presets (`AE-`), 137 motion-graphics moves with live samples and notes (`MG-`), and 130 audio tags for speech synthesis (`VT-`). Open the gallery, pick what you want, and copy a block of text (number, name, spec) to paste to an AI. The `skills/motion-specimen` folder is an agent skill: `get`, `search`, `list`, `table` and `pick` let an AI agent pull the specs by number. The AE volume reproduces the presets approximately in the browser; it is not extracted from After Effects. Not affiliated with Adobe, ElevenLabs or Suno.
+
+## ライセンス
+
+[MIT](LICENSE)。著作権表示を残せば、商用も含めて自由に使えます。
