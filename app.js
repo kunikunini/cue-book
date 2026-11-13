@@ -11,15 +11,15 @@
   let picks = load('ae-picks'), favs = load('ae-favs'), hist = load('ae-history');
   try {
     const l = localStorage.getItem('ae-lang'); if (l === 'en' || l === 'ja') LANG = l;
-    const b = localStorage.getItem('ae-book'); if (b === 'mg' || b === 'ae' || b === 'vo') book = b;
+    const b = localStorage.getItem('ae-book'); if (['ae', 'mg', 'vo', 'ft'].includes(b)) book = b;
     const th = localStorage.getItem('ae-theme'); if (th === 'night' || th === 'paper') theme = th;
   } catch (e) {}
   /* AIエージェントのスキル（pick）から開かれたときは、URLに agent=<ポート>.<合言葉> が付く。そのときだけ「AIに渡す」を出す */
   const QS = new URLSearchParams(location.search);
   const AGENT = (QS.get('agent') || '').match(/^(\d{2,5})\.([a-f0-9]{8,64})$/);
-  if (['ae', 'mg', 'vo'].includes(QS.get('book'))) book = QS.get('book');
+  if (['ae', 'mg', 'vo', 'ft'].includes(QS.get('book'))) book = QS.get('book');
   if (['ja', 'en'].includes(QS.get('lang'))) LANG = QS.get('lang');
-  const BOOKS = ['ae', 'mg', 'vo'], PREFIX = { ae: 'AE', mg: 'MG', vo: 'VT' }, VOLNO = { ae: '01', mg: '02', vo: '03' };
+  const BOOKS = ['ae', 'mg', 'vo', 'ft'], PREFIX = { ae: 'AE', mg: 'MG', vo: 'VT', ft: 'FT' }, VOLNO = { ae: '01', mg: '02', vo: '03', ft: '04' }, DIG = { ae: 3, mg: 3, vo: 3, ft: 4 };
   const inBook = p => p.book === book;
   const bookCats = () => CATS.filter(c => c.book === book);
   const HELP_URL = 'https://helpx.adobe.com/after-effects/desktop/apply-effects-and-animation-presets/effects-and-animation-presets/effects-animation-presets-overview.html';
@@ -65,6 +65,14 @@
           note: '音声は ElevenLabs の Eleven v4 で、カードに出ている例文をそのまま生成したものです。タグは必ず効くとは限らず、同じ台本でも生成のたびに演技が変わります（公式も「まだ完璧ではない」としています）。<br>出どころは4種類：Eleven v4 公式、Eleven v3 公式ドキュメント、Suno で使われる歌用タグ、公開されている使用例。Suno のタグは歌を作るためのもので、読み上げでどう効くか（効かないか）を聴いて確かめるために入れています。タグの表記は出どころのまま、例文と解説はこの見本帳のために書いたものです。',
           foot: 'このページは個人の見本帳です。タグの表記は各出どころのもの、例文と解説はこの見本帳のために書いたものです。ElevenLabs・Suno とは関係ありません。',
         },
+        ft: {
+          tab: 'フォント', sub: '無料で使える書体を、実際の文字で', mini: '書体', kicker: 'FONTS ＞ GOOGLE FONTS ・ FONTSHARE',
+          h1: '無料で使える書体を、<em>実際の文字</em>で見比べる。',
+          lead: 'Google Fonts と Fontshare で配布されている無料フォントを、日本語・サンセリフ・セリフ・ディスプレイ・手書き・等幅に分けて並べました。上の入力欄に文字を入れると、すべての書体がその文字で表示されます。選んでコピーすると、名前・太さ・読み込み用のタグ・配布ページがまとまった文章になります。',
+          noteS: 'この巻の作り方と注意',
+          note: '書体の一覧は Google Fonts と Fontshare の公開データから作っています。書体のファイルはこの見本帳には入っておらず、カードが画面に入ったときに、それぞれの配布元から読み込みます（そのため、通信できないときは表示されません）。並びは章ごとの人気順です。<br>ライセンスの正確な条件は、各書体の配布ページで確認してください。個人のサイトなどで個別に配布されているフリーフォントは、再配布や直接読み込みの条件が書体ごとに違うため、この巻には入れていません。',
+          foot: 'このページは個人の見本帳です。書体の権利は各書体の作者・配布元にあります。Google Fonts・Fontshare とは関係ありません。',
+        },
       },
     },
     en: {
@@ -105,6 +113,14 @@
           note: 'The audio was generated with ElevenLabs Eleven v4 from exactly the line shown on each card. Tags do not always take effect and the performance varies between generations (the vendor itself says they are “not perfect yet”).<br>Four sources: Eleven v4 official, Eleven v3 official docs, singing tags used in Suno, and publicly shared examples. Suno tags are meant for songs; they are included so you can hear how they do (or do not) work in speech. Tag spellings follow their sources; lines and notes were written for this book.',
           foot: 'This is a personal sample book. Tag spellings come from their sources; lines and notes were written for it. Not affiliated with ElevenLabs or Suno.',
         },
+        ft: {
+          tab: 'Fonts', sub: 'Free typefaces, shown in real text', mini: 'Fonts', kicker: 'FONTS > GOOGLE FONTS · FONTSHARE',
+          h1: 'Compare free typefaces in <em>real text</em>.',
+          lead: 'Free fonts distributed by Google Fonts and Fontshare, grouped into Japanese, sans serif, serif, display, handwriting and monospace. Type in the box above and every typeface shows your text. Copying gives the name, weights, the tag to load it and its page in one block.',
+          noteS: 'How this volume works, and caveats',
+          note: 'The list is built from the public data of Google Fonts and Fontshare. Font files are not bundled; each is loaded from its distributor when its card scrolls into view, so nothing shows offline. Order is by popularity within each chapter.<br>Check each font’s page for the exact licence terms. Free fonts distributed individually on personal sites are not included, because their redistribution and hot-linking terms differ font by font.',
+          foot: 'This is a personal sample book. Rights to each typeface belong to its authors and distributors. Not affiliated with Google Fonts or Fontshare.',
+        },
       },
     },
   };
@@ -117,22 +133,24 @@
     creditH: '声のクレジット', creditLink: 'ElevenLabs でこの声を開く', creditNote: '音声はすべて ElevenLabs の Eleven v4 で生成した合成音声です。声そのものの利用条件は、ElevenLabs の各ボイスのページに従います。',
     sendAI: 'AIに渡す', sent: 'AIに渡しました。AIとの会話に戻ってください', sentShort: '渡しました', agentNote: 'AIから開かれています。使いたい見本の右上にチェックを入れて、右下の「AIに渡す」を押してください。',
     detail: '説明とボタンを開く／閉じる', detailAll: '説明を表示', detailNone: '説明を隠す',
+    toc2: '目次', toTop: 'いちばん上へ戻る',
     toc: '目次', tray: '選んだもの', remove: 'を外す', themeToNight: '夜の色にする', themeToPaper: '紙の色にする', night: '夜', paper: '紙', keys: 'キー操作', favWord: 'お気に入り',
-    keyList: [['/', '検索欄へ'], ['1  2  3', '巻（タブ）を切り替える'], ['Space', '見本を一時停止／再生'], ['←  →', '拡大表示で前へ／次へ'], ['P', '拡大表示で「選ぶ」'], ['F', '拡大表示でお気に入り'], ['C', '拡大表示でコピー'], ['Esc', '閉じる']],
+    keyList: [['/', '検索欄へ'], ['1  2  3  4', '巻（タブ）を切り替える'], ['Space', '見本を一時停止／再生'], ['←  →', '拡大表示で前へ／次へ'], ['P', '拡大表示で「選ぶ」'], ['F', '拡大表示でお気に入り'], ['C', '拡大表示でコピー'], ['Esc', '閉じる']],
   });
   Object.assign(TXT.en, {
     creditH: 'VOICE CREDITS', creditLink: 'Open this voice on ElevenLabs', creditNote: 'All audio is synthetic speech generated with ElevenLabs Eleven v4. Use of the voices themselves is governed by each voice’s page on ElevenLabs.',
     sendAI: 'Send to AI', sent: 'Sent to the AI. Go back to your AI chat', sentShort: 'Sent', agentNote: 'Opened by your AI. Tick the samples you want, then press “Send to AI” at the bottom right.',
     detail: 'Show / hide details and buttons', detailAll: 'Show details', detailNone: 'Hide details',
+    toc2: 'Contents', toTop: 'Back to top',
     toc: 'CONTENTS', tray: 'Picked', remove: ': remove', themeToNight: 'Switch to night colours', themeToPaper: 'Switch to paper colours', night: 'Night', paper: 'Paper', keys: 'Keys', favWord: 'Favourite',
-    keyList: [['/', 'Focus search'], ['1  2  3', 'Switch volume (tab)'], ['Space', 'Pause / play samples'], ['←  →', 'Previous / next in the large view'], ['P', 'Pick, in the large view'], ['F', 'Favourite, in the large view'], ['C', 'Copy, in the large view'], ['Esc', 'Close']],
+    keyList: [['/', 'Focus search'], ['1  2  3  4', 'Switch volume (tab)'], ['Space', 'Pause / play samples'], ['←  →', 'Previous / next in the large view'], ['P', 'Pick, in the large view'], ['F', 'Favourite, in the large view'], ['C', 'Copy, in the large view'], ['Esc', 'Close']],
   });
 
   /* ---- AIに渡す文章 ---- */
   const picksText = () => {
     const memo = $('#memo').value.trim();
     return [
-      Lx(`動きの見本帳から、次の${picks.length}個を選びました。番号と正式名で指定します（AE- は After Effects 標準のテキストアニメーションプリセット、MG- はモーショングラフィックスの動き、VT- は音声合成のオーディオタグ）。それぞれの動きを下の仕様どおりに再現してください。`, `I picked these ${picks.length} from a motion sample book. They are identified by number and name (AE- = built-in After Effects text animation presets, MG- = motion-graphics moves, VT- = audio tags for speech synthesis). Reproduce each motion according to the spec below.`),
+      Lx(`動きの見本帳から、次の${picks.length}個を選びました。番号と正式名で指定します（AE- は After Effects 標準のテキストアニメーションプリセット、MG- はモーショングラフィックスの動き、VT- は音声合成のオーディオタグ、FT- はフォント）。それぞれの動きを下の仕様どおりに再現してください。`, `I picked these ${picks.length} from a motion sample book. They are identified by number and name (AE- = built-in After Effects text animation presets, MG- = motion-graphics moves, VT- = audio tags for speech synthesis, FT- = fonts). Reproduce each motion according to the spec below.`),
       '',
       ...picks.map(id => promptOf(byId[id]) + '\n'),
       memo ? Lx('メモ: ', 'Note: ') + memo : '',
@@ -140,7 +158,7 @@
   };
   const indexText = () => {
     const list = PRESETS.filter(inBook), pre = PREFIX[book];
-    const what = book === 'ae' ? Lx('After Effects 標準テキストアニメーションプリセット', 'the built-in After Effects text animation presets') : book === 'vo' ? Lx('音声合成のオーディオタグ', 'audio tags for speech synthesis') : Lx('モーショングラフィックスの動き', 'motion-graphics moves');
+    const what = book === 'ae' ? Lx('After Effects 標準テキストアニメーションプリセット', 'the built-in After Effects text animation presets') : book === 'vo' ? Lx('音声合成のオーディオタグ', 'audio tags for speech synthesis') : book === 'ft' ? Lx('無料フォント', 'free fonts') : Lx('モーショングラフィックスの動き', 'motion-graphics moves');
     return [
       Lx(`${what}の番号表です。以後、わたしが「${pre}-xxx」と番号で言ったら、この表の動きを指します。`, `This is a number table of ${what}. From now on, when I say “${pre}-xxx”, I mean the motion in this table.`),
       Lx('書式: 番号 | 正式名 | 日本語での呼び名 | カテゴリ | 動き', 'Format: number | name | category | motion'),
@@ -251,7 +269,7 @@
     noInBook.set(cat, no);
     const sec = document.createElement('section');
     sec.className = 'cat'; sec.dataset.ci = ci; sec.id = 'c' + ci;
-    sec.innerHTML = `<div class="cat-h"><span class="cat-no">${pad(no)}</span><h2></h2><span class="cat-sub"></span><span class="rng">${PREFIX[cat.book]}-${pad(cat.start, 3)} – ${pad(cat.end, 3)}</span></div><div class="grid"></div>`;
+    sec.innerHTML = `<div class="cat-h"><span class="cat-no">${pad(no)}</span><h2></h2><span class="cat-sub"></span><span class="rng">${PREFIX[cat.book]}-${pad(cat.start, DIG[cat.book])} – ${pad(cat.end, DIG[cat.book])}</span></div><div class="grid"></div>`;
     cat.grid = sec.querySelector('.grid'); cat.sec = sec; cat.subEl = sec.querySelector('.cat-sub'); cat.hEl = sec.querySelector('h2');
     PRESETS.filter(p => p.ci === ci).forEach(p => cards.set(p.id, mkCard(p, true)));
     main.appendChild(sec);
@@ -269,6 +287,8 @@
     mg: ['MG-006', 'MG-011', 'MG-023', 'MG-036', 'MG-045', 'MG-052', 'MG-062', 'MG-066', 'MG-076', 'MG-083', 'MG-097', 'MG-102', 'MG-108', 'MG-129'],
     vo: ['VT-001', 'VT-022', 'VT-047', 'VT-059', 'VT-063', 'VT-070', 'VT-082', 'VT-091', 'VT-097', 'VT-104', 'VT-110', 'VT-119', 'VT-124', 'VT-128'],
   };
+  /* フォントの巻の帯：各章の先頭から2つずつ */
+  STRIP.ft = CATS.filter(c => c.book === 'ft').flatMap(c => PRESETS.filter(p => p.ci === CATS.indexOf(c)).slice(0, 2).map(p => p.id));
   const strip = $('#strip');
   let frames = [], stripOn = true, stripHover = false, sOff = 0, stripW = 1200;
   function buildStrip() {
@@ -285,18 +305,34 @@
     stripW = strip.clientWidth;
   }
   new IntersectionObserver(es => { stripOn = es[0].isIntersecting; }).observe(strip);
-  strip.addEventListener('mouseenter', () => { stripHover = true; });
-  strip.addEventListener('mouseleave', () => { stripHover = false; });
-  strip.addEventListener('click', e => { const f = e.target.closest('.fr'); if (f) openModal(byId[f.dataset.id], f.querySelector('canvas')); });
+  /* 帯は自動で流れるが、指やマウスで横に引いても動かせる。離すと勢いが残り、だんだん自動の速さに戻る */
+  let drag = null, vel = 0, moved = 0;
+  strip.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') stripHover = true; });
+  strip.addEventListener('pointerleave', () => { stripHover = false; });
+  strip.addEventListener('pointerdown', e => { if (e.button) return; drag = { x: e.clientX, t: performance.now() }; moved = 0; vel = 0; strip.classList.add('grab'); });
+  window.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const now = performance.now(), dx = e.clientX - drag.x, dtm = Math.max(1, now - drag.t);
+    sOff -= dx; moved += Math.abs(dx); vel = Math.max(-2200, Math.min(2200, vel * 0.6 + (-dx / dtm * 1000) * 0.4));
+    drag.x = e.clientX; drag.t = now;
+  });
+  const endDrag = () => { if (!drag) return; if (performance.now() - drag.t > 120) vel = 0; drag = null; strip.classList.remove('grab'); };
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('pointercancel', endDrag);
+  strip.addEventListener('wheel', e => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.preventDefault(); sOff += e.deltaX; } }, { passive: false });
+  strip.addEventListener('click', e => { if (moved > 6) return; const f = e.target.closest('.fr'); if (f) openModal(byId[f.dataset.id], f.querySelector('canvas')); });
   window.addEventListener('resize', () => { stripW = strip.clientWidth; });
   function tickStrip(dt) {
     if (!stripOn || !frames.length) return;
-    if (!paused && !stripHover && !calm.matches) sOff += dt * 22;
+    if (!drag) {
+      if (Math.abs(vel) > 6) { sOff += vel * dt; vel *= Math.pow(0.06, dt); }
+      else if (!paused && !stripHover && !calm.matches) sOff += dt * 22;
+    }
     const step = 218, total = frames.length * step, s = 200 / W * DPR;
     frames.forEach((f, i) => {
       const x = ((i * step - sOff) % total + total) % total - step + 34;
       f.el.style.transform = `translateX(${x.toFixed(1)}px)`;
-      if (x > stripW || (paused && f.drawn)) return;
+      if (x > stripW || (paused && f.drawn && !drag && Math.abs(vel) <= 6)) return;
       f.ctx.setTransform(s, 0, 0, s, 0, 0);
       try { renderPreset(f.ctx, f.p, clock + f.p.n * 0.37, custom, s); f.drawn = true; } catch (e) {}
     });
@@ -311,7 +347,7 @@
     if (!cur) return;
     const p = cur, L = t(), on = picks.includes(p.id), f = favs.includes(p.id);
     $('#mId').textContent = p.id; $('#mName').textContent = nameOf(p); $('#mSub').textContent = LANG === 'ja' ? p.name : '';
-    $('#mPath').textContent = ({ mg: 'Motion Graphics', vo: 'Audio Tags', ae: 'Text' })[p.book] + ` ＞ ${p.cat}` + (LANG === 'ja' ? `（${p.catJa}）` : '') + (p.src ? ' ／ ' + Lx(VO.src[p.src][0], VO.src[p.src][1]) : '');
+    $('#mPath').textContent = ({ mg: 'Motion Graphics', vo: 'Audio Tags', ae: 'Text', ft: 'Fonts' })[p.book] + ` ＞ ${p.cat}` + (LANG === 'ja' ? `（${p.catJa}）` : '') + (p.src ? ' ／ ' + Lx(VO.src[p.src][0], VO.src[p.src][1]) : '');
     $('#mVoice').hidden = p.book !== 'vo'; if (p.book === 'vo') $('#mVoice').querySelectorAll('.vp').forEach(b => paintPlay(b, p));
     $('#mSpec').textContent = promptOf(p);
     const pk = $('#mPick'); pk.innerHTML = `<i class="box">${ic('check')}</i><span>${on ? L.unpick : L.pick}</span>`; pk.classList.toggle('on', on); pk.setAttribute('aria-pressed', on);
@@ -388,7 +424,8 @@
   function buildBooks() {
     const L = t(), n = b => PRESETS.filter(p => p.book === b).length;
     $('#books').innerHTML = BOOKS.map(b => `<button class="${b === book ? 'on' : ''}" data-b="${b}" aria-pressed="${b === book}"><span class="vn">${VOLNO[b]}</span><span class="vt">${L.books[b].tab}</span><span class="vc">${PREFIX[b]} ${n(b)}</span><span class="vs">${L.books[b].sub}</span></button>`).join('');
-    $('#bnav').innerHTML = BOOKS.map(b => `<button class="${b === book ? 'on' : ''}" data-b="${b}" aria-pressed="${b === book}" aria-label="${L.books[b].tab}"><span class="vn">${VOLNO[b]}</span><span class="vt">${L.books[b].mini}</span></button>`).join('');
+    $('#bnav').innerHTML = BOOKS.map(b => `<button class="${b === book ? 'on' : ''}" data-b="${b}" aria-pressed="${b === book}" aria-label="${L.books[b].tab}"><span class="vn">${VOLNO[b]}</span><span class="vt">${L.books[b].mini}</span></button>`).join('') + `<button class="menu" data-menu aria-expanded="${!$('#msheet').hidden}" aria-controls="msheet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h9"/></svg><span class="vt">${L.toc2}</span></button>`;
+    $('#mTop').innerHTML = ic('left', 'up') + `<span>${L.toTop}</span>`; $('#msheetH').textContent = L.toc2;
   }
   function buildViews() {
     const L = t(), all = PRESETS.filter(inBook), mk = (label, n, v) => `<button class="${view === v ? 'on' : ''}" data-v="${v}" role="tab" aria-selected="${view === v}">${label}<i>${n}</i></button>`;
@@ -399,6 +436,7 @@
     const html = rows.map(r => (r.sp ? '<span class="sp"></span>' : `<button data-go="${r.id}" class="${r.dim ? 'dim ' : ''}${spy === r.id ? 'on' : ''}"><span class="tn">${r.no}</span><span class="tt">${r.label}</span><span class="tc">${r.n}</span></button>`)).join('');
     $('#toc').innerHTML = html;
     $('#mtoc').innerHTML = rows.filter(r => !r.sp && !r.dim).map(r => `<button data-go="${r.id}" class="${spy === r.id ? 'on' : ''}">${r.label}</button>`).join('');
+    $('#stoc').innerHTML = html;
     $('#tTocH').hidden = !rows.length; $('#mtoc').hidden = !rows.length;
   }
   function applyFilter() {
@@ -455,12 +493,12 @@
     document.documentElement.lang = LANG; document.documentElement.dataset.book = book;
     document.title = LANG === 'ja' ? '動きの見本帳' : 'Motion Specimen Book';
     $('#tTag').textContent = L.tag; $('#tKicker').textContent = B.kicker; $('#tH1').innerHTML = B.h1; $('#tLead').textContent = B.lead; $('#volNo').textContent = VOLNO[book];
-    roll($('#stN'), all.length); roll($('#stC'), bookCats().length); $('#stId').textContent = `${PREFIX[book]}-001–${pad(all.length, 3)}`;
+    roll($('#stN'), all.length); roll($('#stC'), bookCats().length); $('#stId').textContent = `${PREFIX[book]}-${pad(1, DIG[book])}–${pad(all.length, DIG[book])}`;
     $('#tSt1').textContent = L.st1; $('#tSt2').textContent = L.st2; $('#tSt3').textContent = L.st3; $('#tHow').textContent = L.how.toUpperCase();
     $('#tHowList').innerHTML = L.howList.map(s => `<li>${s}</li>`).join(''); $('#tNote').innerHTML = B.note; $('#tNoteS').textContent = B.noteS; $('#tFoot').innerHTML = B.foot;
     $('#q').placeholder = L.q; $('#q').setAttribute('aria-label', L.q); $('#memo').placeholder = L.memo; $('#memo').setAttribute('aria-label', L.memo);
     $('#tSpeed').textContent = L.speed; $('#speed').setAttribute('aria-label', L.speed); $('#sample').placeholder = L.sample; $('#tSampleL').textContent = L.sampleL; $('#tSampleH').textContent = L.sampleH;
-    $('.samplebox').hidden = book !== 'ae';
+    $('.samplebox').hidden = book !== 'ae' && book !== 'ft';
     /* 声のクレジット：ElevenLabs 上の名前と Voice ID、声のページへのリンク */
     const VV = (window.VO_AUDIO && VO_AUDIO.meta && VO_AUDIO.meta.voices) || null, vc = $('#voCredit');
     vc.hidden = book !== 'vo' || !VV;
@@ -501,13 +539,27 @@
     wiping = setTimeout(go, 250);
     setTimeout(() => { if (w.dataset.b === b) w.classList.remove('run'); }, 900); /* 画面が裏に回って動きが止まっても、色の幕が残らないように */
   }
+  /* 章へ飛ぶ・いちばん上へ戻る：色の幕が横切る間に移動する（巻の切り替えと同じ動き） */
+  function jump(move, label) {
+    if (calm.matches || document.hidden) return move();
+    const w = $('#wipe'); clearTimeout(wiping);
+    w.dataset.b = book; w.textContent = label; w.classList.remove('run'); void w.offsetWidth; w.classList.add('run');
+    wiping = setTimeout(move, 250);
+    setTimeout(() => w.classList.remove('run'), 900);
+  }
   $('#wipe').addEventListener('animationend', e => e.target.classList.remove('run'));
+  /* 狭い画面用：下のナビから開く目次（いちばん上へ戻る・各章へ飛ぶ） */
+  function toggleMenu(on) { const m = $('#msheet'); m.hidden = on == null ? !m.hidden : !on; const b = $('#bnav [data-menu]'); if (b) b.setAttribute('aria-expanded', !m.hidden); }
   const toggleKeys = on => { const k = $('#keys'); k.hidden = on == null ? !k.hidden : !on; $('#keysBtn').setAttribute('aria-expanded', !k.hidden); };
 
   /* ---- 操作 ---- */
   document.addEventListener('click', e => {
+    const mb = e.target.closest('[data-menu]');
+    if (mb) return toggleMenu();
+    if (e.target.closest('#mTop')) { toggleMenu(false); jump(() => window.scrollTo(0, 0), VOLNO[book]); return; }
+    if (!$('#msheet').hidden && !e.target.closest('#msheet')) toggleMenu(false);
     const go = e.target.closest('[data-go]');
-    if (go) { const s = document.getElementById(go.dataset.go); if (s) s.scrollIntoView({ behavior: calm.matches ? 'auto' : 'smooth', block: 'start' }); return; }
+    if (go) { toggleMenu(false); const s = document.getElementById(go.dataset.go), tn = go.querySelector('.tn'); if (s) jump(() => s.scrollIntoView({ block: 'start' }), tn && /\d/.test(tn.textContent) ? tn.textContent : ''); return; }
     const bk = e.target.closest('#books [data-b], #bnav [data-b]');
     if (bk) return setBook(bk.dataset.b);
     const card = e.target.closest('.plate'); if (!card) return;
@@ -526,7 +578,7 @@
   $('#keysBtn').addEventListener('click', () => toggleKeys());
   $('#mast').addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: calm.matches ? 'auto' : 'smooth' }); });
   $('#q').addEventListener('input', e => { query = e.target.value; applyFilter(); });
-  $('#sample').addEventListener('input', e => { const el = e.target, v = el.value.trim(); el.style.height = 'auto'; el.style.height = (el.scrollHeight + el.offsetHeight - el.clientHeight + 2) + 'px'; custom = v ? v.split(/\r?\n/).map(s => s.trim()).filter(Boolean).slice(0, 4) : null; if (custom && !custom.length) custom = null; frames.forEach(f => { f.drawn = false; }); if (paused) active.forEach(draw); });
+  $('#sample').addEventListener('input', e => { const el = e.target, v = el.value.trim(); setTimeout(() => { FT.sample = custom; }, 0); el.style.height = 'auto'; el.style.height = (el.scrollHeight + el.offsetHeight - el.clientHeight + 2) + 'px'; custom = v ? v.split(/\r?\n/).map(s => s.trim()).filter(Boolean).slice(0, 4) : null; if (custom && !custom.length) custom = null; frames.forEach(f => { f.drawn = false; }); if (paused) active.forEach(draw); });
   $('#speed').addEventListener('input', e => { speed = +e.target.value; $('#speedV').textContent = speed + 'x'; });
   $('#pause').addEventListener('click', togglePause);
   $('#detail').addEventListener('click', () => { detail = !detail; store('ae-detail', detail ? '1' : '0'); $$('.plate.open').forEach(c => c.classList.remove('open')); paintDetail(); });
@@ -558,7 +610,7 @@
   modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', e => {
     const a = document.activeElement, typing = a && /^(INPUT|TEXTAREA)$/.test(a.tagName) && a.type !== 'range';
-    if (e.key === 'Escape') { if (cur) closeModal(); else if (!$('#keys').hidden) toggleKeys(false); else if (typing) a.blur(); return; }
+    if (e.key === 'Escape') { if (!$('#msheet').hidden) { toggleMenu(false); return; } if (cur) closeModal(); else if (!$('#keys').hidden) toggleKeys(false); else if (typing) a.blur(); return; }
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (cur) {
       if (e.key === 'ArrowRight') step(1); else if (e.key === 'ArrowLeft') step(-1);
@@ -567,7 +619,7 @@
     }
     if (typing) return;
     if (e.key === '/') { e.preventDefault(); $('#q').focus(); }
-    else if (e.key === '1' || e.key === '2' || e.key === '3') setBook(BOOKS[+e.key - 1]);
+    else if ('1234'.includes(e.key) && e.key.length === 1) setBook(BOOKS[+e.key - 1]);
     else if (e.key === ' ' && a.tagName !== 'BUTTON' && book !== 'vo') { e.preventDefault(); togglePause(); }
     else if (e.key === '?') toggleKeys();
   });

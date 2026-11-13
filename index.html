@@ -15,7 +15,7 @@
   --ink:#161513; --ink2:#55524b; --ink3:#716d64;
   --rule:rgba(22,21,19,.15); --rule2:rgba(22,21,19,.36);
   --stage:#0a0a0c; --gold:#a87400;
-  --ae:#c5341a; --mg:#2740d6; --vo:#0a7653;
+  --ae:#c5341a; --mg:#2740d6; --vo:#0a7653; --ft:#7a35a8;
   --spot:var(--ae); --on-spot:#fffaf2;
   --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
   --num:"Bodoni 72","Didot","Bodoni MT","Libre Bodoni","Hiragino Mincho ProN",Georgia,serif;
@@ -27,11 +27,11 @@ html[data-theme=night]{
   --paper:#111113; --paper2:#18181b; --paper3:#222226; --card:#17171a;
   --ink:#efece4; --ink2:#b4b0a6; --ink3:#8d897f;
   --rule:rgba(239,236,228,.13); --rule2:rgba(239,236,228,.32);
-  --gold:#ffd76a; --ae:#ff8a5c; --mg:#8fb0ff; --vo:#5fd6a4; --on-spot:#111113;
+  --gold:#ffd76a; --ae:#ff8a5c; --mg:#8fb0ff; --vo:#5fd6a4; --ft:#cfa0ff; --on-spot:#111113;
   --shadow:6px 6px 0 rgba(0,0,0,.5);
 }
-html[data-book=mg]{--spot:var(--mg)} html[data-book=vo]{--spot:var(--vo)}
-[data-b=ae]{--c:var(--ae)} [data-b=mg]{--c:var(--mg)} [data-b=vo]{--c:var(--vo)}
+html[data-book=mg]{--spot:var(--mg)} html[data-book=vo]{--spot:var(--vo)} html[data-book=ft]{--spot:var(--ft)}
+[data-b=ae]{--c:var(--ae)} [data-b=mg]{--c:var(--mg)} [data-b=vo]{--c:var(--vo)} [data-b=ft]{--c:var(--ft)}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -124,7 +124,7 @@ kbd{font:500 11px/1 var(--mono);border:1px solid var(--rule2);border-radius:3px;
 .mtoc::-webkit-scrollbar{display:none}
 .mtoc button{flex:none;border:1px solid var(--rule2);padding:5px 10px;font-size:12.5px;color:var(--ink2);white-space:nowrap}
 .mtoc button.on{border-color:var(--spot);color:var(--spot);font-weight:700}
-html[data-book=vo] .spd,html[data-book=vo] #pause{display:none}
+html[data-book=vo] .spd,html[data-book=vo] #pause,html[data-book=ft] .spd,html[data-book=ft] #pause{display:none}
 
 .intro{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px 48px;padding:26px 0 6px;align-items:start}
 .lead{margin:0;font-size:15.5px;line-height:1.9;max-width:40em}
@@ -158,6 +158,7 @@ html[data-book=vo] .spd,html[data-book=vo] #pause{display:none}
 /* ---------- 動く見本の帯（フィルムの密着焼きのように流す） ---------- */
 .strip{position:relative;height:158px;margin:22px 0 6px;border-top:1px solid var(--rule2);border-bottom:1px solid var(--rule2);overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
 .strip-l{position:absolute;left:0;top:0;bottom:0;z-index:2;writing-mode:vertical-rl;font:500 9.5px/1 var(--sans);letter-spacing:.3em;color:var(--ink2);display:flex;align-items:center;justify-content:center;width:22px;background:var(--paper)}
+.strip{touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}.strip.grab{cursor:grabbing}.strip .fr{cursor:inherit}
 .fr{position:absolute;left:0;top:14px;width:200px;text-align:left;will-change:transform}
 .fr canvas{display:block;width:200px;height:112.5px;background:var(--stage);border-radius:2px}
 .fr span{display:block;margin-top:6px;font:500 10.5px/1.2 var(--mono);color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -317,6 +318,15 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 .bnav .vt{font-size:11px;font-weight:700}
 .bnav button.on{color:var(--ink);border-top-color:var(--c);background:color-mix(in srgb,var(--c) 9%,transparent)}
 
+.bnav .menu{flex:.8;border-left:1px solid var(--rule2)}.bnav .menu .ic{width:20px;height:20px}
+.msheet{position:fixed;left:0;right:0;bottom:calc(52px + env(safe-area-inset-bottom));z-index:44;max-height:70dvh;overflow-y:auto;background:var(--card);border-top:1.5px solid var(--ink);box-shadow:0 -10px 30px rgba(0,0,0,.18);padding:12px 16px 14px;animation:rise .22s var(--ease)}
+.msheet h4{margin:0 0 8px;font:500 10px/1 var(--sans);letter-spacing:.24em;color:var(--ink2)}
+.msheet .top{display:flex;align-items:center;gap:8px;width:100%;min-height:46px;padding:0 12px;margin-bottom:10px;border:1.5px solid var(--ink);font-weight:700;font-size:14px}
+.msheet .top .up{transform:rotate(90deg)}
+.msheet .toc button{min-height:44px;font-size:14.5px;border-left:0;border-bottom:1px solid var(--rule);padding:8px 4px;align-items:center}
+.msheet .toc button.on{border-left:0;padding-left:4px;color:var(--spot)}
+.msheet .toc{display:flex!important}
+@media (min-width:1024px){.msheet{display:none}}
 /* はじめて開いたときの立ち上がり */
 .rise{animation:up .55s var(--ease) both}
 .rise.d1{animation-delay:.06s}.rise.d2{animation-delay:.14s}.rise.d3{animation-delay:.22s}
@@ -375,7 +385,7 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
       <span class="mast-en">MOTION SPECIMEN BOOK</span>
       <span class="mast-tag" id="tTag"></span>
     </a>
-    <div class="colorbar" aria-hidden="true"><i data-b="ae"></i><i data-b="mg"></i><i data-b="vo"></i></div>
+    <div class="colorbar" aria-hidden="true"><i data-b="ae"></i><i data-b="mg"></i><i data-b="vo"></i><i data-b="ft"></i></div>
     <nav class="vols" id="books"></nav>
     <div class="toc-h" id="tTocH"></div>
     <nav class="toc" id="toc"></nav>
@@ -440,6 +450,7 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 </div>
 
 <nav class="bnav" id="bnav"></nav>
+<div class="msheet" id="msheet" hidden><button class="top" id="mTop"></button><h4 id="msheetH"></h4><nav class="toc" id="stoc"></nav></div>
 
 <aside class="tray" id="tray" aria-label="選んだもの">
   <button class="tray-h" id="trayToggle" aria-expanded="true"><b id="tTray"></b><span class="n" id="trayN">0</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -473,14 +484,16 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 <div class="wipe" id="wipe" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="engine.js?v=20261113093149"></script>
-<script src="presets.js?v=20261113093149"></script>
-<script src="i18n.js?v=20261113093149"></script>
-<script src="mg1.js?v=20261113093149"></script>
-<script src="mg2.js?v=20261113093149"></script>
-<script src="vo.js?v=20261113093149"></script>
-<script src="audio/manifest.js?v=20261113093149"></script>
-<script src="spec.js?v=20261113093149"></script>
-<script src="app.js?v=20261113093149"></script>
+<script src="engine.js?v=20261113110738"></script>
+<script src="presets.js?v=20261113110738"></script>
+<script src="i18n.js?v=20261113110738"></script>
+<script src="mg1.js?v=20261113110738"></script>
+<script src="mg2.js?v=20261113110738"></script>
+<script src="vo.js?v=20261113110738"></script>
+<script src="audio/manifest.js?v=20261113110738"></script>
+<script src="fonts.js?v=20261113110738"></script>
+<script src="ft.js?v=20261113110738"></script>
+<script src="spec.js?v=20261113110738"></script>
+<script src="app.js?v=20261113110738"></script>
 </body>
 </html>

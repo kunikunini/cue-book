@@ -136,6 +136,7 @@ function mgRef(c, T) {
 
 /* 1つの見本をAIに渡すときの文章（番号・正式名・解説・仕様）。見本帳の「コピー」と、スキルの get が同じものを出す */
 function promptOf(p) {
+  if (p.book === 'ft') return FT.prompt(p);
   if (p.book === 'vo') return (LANG === 'ja' ? [
     `${p.id} ${p.name}（${p.nameJa}）`,
     `（音声合成のオーディオタグ ＞ ${p.cat}（${p.catJa}）／出どころ: ${VO.src[p.src][0]}）`,

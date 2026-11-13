@@ -1,6 +1,6 @@
 ---
 name: motion-specimen
-description: '動きの見本帳（Motion Specimen Book）。番号つきの見本を3巻収めた一覧から、番号や言葉で「動きの仕様」を取り出す。AE-001〜322＝After Effects 標準のテキストアニメーションプリセット、MG-001〜137＝モーショングラフィックスの動き（原則・登場と退場・図形・トランジション・文字・カメラ・エフェクト・図解とUI）、VT-001〜130＝音声合成のオーディオタグ（Eleven v4/v3 のタグ、Suno の歌用タグなど）。使う場面：利用者が「AE-058 の動きで」「MG-011 と MG-062 を使って」「VT-047 みたいに読ませて」のように番号で指示したとき／見本帳から選んだ内容を貼ってきたとき（「動きの見本帳から、次のN個を選びました」で始まる文章）／「見本帳を出して」「動きを選びたい」「どんな文字の動きがある？」「名前が分からないから見て選びたい」と言ったとき／文字の登場・退場、場面の切り替え、声の演技タグなどを言葉で探したいとき。Use when the user refers to motion by number (AE-/MG-/VT-), pastes picks from the Motion Specimen Book, asks to open or browse the specimen book, or wants to find a text animation, motion-graphics move, transition or audio tag by description.'
+description: '動きの見本帳（Motion Specimen Book）。番号つきの見本を4巻収めた一覧から、番号や言葉で「動きの仕様」やフォントの情報を取り出す。AE-001〜322＝After Effects 標準のテキストアニメーションプリセット、MG-001〜137＝モーショングラフィックスの動き（原則・登場と退場・図形・トランジション・文字・カメラ・エフェクト・図解とUI）、VT-001〜130＝音声合成のオーディオタグ（Eleven v4/v3 のタグ、Suno の歌用タグなど）、FT-0001〜2061＝無料フォント（Google Fonts・Fontshare。名前・太さ・読み込み用のタグ・配布ページ）。使う場面：利用者が「AE-058 の動きで」「MG-011 と MG-062 を使って」「VT-047 みたいに読ませて」のように番号で指示したとき／見本帳から選んだ内容を貼ってきたとき（「動きの見本帳から、次のN個を選びました」で始まる文章）／「見本帳を出して」「動きを選びたい」「どんな文字の動きがある？」「名前が分からないから見て選びたい」と言ったとき／文字の登場・退場、場面の切り替え、声の演技タグなどを言葉で探したいとき。Use when the user refers to motion by number (AE-/MG-/VT-/FT-), pastes picks from the Motion Specimen Book, asks to open or browse the specimen book, or wants to find a text animation, motion-graphics move, transition, audio tag or free font by description.'
 ---
 
 # 動きの見本帳（Motion Specimen Book）
@@ -12,6 +12,7 @@ description: '動きの見本帳（Motion Specimen Book）。番号つきの見�
 | 01 | `AE-001`〜`AE-322` | After Effects に最初から入っているテキストアニメーションプリセット | 正式名・カテゴリ・動きの説明・単位／順番／変化する項目／緩急／長さ。曲線的な動きは参考の式つき |
 | 02 | `MG-001`〜`MG-137` | モーショングラフィックスでよく使う動き | 名前・解説（仕組みと使いどころ）・見本を描いている Canvas 2D のコード一式 |
 | 03 | `VT-001`〜`VT-130` | 音声合成で使うオーディオタグ | タグ・効果・例文・出どころ・使い方 |
+| 04 | `FT-0001`〜`FT-2061` | 無料フォント（Google Fonts と Fontshare） | 名前・分類・太さ・読み込み用の `<link>`・CSS の指定・配布ページ。ライセンスの正確な条件は配布ページで確かめる |
 
 道具は、このファイルと同じフォルダの `scripts/specimen.mjs` です（下の `<skill-dir>` は、この SKILL.md があるフォルダ）。Node.js 18 以上だけで動き、通信はしません（`pick` が自分のパソコンの中でだけ待ち受けます）。
 
@@ -22,9 +23,9 @@ node <skill-dir>/scripts/specimen.mjs <command>
 | コマンド | 使いどころ |
 |---|---|
 | `get <番号...>` | 番号の仕様を出す。`AE-058`、`ae58`、`#MG-011`、見本帳のURLのどれでも通る。一度に12個まで |
-| `search <言葉...>` | 言葉で探す。日本語でも英語でもよい。例：`search 文字 弾む`、`search wipe transition`。`--book ae\|mg\|vo` で巻を絞る、`--limit 20` で件数を増やす |
-| `list` | 3巻の分類と件数。`--book ae` を付けると、その巻の全項目を1行ずつ |
-| `table --book ae\|mg\|vo` | その巻の番号表（番号｜名前｜分類｜動き）。長いので、必要なときだけ |
+| `search <言葉...>` | 言葉で探す。日本語でも英語でもよい。例：`search 文字 弾む`、`search wipe transition`。`--book ae\|mg\|vo\|ft` で巻を絞る、`--limit 20` で件数を増やす |
+| `list` | 4巻の分類と件数。`--book ae` を付けると、その巻の全項目を1行ずつ |
+| `table --book ae\|mg\|vo\|ft` | その巻の番号表（番号｜名前｜分類｜動き）。長いので、必要なときだけ |
 | `pick` | 見本帳をブラウザで開き、利用者が選んで「AIに渡す」を押すまで待つ。選ばれた番号の仕様とメモを出して終わる |
 | `info` | データの版、件数、見本帳の場所 |
 
@@ -62,6 +63,13 @@ node <skill-dir>/scripts/specimen.mjs <command>
 - 対応は ElevenLabs の Eleven v4 / v4 Turbo / v3 です。タグは決まった一覧ではなく自由な言葉で書けますが、必ず効くとは限りません。効かなければ近い言葉に替えて生成し直します。
 - 出どころが「Suno で使われる歌用タグ」のものは、歌を作るためのタグです。読み上げで効くとは限らないことを伝えます。
 - 音声の生成は料金がかかります。利用者に頼まれていない生成はしません。
+
+### FT（フォント）
+
+- 読み込みは、出てきた `<link>` と `font-family` をそのまま使います。フォント名や太さを想像で書き換えないこと。使う太さだけに絞るのはかまいません。
+- 書体のファイルは見本帳に入っていません。配布元（Google Fonts／Fontshare）から読み込むので、通信できない環境や自前で配信したい場合は、配布ページから入手するよう利用者に伝えます。
+- ライセンスは「無料で商用利用可」が基本ですが、正確な条件は書体ごとの配布ページで確かめます。断定しないこと。
+- 日本語が要るときは `--book ft` で「日本語: 対応」のものから選びます（`list --book ft` の先頭68個が日本語の書体。名前で探すなら `search mincho --book ft` など）。
 
 ## 守ること
 

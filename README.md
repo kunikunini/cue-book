@@ -7,6 +7,7 @@
 | 01 | `AE-001`〜`AE-322` | After Effects に最初から入っているテキストアニメーションプリセット。Adobe 公式ヘルプの一覧と同じ名前・同じ並び |
 | 02 | `MG-001`〜`MG-137` | モーショングラフィックスでよく使う動き（原則、登場と退場、図形、トランジション、文字、カメラ、エフェクト、図解とUI）。動く見本と解説つき |
 | 03 | `VT-001`〜`VT-130` | 音声合成で使うオーディオタグ（Eleven v4／v3 の公式タグ、Suno の歌用タグ、公開されている使用例）。タグごとの例文つき |
+| 04 | `FT-0001`〜`FT-2061` | 無料で使えるフォント（Google Fonts と Fontshare）。入力した文字を、それぞれの書体で見比べられる。コピーすると、名前・太さ・読み込み用のタグ・配布ページがまとまる |
 
 ## 見本帳を開く
 
@@ -23,7 +24,7 @@ python3 -m http.server 4370
 - 見本の右上のチェックを入れると、右下の「選んだもの」にたまります。「選んだものをコピー」で、番号・正式名・仕様がまとまった文章になるので、そのままAIに貼れます。
 - 「番号表をコピー」で、その巻の全番号の対応表をAIに渡せます。以後は「AE-150 の動きで」だけで通じます。
 - 星でお気に入り、一度選んだものは履歴に残ります（そのブラウザの中に保存）。
-- キー操作：`/` 検索、`1` `2` `3` 巻の切り替え、Space 一時停止、拡大表示中は `←` `→` `P` `F` `C`。
+- キー操作：`/` 検索、`1` `2` `3` `4` 巻の切り替え、Space 一時停止、拡大表示中は `←` `→` `P` `F` `C`。
 
 ## AIエージェントのスキルとして使う
 
@@ -61,8 +62,9 @@ node skills/motion-specimen/scripts/specimen.mjs get AE-058 MG-011
 - **AE の巻の動きは近似です。** 名前とカテゴリは Adobe 公式ヘルプの一覧（2026年9月更新）どおりですが、動きの見本と仕様は After Effects 本体のプリセットファイルから取り出したものではなく、ブラウザ上で再現したものです。After Effects で使うときは、同じ名前のプリセットをそのまま当てるのがいちばん正確です。日本語の呼び名は意味が分かるように付けた訳で、公式の訳ではありません。
 - **MG の巻の見本と解説は、この見本帳のために書き起こしたものです。** 秒数や割合は目安です。
 - **VT の巻のタグは、必ず効くとは限りません。** タグの表記は各出どころのもの、例文と解説はこの見本帳のために書いたものです。Suno のタグは歌を作るためのもので、読み上げで効くとは限りません。
+- **FT の巻の書体は、このリポジトリに入っていません。** 一覧は Google Fonts と Fontshare の公開データから作り（`node tools/build-fonts.mjs`）、書体のファイルはカードが画面に入ったときに各配布元から読み込みます。ライセンスの正確な条件は、各書体の配布ページで確認してください。個人のサイトなどで個別に配布されているフリーフォントは、再配布や直接読み込みの条件が書体ごとに違うため入れていません。
 - **声の見本は合成音声です。** 下の「声のクレジット」の2つの声を使い、ElevenLabs の Eleven v4 で生成しました。
-- このリポジトリは個人の見本帳で、Adobe・ElevenLabs・Suno とは関係ありません。After Effects は Adobe の商標です。
+- このリポジトリは個人の見本帳で、Adobe・ElevenLabs・Suno・Google・Fontshare とは関係ありません。After Effects は Adobe の商標です。
 
 ## 声のクレジット
 
@@ -87,7 +89,7 @@ node tools/build-skill.mjs
 
 ## English
 
-A specimen book for motion you can refer to by number: 322 built-in After Effects text animation presets (`AE-`), 137 motion-graphics moves with live samples and notes (`MG-`), and 130 audio tags for speech synthesis (`VT-`). Open the gallery, pick what you want, and copy a block of text (number, name, spec) to paste to an AI. The `skills/motion-specimen` folder is an agent skill: `get`, `search`, `list`, `table` and `pick` let an AI agent pull the specs by number. The AE volume reproduces the presets approximately in the browser; it is not extracted from After Effects. Not affiliated with Adobe, ElevenLabs or Suno.
+A specimen book for motion you can refer to by number: 322 built-in After Effects text animation presets (`AE-`), 137 motion-graphics moves with live samples and notes (`MG-`), 130 audio tags for speech synthesis (`VT-`), and 2,061 free fonts from Google Fonts and Fontshare (`FT-`, loaded from their distributors, not bundled). Open the gallery, pick what you want, and copy a block of text (number, name, spec) to paste to an AI. The `skills/motion-specimen` folder is an agent skill: `get`, `search`, `list`, `table` and `pick` let an AI agent pull the specs by number. The AE volume reproduces the presets approximately in the browser; it is not extracted from After Effects. Not affiliated with Adobe, ElevenLabs, Suno, Google or Fontshare.
 
 ## ライセンス
 

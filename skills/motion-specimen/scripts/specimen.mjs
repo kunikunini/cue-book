@@ -2,10 +2,10 @@
 // 動きの見本帳（Motion Specimen Book）を、AIエージェントから引くための道具。
 // 追加のインストールは不要（Node.js 18 以上だけ）。データは同じスキルの data/catalog.json に入っている。
 //
-//   node specimen.mjs list   [--book ae|mg|vo]            分類と件数。--book を付けると、その巻の全項目を1行ずつ
+//   node specimen.mjs list   [--book ae|mg|vo|ft]            分類と件数。--book を付けると、その巻の全項目を1行ずつ
 //   node specimen.mjs search <言葉...> [--book] [--limit] 言葉で探す（日本語・英語どちらでも）
 //   node specimen.mjs get <番号...>                       番号の仕様を出す（一度に12個まで）
-//   node specimen.mjs table  --book ae|mg|vo              その巻の番号表（番号｜名前｜分類｜動き）
+//   node specimen.mjs table  --book ae|mg|vo|ft              その巻の番号表（番号｜名前｜分類｜動き）
 //   node specimen.mjs pick   [--book] [--timeout 秒]      見本帳をブラウザで開き、利用者が選んで「AIに渡す」を押すまで待つ
 //   node specimen.mjs info                                データの版・件数・見本帳の場所
 // 共通: --lang ja|en（既定は ja）
@@ -24,15 +24,15 @@ const VALUE_FLAGS = ['book', 'lang', 'limit', 'timeout', 'site', 'url'];
 const words = argv.slice(1).filter((a, i, arr) => !a.startsWith('--') && !(arr[i - 1] && arr[i - 1].startsWith('--') && VALUE_FLAGS.includes(arr[i - 1].slice(2))));
 const lang = opt('lang', 'ja') === 'en' ? 'en' : 'ja';
 const J = (ja, en) => (lang === 'en' ? en : ja);
-const book = (() => { const b = String(opt('book', '')).toLowerCase(); return b === 'vt' ? 'vo' : ['ae', 'mg', 'vo'].includes(b) ? b : null; })();
+const book = (() => { const b = String(opt('book', '')).toLowerCase(); return b === 'vt' ? 'vo' : ['ae', 'mg', 'vo', 'ft'].includes(b) ? b : null; })();
 const items = CAT.items.filter(x => !book || x.book === book);
 const byId = Object.fromEntries(CAT.items.map(x => [x.id, x]));
 const die = (msg, code = 1) => { console.error(msg); process.exit(code); };
 
 /* 「ae58」「#AE-058」「…/index.html#MG-011」のような書き方を、正しい番号にそろえる */
 function normId(s) {
-  const m = String(s).toUpperCase().match(/(AE|MG|VT)[\s\-_#]*0*(\d{1,3})(?!\d)/);
-  return m ? `${m[1]}-${m[2].padStart(3, '0')}` : null;
+  const m = String(s).toUpperCase().match(/(AE|MG|VT|FT)[\s\-_#]*0*(\d{1,4})(?!\d)/);
+  return m ? `${m[1]}-${m[2].padStart(m[1] === 'FT' ? 4 : 3, '0')}` : null;
 }
 const line = x => (lang === 'en'
   ? `${x.id} | ${x.name} | ${x.cat}${x.src ? ' / ' + x.src[1] : ''} | ${x.en}`
@@ -79,12 +79,12 @@ function cmdGet() {
   if (!ids.length) die(J('番号を付けてください。例: get AE-058 MG-011', 'Add numbers, e.g. get AE-058 MG-011'));
   if (ids.length > 12) die(J('一度に出せるのは12個までです。分けて実行してください。', 'At most 12 per call. Split the request.'));
   const bad = words.filter((w, i) => !ids[i] || !byId[ids[i]]);
-  if (bad.length) die(J(`この番号は見本帳にありません: ${bad.join(', ')}（AE-001〜${CAT.books.ae.n}、MG-001〜${CAT.books.mg.n}、VT-001〜${CAT.books.vo.n}）。番号を作らず、利用者に確かめてください。`, `Not in the book: ${bad.join(', ')} (AE-001–${CAT.books.ae.n}, MG-001–${CAT.books.mg.n}, VT-001–${CAT.books.vo.n}). Do not invent a number; ask the user.`), 1);
+  if (bad.length) die(J(`この番号は見本帳にありません: ${bad.join(', ')}（AE-001〜${CAT.books.ae.n}、MG-001〜${CAT.books.mg.n}、VT-001〜${CAT.books.vo.n}、FT-0001〜${CAT.books.ft.n}）。番号を作らず、利用者に確かめてください。`, `Not in the book: ${bad.join(', ')} (AE-001–${CAT.books.ae.n}, MG-001–${CAT.books.mg.n}, VT-001–${CAT.books.vo.n}, FT-0001–${CAT.books.ft.n}). Do not invent a number; ask the user.`), 1);
   console.log(ids.map(id => byId[id].prompt[lang]).join('\n\n'));
 }
 
 function cmdTable() {
-  if (!book) die(J('--book ae|mg|vo を付けてください。', 'Add --book ae|mg|vo.'));
+  if (!book) die(J('--book ae|mg|vo|ft を付けてください。', 'Add --book ae|mg|vo|ft.'));
   const B = CAT.books[book];
   console.log(J(`${B.ja}の番号表です。「${B.prefix}-xxx」と番号で言ったら、この表の動きを指します。\n書式: 番号 | 正式名 | 日本語での呼び名 | カテゴリ | 動き\n`, `Number table of ${B.en}. “${B.prefix}-xxx” refers to the motion in this table.\nFormat: number | name | category | motion\n`));
   console.log(items.map(line).join('\n'));
@@ -94,7 +94,7 @@ function cmdInfo() {
   const site = findSite();
   console.log([
     `Motion Specimen Book / 動きの見本帳  catalog v${CAT.version}  (${CAT.built})`,
-    ...Object.values(CAT.books).map(B => `  ${B.prefix}-001〜${String(B.n).padStart(3, '0')}  ${J(B.ja, B.en)}`),
+    ...Object.values(CAT.books).map(B => `  ${B.prefix}-${'1'.padStart(B.digits || 3, '0')}〜${String(B.n).padStart(B.digits || 3, '0')}  ${J(B.ja, B.en)}`),
     J('見本帳の場所: ', 'Gallery: ') + (site ? site + J('（手元のファイル）', ' (local files)') : CAT.gallery || J('未設定（pick には --site か --url が必要）', 'not set (pick needs --site or --url)')),
   ].join('\n'));
 }
@@ -152,5 +152,5 @@ function cmdPick() {
 }
 
 const CMDS = { list: cmdList, search: cmdSearch, get: cmdGet, table: cmdTable, pick: cmdPick, info: cmdInfo };
-if (!CMDS[cmd]) die('usage: specimen.mjs list|search|get|table|pick|info  [--book ae|mg|vo] [--lang ja|en]\n' + J('まず info か list を実行してください。', 'Start with info or list.'), cmd ? 1 : 0);
+if (!CMDS[cmd]) die('usage: specimen.mjs list|search|get|table|pick|info  [--book ae|mg|vo|ft] [--lang ja|en]\n' + J('まず info か list を実行してください。', 'Start with info or list.'), cmd ? 1 : 0);
 CMDS[cmd]();
