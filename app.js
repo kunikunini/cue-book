@@ -42,7 +42,7 @@
       copied: id => `${id} をコピーしました`, copiedN: n => `${n}個をコピーしました`, copiedIdx: n => `番号表（${n}個）をコピーしました`, copyFail: 'コピーできませんでした',
       books: {
         ae: {
-          tab: 'AE テキストプリセット', sub: 'After Effects 付属の、文字の動き', mini: '文字', kicker: 'AFTER EFFECTS ＞ エフェクト＆プリセット ＞ アニメーションプリセット ＞ TEXT',
+          tab: 'テキストアニメーション', sub: 'After Effects 付属の、文字の動き', mini: 'テキスト', kicker: 'AFTER EFFECTS ＞ エフェクト＆プリセット ＞ アニメーションプリセット ＞ TEXT',
           h1: '言葉にしにくい文字の動きを、<em>番号</em>で頼む。',
           lead: 'After Effects に最初から入っているテキストアニメーションプリセットを、全部動く見本にして番号を振りました。気に入った動きを選んでコピーすると、番号・正式名・動きの仕様がまとまった文章になるので、そのままAIに貼れます。',
           noteS: '番号だけで頼むとき・この見本帳の注意',
@@ -50,7 +50,7 @@
           foot: `プリセットの名称とカテゴリは <a href="${HELP_URL}" target="_blank" rel="noopener">Adobe 公式ヘルプ「Animation preset list」</a> の Text の項による。このページは個人の見本帳で、Adobe とは関係ありません。After Effects は Adobe の商標です。`,
         },
         mg: {
-          tab: 'モーショングラフィックス', sub: '図形・画面・カメラの動きと解説', mini: '動き', kicker: 'MOTION GRAPHICS ＞ 動きの名前・仕組み・使いどころ',
+          tab: 'モーショングラフィックス', sub: '図形・画面・カメラの動きと解説', mini: 'モーション', kicker: 'MOTION GRAPHICS ＞ 動きの名前・仕組み・使いどころ',
           h1: '「あの動き」の<em>名前</em>と仕組みを、動く見本で。',
           lead: 'モーショングラフィックスでよく使う動きを、基本原則・登場と退場・図形・切り替え・文字・カメラ・エフェクト・図解とUIに分けて集めました。それぞれに番号と名前、動く見本、仕組みと使いどころの解説が付いています。選んでコピーすると、見本を描いているコードも一緒にAIへ渡せます。',
           noteS: '番号だけで頼むとき・この見本帳の注意',
@@ -58,7 +58,7 @@
           foot: 'このページは個人の見本帳です。見本と解説は、この見本帳のために書き起こしたものです。',
         },
         vo: {
-          tab: 'オーディオタグ（声）', sub: '声の演技を指示するタグを、実際の声で', mini: '声', kicker: 'AUDIO TAGS ＞ 声の演技を、角かっこの言葉で指示する',
+          tab: 'ボイス演出', sub: '声の演技を指示するタグを、実際の声で', mini: 'ボイス', kicker: 'AUDIO TAGS ＞ 声の演技を、角かっこの言葉で指示する',
           h1: '声の演技を、<em>タグ</em>で頼む。実際の声で聴き比べる。',
           lead: '音声合成で使うオーディオタグを集めて、同じタグを男性の声と女性の声で読ませました。タグごとに、そのタグに合うせりふを選んであります。カードの「男性」「女性」を押すと再生します。',
           noteS: 'この見本の作り方と注意',
@@ -66,7 +66,7 @@
           foot: 'このページは個人の見本帳です。タグの表記は各出どころのもの、例文と解説はこの見本帳のために書いたものです。ElevenLabs・Suno とは関係ありません。',
         },
         ft: {
-          tab: 'フォント', sub: '無料で使える書体を、実際の文字で', mini: '書体', kicker: 'FONTS ＞ GOOGLE FONTS ・ FONTSHARE',
+          tab: 'フォント', sub: '無料で使える書体を、実際の文字で', mini: 'フォント', kicker: 'FONTS ＞ GOOGLE FONTS ・ FONTSHARE',
           h1: '無料で使える書体を、<em>実際の文字</em>で見比べる。',
           lead: 'Google Fonts と Fontshare で配布されている無料フォントを、日本語・サンセリフ・セリフ・ディスプレイ・手書き・等幅に分けて並べました。上の入力欄に文字を入れると、すべての書体がその文字で表示されます。選んでコピーすると、名前・太さ・読み込み用のタグ・配布ページがまとまった文章になります。',
           noteS: 'この巻の作り方と注意',
@@ -90,7 +90,7 @@
       copied: id => `Copied ${id}`, copiedN: n => `Copied ${n} items`, copiedIdx: n => `Copied the number table (${n})`, copyFail: 'Could not copy',
       books: {
         ae: {
-          tab: 'AE Text Presets', sub: 'Text motion built into After Effects', mini: 'Text', kicker: 'AFTER EFFECTS > EFFECTS & PRESETS > ANIMATION PRESETS > TEXT',
+          tab: 'Text Animation', sub: 'Text motion built into After Effects', mini: 'Text', kicker: 'AFTER EFFECTS > EFFECTS & PRESETS > ANIMATION PRESETS > TEXT',
           h1: 'Text motion that is hard to describe? Ask for it by <em>number</em>.',
           lead: 'Every text animation preset that ships with After Effects, as a moving sample with a number. Pick the ones you like and copy: you get the number, the official name and a motion spec in one block of text, ready to paste to an AI.',
           noteS: 'Asking by number alone, and caveats',
@@ -106,7 +106,7 @@
           foot: 'This is a personal sample book. The samples and notes were written for it.',
         },
         vo: {
-          tab: 'Audio Tags (Voice)', sub: 'Tags that direct a voice, in real voices', mini: 'Voice', kicker: 'AUDIO TAGS > DIRECT A VOICE PERFORMANCE WITH BRACKETED WORDS',
+          tab: 'Voice Direction', sub: 'Tags that direct a voice, in real voices', mini: 'Voice', kicker: 'AUDIO TAGS > DIRECT A VOICE PERFORMANCE WITH BRACKETED WORDS',
           h1: 'Direct a voice with <em>tags</em>, and hear the difference in real voices.',
           lead: 'Audio tags for speech synthesis, each read by a male voice and a female voice, with a line chosen to suit the tag. Press “Male” or “Female” on a card to play.',
           noteS: 'How these samples were made, and caveats',
@@ -492,7 +492,7 @@
     const L = t(), B = L.books[book], all = PRESETS.filter(inBook);
     document.documentElement.lang = LANG; document.documentElement.dataset.book = book;
     document.title = LANG === 'ja' ? 'Cue Book — 制作用の見本帳' : 'Cue Book — a specimen book for makers';
-    $('#tTag').textContent = L.tag; $('#tKicker').textContent = B.kicker; $('#tH1').innerHTML = B.h1; $('#tLead').textContent = B.lead; $('#volNo').textContent = VOLNO[book];
+    $('#tTag').textContent = L.tag; $('#tKicker').textContent = B.kicker; $('#tH1').textContent = B.tab; $('#tSub').innerHTML = B.h1; $('#tLead').textContent = B.lead; $('#volNo').textContent = VOLNO[book];
     roll($('#stN'), all.length); roll($('#stC'), bookCats().length); $('#stId').textContent = `${PREFIX[book]}-${pad(1, DIG[book])}–${pad(all.length, DIG[book])}`;
     $('#tSt1').textContent = L.st1; $('#tSt2').textContent = L.st2; $('#tSt3').textContent = L.st3; $('#tHow').textContent = L.how.toUpperCase();
     $('#tHowList').innerHTML = L.howList.map(s => `<li>${s}</li>`).join(''); $('#tNote').innerHTML = B.note; $('#tNoteS').textContent = B.noteS; $('#tFoot').innerHTML = B.foot;

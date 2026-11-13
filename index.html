@@ -115,8 +115,9 @@ a{color:inherit}
 .open{position:relative;padding:38px 0 26px;overflow:hidden}
 .open-no{position:absolute;right:-8px;top:6px;font:400 clamp(110px,15vw,230px)/.78 var(--num);color:transparent;-webkit-text-stroke:1.2px var(--spot);opacity:.5;pointer-events:none;user-select:none;font-variant-numeric:lining-nums}
 .kicker{font:500 11px/1.5 var(--mono);letter-spacing:.14em;color:var(--ink2);max-width:70%}
-.open h1{position:relative;margin:14px 0 0;font:600 clamp(28px,4.3vw,62px)/1.2 var(--serif);letter-spacing:.02em;max-width:17em;text-wrap:balance}
-.open h1 em{font-style:normal;color:var(--spot)}
+.open h1{position:relative;margin:12px 0 0;font:600 clamp(27px,4.6vw,66px)/1.15 var(--serif);letter-spacing:.03em;max-width:17em;text-wrap:balance}
+.open-sub{position:relative;margin:12px 0 0;font:600 clamp(16px,1.75vw,24px)/1.5 var(--serif);letter-spacing:.03em;color:var(--ink2);max-width:32em;text-wrap:balance}
+.open-sub em{font-style:normal;color:var(--spot)}
 /* 巻ごとのヘッダー図版（art.js が SVG を組む） */
 .art{position:relative;margin-top:24px;border-top:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:color-mix(in srgb,var(--card) 60%,transparent)}
 .art svg{display:none;width:100%;height:auto;aspect-ratio:1200/280}
@@ -446,6 +447,7 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
       <div class="open-no" id="volNo" aria-hidden="true">01</div>
       <div class="kicker rise" id="tKicker"></div>
       <h1 class="rise d1" id="tH1"></h1>
+      <p class="open-sub rise d1" id="tSub"></p>
       <div class="art rise d2" id="art" aria-hidden="true"></div>
     </header>
 
@@ -530,17 +532,17 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 <div class="wipe" id="wipe" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="art.js?v=20261113194525"></script>
-<script src="engine.js?v=20261113194525"></script>
-<script src="presets.js?v=20261113194525"></script>
-<script src="i18n.js?v=20261113194525"></script>
-<script src="mg1.js?v=20261113194525"></script>
-<script src="mg2.js?v=20261113194525"></script>
-<script src="vo.js?v=20261113194525"></script>
-<script src="audio/manifest.js?v=20261113194525"></script>
-<script src="fonts.js?v=20261113194525"></script>
-<script src="ft.js?v=20261113194525"></script>
-<script src="spec.js?v=20261113194525"></script>
-<script src="app.js?v=20261113194525"></script>
+<script src="art.js?v=20261113215352"></script>
+<script src="engine.js?v=20261113215352"></script>
+<script src="presets.js?v=20261113215352"></script>
+<script src="i18n.js?v=20261113215352"></script>
+<script src="mg1.js?v=20261113215352"></script>
+<script src="mg2.js?v=20261113215352"></script>
+<script src="vo.js?v=20261113215352"></script>
+<script src="audio/manifest.js?v=20261113215352"></script>
+<script src="fonts.js?v=20261113215352"></script>
+<script src="ft.js?v=20261113215352"></script>
+<script src="spec.js?v=20261113215352"></script>
+<script src="app.js?v=20261113215352"></script>
 </body>
 </html>
