@@ -192,6 +192,19 @@ section.cat{padding-top:52px;scroll-margin-top:84px}
 .plate.sel{background:color-mix(in srgb,var(--spot) 8%,var(--card))}
 .cap{display:flex;align-items:center;justify-content:space-between;min-height:28px}
 .id{font:600 12px/1 var(--mono);letter-spacing:.06em;color:var(--spot)}
+/* 版の右上：コピー・選ぶ（チェック）・お気に入り */
+.capr{display:flex;align-items:center;gap:1px;margin:-3px -6px -3px 0}
+.capr button{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;color:var(--ink2);transition:color .15s,transform .2s var(--ease)}
+.capr button:hover{color:var(--ink)}
+.capr button:active{transform:scale(.86)}
+.capr .cp .ic{width:16px;height:16px}
+.capr .pick{background:none!important;border:0}
+.capr .pick .box{width:16px;height:16px;border:1.6px solid currentColor;border-radius:2px;transition:background .15s,border-color .15s}
+.capr .pick .box .ic{width:12px;height:12px;stroke-width:3.2;opacity:0}
+.plate.sel .capr .pick{color:var(--spot)}
+.plate.sel .capr .pick .box{background:var(--spot);border-color:var(--spot)}
+.plate.sel .capr .pick .box .ic{opacity:1;color:var(--on-spot)}
+.capr .fav{margin:0;color:var(--ink3)}.capr .fav:hover,.capr .fav.on{color:var(--gold)}
 .fav{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;margin:-3px -5px -3px 0;color:var(--ink3);transition:color .15s,transform .2s var(--ease)}
 .fav:hover{color:var(--gold)}
 .fav.on{color:var(--gold)}
@@ -201,6 +214,14 @@ section.cat{padding-top:52px;scroll-margin-top:84px}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .stage::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.07);border-radius:2px;pointer-events:none}
 .stage:hover{outline:2px solid var(--spot);outline-offset:2px}
+.nrow{display:flex;align-items:flex-start;gap:6px}.nrow .name{flex:1;min-width:0}
+.mt{flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin:-1px -6px 0 0;color:var(--ink2)}
+.mt .ic{transition:transform .2s var(--ease)}
+.more{display:none;flex-direction:column;gap:9px}
+.plate.open .more,html[data-detail="1"] .plate:not(.open) .more{display:flex}
+.plate.open .mt .ic,html[data-detail="1"] .plate:not(.open) .mt .ic{transform:rotate(180deg)}
+.plate.sel .pickb{background:var(--spot);border-color:var(--spot);color:var(--on-spot);font-weight:700}.plate.sel .pickb .box .ic{opacity:1}
+.pickb .box{width:14px;height:14px;border:1.5px solid currentColor;display:inline-flex;align-items:center;justify-content:center}.pickb .box .ic{width:12px;height:12px;stroke-width:3;opacity:0}.cpb .ic{width:15px;height:15px}
 .name{margin:2px 0 0;font:600 17px/1.4 var(--serif);letter-spacing:.02em}
 .sub{font-size:11.5px;line-height:1.4;color:var(--ink2);letter-spacing:.03em;margin-top:-5px}
 html[data-book=vo] .plate .sub{font-family:var(--mono);letter-spacing:0}
@@ -337,7 +358,7 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
   .rail-foot .ib span{display:none}
 }
 @media (pointer:coarse){
-  .acts button,.vp,.tb{min-height:44px}.fav{width:44px;height:44px;margin:-8px -10px -8px 0}.views button{padding:12px 10px}.toc button,.mtoc button{min-height:40px}
+  .acts button,.vp,.tb{min-height:44px}.capr button{width:34px;height:40px}.mt{width:36px;height:36px}.capr{margin:-8px -8px -8px 0}.views button{padding:12px 10px}.toc button,.mtoc button{min-height:40px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -380,6 +401,7 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
       <span class="brk" aria-hidden="true"></span>
       <label class="spd"><span id="tSpeed"></span><span class="spdw"><input type="range" id="speed" min="0.5" max="5" step="0.5" value="1"><span class="ticks" aria-hidden="true"><i style="left:calc(8px + (100% - 16px) * 0.1111)">1x</i><i style="left:calc(8px + (100% - 16px) * 0.3333)">2x</i><i style="left:calc(8px + (100% - 16px) * 0.5556)">3x</i><i style="left:calc(8px + (100% - 16px) * 0.7778)">4x</i><i style="left:calc(8px + (100% - 16px) * 1.0000)">5x</i></span></span><b id="speedV">1x</b></label>
       <button class="tb" id="pause"></button>
+      <button class="tb" id="detail"></button>
       <button class="tb" id="copyIndex"></button>
       <div class="mtoc" id="mtoc"></div>
     </div>
@@ -451,14 +473,14 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 <div class="wipe" id="wipe" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="engine.js?v=20261113090707"></script>
-<script src="presets.js?v=20261113090707"></script>
-<script src="i18n.js?v=20261113090707"></script>
-<script src="mg1.js?v=20261113090707"></script>
-<script src="mg2.js?v=20261113090707"></script>
-<script src="vo.js?v=20261113090707"></script>
-<script src="audio/manifest.js?v=20261113090707"></script>
-<script src="spec.js?v=20261113090707"></script>
-<script src="app.js?v=20261113090707"></script>
+<script src="engine.js?v=20261113093149"></script>
+<script src="presets.js?v=20261113093149"></script>
+<script src="i18n.js?v=20261113093149"></script>
+<script src="mg1.js?v=20261113093149"></script>
+<script src="mg2.js?v=20261113093149"></script>
+<script src="vo.js?v=20261113093149"></script>
+<script src="audio/manifest.js?v=20261113093149"></script>
+<script src="spec.js?v=20261113093149"></script>
+<script src="app.js?v=20261113093149"></script>
 </body>
 </html>

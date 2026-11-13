@@ -30,10 +30,10 @@
     ja: {
       brand: '見本帳', tag: '番号で伝える、動き',
       st1: '見本', st2: 'カテゴリ', st3: '通し番号', how: '使い方',
-      howList: ['動きを見て、カードの「選ぶ」を押す（いくつでも）', '下に出るバーで、必要ならメモを書く（例：冒頭のタイトルに）', '「選んだものをコピー」を押して、AIとの会話に貼る', 'よく使うものは「☆」でお気に入りに。一度選んだものは「履歴」に残る'],
+      howList: ['動きを見て、カード右上のチェックを入れる（いくつでも）', '下に出るバーで、必要ならメモを書く（例：冒頭のタイトルに）', '「選んだものをコピー」を押して、AIとの会話に貼る', 'よく使うものは「☆」でお気に入りに。一度選んだものは「履歴」に残る'],
       q: '名前・番号・動きの言葉で探す', sample: 'ここに文字を入力', sampleL: '見本の文字を、ここに入力', sampleH: '入れた文字で、下の見本がぜんぶ動きます。Enterで改行（4行まで）。空にすると元の見本に戻ります。',
       speed: '速さ', pause: '一時停止', play: '再生', copyIndex: '番号表をコピー', shown: n => `${n}個を表示`, empty: '当てはまるものがありません',
-      emptyFav: 'お気に入りはまだありません。カード右上の「☆」を押すと、ここに入ります。', emptyHist: '履歴はまだありません。「選ぶ」を押したものが、ここに残ります。',
+      emptyFav: 'お気に入りはまだありません。カード右上の「☆」を押すと、ここに入ります。', emptyHist: '履歴はまだありません。チェックを入れたものが、ここに残ります。',
       vAll: 'すべて', vFav: '☆ お気に入り', vHist: '履歴', all: 'すべて',
       favH: 'お気に入り', favSub: '☆を付けたもの', histH: '履歴', histSub: '一度でも選んだことがあるもの（新しい順）', clearHist: '履歴を消す',
       male: '男性', female: '女性', stop: '停止', noAudio: 'この音声は、この版には入っていません', line: '例文', effect: '効果', pick: '選ぶ', picked: '選択中', unpick: '選択を外す', copy: 'コピー', favOn: 'お気に入りから外す', favOff: 'お気に入りに入れる', zoom: id => `${id} を大きく見る`,
@@ -70,10 +70,10 @@
     en: {
       brand: 'Sample Book', tag: 'Ask for motion by number',
       st1: 'samples', st2: 'categories', st3: 'serial numbers', how: 'How to use',
-      howList: ['Watch the motion and press “Pick” on a card (as many as you like)', 'Add a note in the bar at the bottom if needed (e.g. “for the opening title”)', 'Press “Copy picks” and paste into your AI chat', 'Press “☆” to keep favourites. Anything you have ever picked stays in “History”'],
+      howList: ['Watch the motion and tick the box at the top right of a card (as many as you like)', 'Add a note in the bar at the bottom if needed (e.g. “for the opening title”)', 'Press “Copy picks” and paste into your AI chat', 'Press “☆” to keep favourites. Anything you have ever picked stays in “History”'],
       q: 'Search by name, number or motion', sample: 'Type your text here', sampleL: 'Type the sample text here', sampleH: 'Every sample below animates with what you type. Enter for a new line (up to 4). Leave it empty to restore the default.',
       speed: 'Speed', pause: 'Pause', play: 'Play', copyIndex: 'Copy number table', shown: n => `${n} shown`, empty: 'Nothing matches',
-      emptyFav: 'No favourites yet. Press “☆” at the top right of a card to add one.', emptyHist: 'No history yet. Anything you “Pick” is kept here.',
+      emptyFav: 'No favourites yet. Press “☆” at the top right of a card to add one.', emptyHist: 'No history yet. Anything you tick is kept here.',
       vAll: 'All', vFav: '☆ Favourites', vHist: 'History', all: 'All',
       favH: 'Favourites', favSub: 'Items you starred', histH: 'History', histSub: 'Everything you have ever picked (newest first)', clearHist: 'Clear history',
       male: 'Male', female: 'Female', stop: 'Stop', noAudio: 'This audio is not included in this edition', line: 'Line', effect: 'Effect', pick: 'Pick', picked: 'Picked', unpick: 'Unpick', copy: 'Copy', favOn: 'Remove from favourites', favOff: 'Add to favourites', zoom: id => `View ${id} larger`,
@@ -115,13 +115,15 @@
   /* 新しい画面で増えた部品の文言 */
   Object.assign(TXT.ja, {
     creditH: '声のクレジット', creditLink: 'ElevenLabs でこの声を開く', creditNote: '音声はすべて ElevenLabs の Eleven v4 で生成した合成音声です。声そのものの利用条件は、ElevenLabs の各ボイスのページに従います。',
-    sendAI: 'AIに渡す', sent: 'AIに渡しました。AIとの会話に戻ってください', sentShort: '渡しました', agentNote: 'AIから開かれています。使いたい見本の「選ぶ」を押して、右下の「AIに渡す」を押してください。',
+    sendAI: 'AIに渡す', sent: 'AIに渡しました。AIとの会話に戻ってください', sentShort: '渡しました', agentNote: 'AIから開かれています。使いたい見本の右上にチェックを入れて、右下の「AIに渡す」を押してください。',
+    detail: '説明とボタンを開く／閉じる', detailAll: '説明を表示', detailNone: '説明を隠す',
     toc: '目次', tray: '選んだもの', remove: 'を外す', themeToNight: '夜の色にする', themeToPaper: '紙の色にする', night: '夜', paper: '紙', keys: 'キー操作', favWord: 'お気に入り',
     keyList: [['/', '検索欄へ'], ['1  2  3', '巻（タブ）を切り替える'], ['Space', '見本を一時停止／再生'], ['←  →', '拡大表示で前へ／次へ'], ['P', '拡大表示で「選ぶ」'], ['F', '拡大表示でお気に入り'], ['C', '拡大表示でコピー'], ['Esc', '閉じる']],
   });
   Object.assign(TXT.en, {
     creditH: 'VOICE CREDITS', creditLink: 'Open this voice on ElevenLabs', creditNote: 'All audio is synthetic speech generated with ElevenLabs Eleven v4. Use of the voices themselves is governed by each voice’s page on ElevenLabs.',
-    sendAI: 'Send to AI', sent: 'Sent to the AI. Go back to your AI chat', sentShort: 'Sent', agentNote: 'Opened by your AI. Press “Pick” on the samples you want, then “Send to AI” at the bottom right.',
+    sendAI: 'Send to AI', sent: 'Sent to the AI. Go back to your AI chat', sentShort: 'Sent', agentNote: 'Opened by your AI. Tick the samples you want, then press “Send to AI” at the bottom right.',
+    detail: 'Show / hide details and buttons', detailAll: 'Show details', detailNone: 'Hide details',
     toc: 'CONTENTS', tray: 'Picked', remove: ': remove', themeToNight: 'Switch to night colours', themeToPaper: 'Switch to paper colours', night: 'Night', paper: 'Paper', keys: 'Keys', favWord: 'Favourite',
     keyList: [['/', 'Focus search'], ['1  2  3', 'Switch volume (tab)'], ['Space', 'Pause / play samples'], ['←  →', 'Previous / next in the large view'], ['P', 'Pick, in the large view'], ['F', 'Favourite, in the large view'], ['C', 'Copy, in the large view'], ['Esc', 'Close']],
   });
@@ -188,24 +190,26 @@
   function mkCard(p, primary) {
     const el = document.createElement('article');
     el.className = 'plate'; el.dataset.id = p.id; if (primary) el.id = p.id;
-    el.innerHTML = `<div class="cap"><span class="id">${p.id}</span><button class="fav">${ic('star')}</button></div><button class="stage"><canvas></canvas></button><h3 class="name"></h3><div class="sub"></div><p class="desc"></p>${p.book === 'vo' ? '<div class="voice"><button class="vp" data-v="m"></button><button class="vp" data-v="f"></button></div>' : ''}<div class="acts"><button class="pick"></button><button class="cp"></button></div>`;
+    el.innerHTML = `<div class="cap"><span class="id">${p.id}</span><span class="capr"><button class="cp">${ic('copy')}</button><button class="pick"><i class="box">${ic('check')}</i></button><button class="fav">${ic('star')}</button></span></div><button class="stage"><canvas></canvas></button><div class="nrow"><h3 class="name"></h3><button class="mt" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></div>${p.book === 'vo' ? '<div class="voice"><button class="vp" data-v="m"></button><button class="vp" data-v="f"></button></div>' : ''}<div class="more"><div class="sub"></div><p class="desc"></p><div class="acts"><button class="pickb"></button><button class="cpb"></button></div></div>`;
     const c = { p, el, cv: el.querySelector('canvas'), ctx: null };
     c.cv.width = c.cv.height = 0;
     inst.set(el, c);
     io.observe(el);
     return c;
   }
-  const pickHtml = (on, L) => `<i class="box">${ic('check')}</i><span>${on ? L.picked : L.pick}</span>`;
   /* 1枚の版の文字と、選択中・お気に入りの表示を今の状態に合わせる */
   function paint(c) {
     const L = t(), p = c.p, e = c.el, on = picks.includes(p.id), f = favs.includes(p.id), fb = e.querySelector('.fav'), pk = e.querySelector('.pick');
     e.classList.toggle('sel', on);
-    pk.innerHTML = pickHtml(on, L); pk.setAttribute('aria-pressed', on);
+    pk.title = on ? L.unpick : L.pick; pk.setAttribute('aria-label', `${p.id} ${pk.title}`); pk.setAttribute('aria-pressed', on);
     fb.classList.toggle('on', f); fb.title = f ? L.favOn : L.favOff; fb.setAttribute('aria-label', `${p.id} ${fb.title}`); fb.setAttribute('aria-pressed', f);
     e.querySelector('.name').textContent = nameOf(p);
     e.querySelector('.sub').textContent = LANG === 'ja' ? p.name : '';
     e.querySelector('.desc').textContent = descOf(p) + (p.src ? '（' + Lx(VO.src[p.src][0], VO.src[p.src][1]) + '）' : '');
-    e.querySelector('.cp').innerHTML = ic('copy') + `<span>${L.copy}</span>`;
+    const pb = e.querySelector('.pickb'); pb.innerHTML = `<i class="box">${ic('check')}</i><span>${on ? L.picked : L.pick}</span>`; pb.setAttribute('aria-pressed', on);
+    e.querySelector('.cpb').innerHTML = ic('copy') + `<span>${L.copy}</span>`;
+    const mt = e.querySelector('.mt'); mt.title = L.detail; mt.setAttribute('aria-label', `${p.id} ${L.detail}`);
+    const cb = e.querySelector('.cp'); cb.title = L.copy; cb.setAttribute('aria-label', `${p.id} ${L.copy}`);
     e.querySelector('.stage').setAttribute('aria-label', L.zoom(p.id));
     e.querySelectorAll('.vp').forEach(b => paintPlay(b, p));
   }
@@ -461,7 +465,7 @@
     const VV = (window.VO_AUDIO && VO_AUDIO.meta && VO_AUDIO.meta.voices) || null, vc = $('#voCredit');
     vc.hidden = book !== 'vo' || !VV;
     if (VV) vc.innerHTML = `<h2>${L.creditH}</h2><dl>` + ['m', 'f'].filter(v => VV[v] && Object.keys(VO_AUDIO[v] || {}).length).map(v => `<dt>${v === 'm' ? L.male : L.female}</dt><dd><b>${VV[v].name}</b><span>ElevenLabs</span><span>Voice ID <code>${VV[v].id}</code></span><a href="https://elevenlabs.io/app/voice-library?voiceId=${VV[v].id}" target="_blank" rel="noopener">${L.creditLink}</a></dd>`).join('') + `</dl><p>${L.creditNote}</p>`;
-    paintPause(); $('#copyIndex').innerHTML = ic('copy') + `<span>${L.copyIndex}</span>`; $('#clear').textContent = L.clear; $('#copyPicks').innerHTML = ic('copy') + `<span>${L.copyPicks}</span>`; $('#copyPicks').classList.toggle('pri', !AGENT);
+    paintDetail(); paintPause(); $('#copyIndex').innerHTML = ic('copy') + `<span>${L.copyIndex}</span>`; $('#clear').textContent = L.clear; $('#copyPicks').innerHTML = ic('copy') + `<span>${L.copyPicks}</span>`; $('#copyPicks').classList.toggle('pri', !AGENT);
     $('#sendAI').hidden = !AGENT; if (!$('#sendAI').disabled) $('#sendAI').innerHTML = ic('right') + `<span>${L.sendAI}</span>`; $('#agentNote').hidden = !AGENT; $('#agentNote').textContent = L.agentNote;
     $('#mPrev').innerHTML = ic('left'); $('#mPrev').setAttribute('aria-label', L.prev); $('#mPrev').title = L.prev;
     $('#mNext').innerHTML = ic('right'); $('#mNext').setAttribute('aria-label', L.next); $('#mNext').title = L.next;
@@ -481,6 +485,9 @@
     const tick = now => { const k = Math.min(1, (now - t0) / 620), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(from + (n - from) * e); if (k < 1 && el.dataset.n === String(n)) requestAnimationFrame(tick); };
     requestAnimationFrame(tick);
   }
+  /* 説明とボタンは、ふだんは隠す。帯のボタンで全カードまとめて開閉、カードの矢印で1枚ずつ開閉 */
+  let detail = false; try { detail = localStorage.getItem('ae-detail') === '1'; } catch (e) {}
+  function paintDetail() { const L = t(); document.documentElement.dataset.detail = detail ? '1' : '0'; $('#detail').textContent = detail ? L.detailNone : L.detailAll; $('#detail').setAttribute('aria-pressed', detail); }
   function paintPause() { const L = t(); $('#pause').innerHTML = ic(paused ? 'play' : 'pause', paused ? 'fill' : '') + `<span>${paused ? L.play : L.pause}</span>`; $('#pause').setAttribute('aria-pressed', paused); }
   function togglePause() { paused = !paused; paintPause(); }
   let wiping = 0;
@@ -507,7 +514,9 @@
     const p = byId[card.dataset.id];
     if (e.target.closest('.vp')) playVoice(p, e.target.closest('.vp').dataset.v);
     else if (e.target.closest('.fav')) toggleFav(p.id);
-    else if (e.target.closest('.pick')) toggle(p.id);
+    else if (e.target.closest('.mt')) { const o = card.classList.toggle('open'); e.target.closest('.mt').setAttribute('aria-expanded', o); }
+    else if (e.target.closest('.pick, .pickb')) toggle(p.id);
+    else if (e.target.closest('.cpb')) copy(promptOf(p) + '\n', t().copied(p.id), e.target.closest('.cpb'));
     else if (e.target.closest('.cp')) copy(promptOf(p) + '\n', t().copied(p.id), e.target.closest('.cp'));
     else if (e.target.closest('.stage')) openModal(p, e.target.closest('.stage'));
   });
@@ -520,6 +529,7 @@
   $('#sample').addEventListener('input', e => { const el = e.target, v = el.value.trim(); el.style.height = 'auto'; el.style.height = (el.scrollHeight + el.offsetHeight - el.clientHeight + 2) + 'px'; custom = v ? v.split(/\r?\n/).map(s => s.trim()).filter(Boolean).slice(0, 4) : null; if (custom && !custom.length) custom = null; frames.forEach(f => { f.drawn = false; }); if (paused) active.forEach(draw); });
   $('#speed').addEventListener('input', e => { speed = +e.target.value; $('#speedV').textContent = speed + 'x'; });
   $('#pause').addEventListener('click', togglePause);
+  $('#detail').addEventListener('click', () => { detail = !detail; store('ae-detail', detail ? '1' : '0'); $$('.plate.open').forEach(c => c.classList.remove('open')); paintDetail(); });
   $('#copyIndex').addEventListener('click', e => copy(indexText(), t().copiedIdx(PRESETS.filter(inBook).length), e.currentTarget));
   $('#copyPicks').addEventListener('click', e => copy(picksText(), t().copiedN(picks.length), e.currentTarget));
   async function sendAI() {
