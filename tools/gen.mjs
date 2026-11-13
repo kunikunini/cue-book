@@ -38,8 +38,9 @@ const after = await used();
 const real = before != null && after != null ? after - before : null;
 if (real != null) log.account = (log.account || 0) + real;
 fs.writeFileSync(logF, JSON.stringify(log, null, 1));
-// 画面が読む一覧を書き出す。男性の声は配布に入れるので audio/manifest.js、女性の声は手元だけなので audio/f/manifest.js に分ける
-const stamp = Date.now(), has = v => { const d = path.join(root, 'audio', v), o = {}; if (fs.existsSync(d)) for (const f of fs.readdirSync(d)) if (f.endsWith('.mp3')) o[f.replace('.mp3', '')] = 1; return o; };
-fs.writeFileSync(path.join(root, 'audio', 'manifest.js'), 'window.VO_AUDIO = ' + JSON.stringify({ m: has('m'), f: {}, meta: { model: MODEL, stamp } }) + ';\n');
-if (fs.existsSync(path.join(root, 'audio', 'f'))) fs.writeFileSync(path.join(root, 'audio', 'f', 'manifest.js'), 'window.VO_AUDIO.f = ' + JSON.stringify(has('f')) + ';\n');
+// 画面が読む一覧を書き出す。クレジット用に、声の正式名とIDも入れる
+const has = v => { const d = path.join(root, 'audio', v), o = {}; if (fs.existsSync(d)) for (const f of fs.readdirSync(d)) if (f.endsWith('.mp3')) o[f.replace('.mp3', '')] = 1; return o; };
+const voices = {};
+for (const v of ['m', 'f']) { let name = ''; try { name = (await (await api('/v1/voices/' + VOICE[v])).json()).name || ''; } catch (e) {} voices[v] = { name, id: VOICE[v] }; }
+fs.writeFileSync(path.join(root, 'audio', 'manifest.js'), 'window.VO_AUDIO = ' + JSON.stringify({ m: has('m'), f: has('f'), meta: { model: MODEL, stamp: Date.now(), voices } }) + ';\n');
 console.log('できた', done, '本｜失敗', fail, '｜途中で止めた', stop, '｜台本の文字数での累計', log.spent, '｜アカウントの実消費（今回）', real == null ? '確認できない（この鍵には残り枠を読む権限がない）' : real, '｜応答に書かれた消費の合計', Object.values(log.items).reduce((a, x) => a + (+x.cost || 0), 0));

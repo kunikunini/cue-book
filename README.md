@@ -61,8 +61,19 @@ node skills/motion-specimen/scripts/specimen.mjs get AE-058 MG-011
 - **AE の巻の動きは近似です。** 名前とカテゴリは Adobe 公式ヘルプの一覧（2026年9月更新）どおりですが、動きの見本と仕様は After Effects 本体のプリセットファイルから取り出したものではなく、ブラウザ上で再現したものです。After Effects で使うときは、同じ名前のプリセットをそのまま当てるのがいちばん正確です。日本語の呼び名は意味が分かるように付けた訳で、公式の訳ではありません。
 - **MG の巻の見本と解説は、この見本帳のために書き起こしたものです。** 秒数や割合は目安です。
 - **VT の巻のタグは、必ず効くとは限りません。** タグの表記は各出どころのもの、例文と解説はこの見本帳のために書いたものです。Suno のタグは歌を作るためのもので、読み上げで効くとは限りません。
-- **声の見本は、男性の声だけ入っています。** 作者本人の声をもとにした合成音声（ElevenLabs の Eleven v4 で生成）です。女性の声は配布に含めていないので、「女性」の再生ボタンは押せません。
+- **声の見本は合成音声です。** 下の「声のクレジット」の2つの声を使い、ElevenLabs の Eleven v4 で生成しました。
 - このリポジトリは個人の見本帳で、Adobe・ElevenLabs・Suno とは関係ありません。After Effects は Adobe の商標です。
+
+## 声のクレジット
+
+オーディオタグの巻の音声（`audio/`）は、次の ElevenLabs のボイスで生成した合成音声です。
+
+| | ElevenLabs での名前 | Voice ID | リンク |
+|---|---|---|---|
+| 男性の声 | Kuni - Calm Clear Japanese Explainer | `woV9Cn1YbfxXHTELnOat` | [ElevenLabs で開く](https://elevenlabs.io/app/voice-library?voiceId=woV9Cn1YbfxXHTELnOat) |
+| 女性の声 | Romaco - Cheerful, Clear and Full | `KgETZ36CCLD1Cob4xpkv` | [ElevenLabs で開く](https://elevenlabs.io/app/voice-library?voiceId=KgETZ36CCLD1Cob4xpkv) |
+
+リンクを開くには ElevenLabs へのログインが必要です。音声ファイルは見本として聴くためのもので、声そのものの利用条件は ElevenLabs の各ボイスのページに従います。
 
 ## 中身を直したとき
 
@@ -80,4 +91,4 @@ A specimen book for motion you can refer to by number: 322 built-in After Effect
 
 ## ライセンス
 
-[MIT](LICENSE)。著作権表示を残せば、商用も含めて自由に使えます。
+[MIT](LICENSE)。著作権表示を残せば、商用も含めて自由に使えます。対象はプログラム・見本・解説文です。`audio/` の音声ファイルは対象外で、上の「声のクレジット」のとおりです。

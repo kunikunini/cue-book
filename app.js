@@ -114,11 +114,13 @@
 
   /* 新しい画面で増えた部品の文言 */
   Object.assign(TXT.ja, {
+    creditH: '声のクレジット', creditLink: 'ElevenLabs でこの声を開く', creditNote: '音声はすべて ElevenLabs の Eleven v4 で生成した合成音声です。声そのものの利用条件は、ElevenLabs の各ボイスのページに従います。',
     sendAI: 'AIに渡す', sent: 'AIに渡しました。AIとの会話に戻ってください', sentShort: '渡しました', agentNote: 'AIから開かれています。使いたい見本の「選ぶ」を押して、右下の「AIに渡す」を押してください。',
     toc: '目次', tray: '選んだもの', remove: 'を外す', themeToNight: '夜の色にする', themeToPaper: '紙の色にする', night: '夜', paper: '紙', keys: 'キー操作', favWord: 'お気に入り',
     keyList: [['/', '検索欄へ'], ['1  2  3', '巻（タブ）を切り替える'], ['Space', '見本を一時停止／再生'], ['←  →', '拡大表示で前へ／次へ'], ['P', '拡大表示で「選ぶ」'], ['F', '拡大表示でお気に入り'], ['C', '拡大表示でコピー'], ['Esc', '閉じる']],
   });
   Object.assign(TXT.en, {
+    creditH: 'VOICE CREDITS', creditLink: 'Open this voice on ElevenLabs', creditNote: 'All audio is synthetic speech generated with ElevenLabs Eleven v4. Use of the voices themselves is governed by each voice’s page on ElevenLabs.',
     sendAI: 'Send to AI', sent: 'Sent to the AI. Go back to your AI chat', sentShort: 'Sent', agentNote: 'Opened by your AI. Press “Pick” on the samples you want, then “Send to AI” at the bottom right.',
     toc: 'CONTENTS', tray: 'Picked', remove: ': remove', themeToNight: 'Switch to night colours', themeToPaper: 'Switch to paper colours', night: 'Night', paper: 'Paper', keys: 'Keys', favWord: 'Favourite',
     keyList: [['/', 'Focus search'], ['1  2  3', 'Switch volume (tab)'], ['Space', 'Pause / play samples'], ['←  →', 'Previous / next in the large view'], ['P', 'Pick, in the large view'], ['F', 'Favourite, in the large view'], ['C', 'Copy, in the large view'], ['Esc', 'Close']],
@@ -228,8 +230,6 @@
     repaintPlay();
   }
   au.addEventListener('ended', () => { VO.playing = null; repaintPlay(); });
-  /* 配布版に入っていない声（audio/f/）は、手元で開いたときだけ読み足す */
-  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) { const sc = document.createElement('script'); sc.src = 'audio/f/manifest.js?v=' + ((window.VO_AUDIO && VO_AUDIO.meta && VO_AUDIO.meta.stamp) || 0); sc.onload = () => repaintPlay(); sc.onerror = () => {}; document.head.appendChild(sc); }
 
   /* 上の棚の写しを作り直す。本体はカテゴリの章から動かさない（押した版が指の下から逃げないように） */
   function rebuildMirrors() {
@@ -457,6 +457,10 @@
     $('#q').placeholder = L.q; $('#q').setAttribute('aria-label', L.q); $('#memo').placeholder = L.memo; $('#memo').setAttribute('aria-label', L.memo);
     $('#tSpeed').textContent = L.speed; $('#speed').setAttribute('aria-label', L.speed); $('#sample').placeholder = L.sample; $('#tSampleL').textContent = L.sampleL; $('#tSampleH').textContent = L.sampleH;
     $('.samplebox').hidden = book !== 'ae';
+    /* 声のクレジット：ElevenLabs 上の名前と Voice ID、声のページへのリンク */
+    const VV = (window.VO_AUDIO && VO_AUDIO.meta && VO_AUDIO.meta.voices) || null, vc = $('#voCredit');
+    vc.hidden = book !== 'vo' || !VV;
+    if (VV) vc.innerHTML = `<h2>${L.creditH}</h2><dl>` + ['m', 'f'].filter(v => VV[v] && Object.keys(VO_AUDIO[v] || {}).length).map(v => `<dt>${v === 'm' ? L.male : L.female}</dt><dd><b>${VV[v].name}</b><span>ElevenLabs</span><span>Voice ID <code>${VV[v].id}</code></span><a href="https://elevenlabs.io/app/voice-library?voiceId=${VV[v].id}" target="_blank" rel="noopener">${L.creditLink}</a></dd>`).join('') + `</dl><p>${L.creditNote}</p>`;
     paintPause(); $('#copyIndex').innerHTML = ic('copy') + `<span>${L.copyIndex}</span>`; $('#clear').textContent = L.clear; $('#copyPicks').innerHTML = ic('copy') + `<span>${L.copyPicks}</span>`; $('#copyPicks').classList.toggle('pri', !AGENT);
     $('#sendAI').hidden = !AGENT; if (!$('#sendAI').disabled) $('#sendAI').innerHTML = ic('right') + `<span>${L.sendAI}</span>`; $('#agentNote').hidden = !AGENT; $('#agentNote').textContent = L.agentNote;
     $('#mPrev').innerHTML = ic('left'); $('#mPrev').setAttribute('aria-label', L.prev); $('#mPrev').title = L.prev;
