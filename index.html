@@ -113,6 +113,19 @@ a{color:inherit}
 .kicker{font:500 11px/1.5 var(--mono);letter-spacing:.14em;color:var(--ink2);max-width:70%}
 .open h1{position:relative;margin:14px 0 0;font:600 clamp(28px,4.3vw,62px)/1.2 var(--serif);letter-spacing:.02em;max-width:17em;text-wrap:balance}
 .open h1 em{font-style:normal;color:var(--spot)}
+/* 巻ごとのヘッダー図版（art.js が SVG を組む） */
+.art{position:relative;margin-top:24px;border-top:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:color-mix(in srgb,var(--card) 60%,transparent)}
+.art svg{display:none;width:100%;height:auto;aspect-ratio:1200/280}
+html[data-book=ae] .art svg[data-b=ae],html[data-book=mg] .art svg[data-b=mg],html[data-book=vo] .art svg[data-b=vo],html[data-book=ft] .art svg[data-b=ft]{display:block}
+.art .i{stroke:var(--ink);fill:none}.art .s{stroke:var(--spot);fill:none}.art .r{stroke:var(--rule2);fill:none}
+.art .fi{fill:var(--ink)}.art .fi2{fill:var(--ink2)}.art .fs{fill:var(--spot)}.art .fp{fill:var(--paper)}.art .fr{fill:var(--rule2)}
+.art .fp.i{fill:var(--paper);stroke:var(--ink)}
+.art text{stroke-width:0}.art text.i,.art text.s{fill:none;stroke-width:1.5px}
+.art .lab{font:500 8.5px var(--mono);letter-spacing:.14em;fill:var(--ink3)}.art .lab.sp{fill:var(--spot)}.art .lab.fp{fill:var(--paper)}
+.art .mid{text-anchor:middle}.art .end{text-anchor:end}
+.art .big{font:400 150px var(--num);text-anchor:middle}.art .huge{font:400 200px var(--num)}
+.art .tag{font:600 15px var(--mono)}.art .aa{font-size:34px;text-anchor:middle}
+@media (max-width:760px){.art{margin-top:18px}.art svg{aspect-ratio:auto;height:150px}}
 
 .bar{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:10px 0;border-top:2px solid var(--ink);border-bottom:1px solid var(--rule2);background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px)}
 .bar::after{content:"";position:absolute;left:0;right:0;bottom:-1.5px;height:2px;background:var(--spot);transform-origin:left;transform:scaleX(var(--prog,0))}
@@ -421,6 +434,7 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
       <div class="open-no" id="volNo" aria-hidden="true">01</div>
       <div class="kicker rise" id="tKicker"></div>
       <h1 class="rise d1" id="tH1"></h1>
+      <div class="art rise d2" id="art" aria-hidden="true"></div>
     </header>
 
     <div class="agent" id="agentNote" hidden></div>
@@ -504,16 +518,17 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 <div class="wipe" id="wipe" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="engine.js?v=20261113110738"></script>
-<script src="presets.js?v=20261113110738"></script>
-<script src="i18n.js?v=20261113110738"></script>
-<script src="mg1.js?v=20261113110738"></script>
-<script src="mg2.js?v=20261113110738"></script>
-<script src="vo.js?v=20261113110738"></script>
-<script src="audio/manifest.js?v=20261113110738"></script>
-<script src="fonts.js?v=20261113110738"></script>
-<script src="ft.js?v=20261113110738"></script>
-<script src="spec.js?v=20261113110738"></script>
-<script src="app.js?v=20261113110738"></script>
+<script src="art.js?v=20261113124718"></script>
+<script src="engine.js?v=20261113124718"></script>
+<script src="presets.js?v=20261113124718"></script>
+<script src="i18n.js?v=20261113124718"></script>
+<script src="mg1.js?v=20261113124718"></script>
+<script src="mg2.js?v=20261113124718"></script>
+<script src="vo.js?v=20261113124718"></script>
+<script src="audio/manifest.js?v=20261113124718"></script>
+<script src="fonts.js?v=20261113124718"></script>
+<script src="ft.js?v=20261113124718"></script>
+<script src="spec.js?v=20261113124718"></script>
+<script src="app.js?v=20261113124718"></script>
 </body>
 </html>
