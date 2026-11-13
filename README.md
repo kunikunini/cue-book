@@ -1,6 +1,6 @@
-# 動きの見本帳 / Motion Specimen Book
+# Cue Book — 制作用の見本帳
 
-言葉にしにくい「動き」を、番号で受け渡すための見本帳です。動く見本を目で見て選び、番号でAIに頼めます。
+言葉にしにくい「動き・声・書体」を、番号で受け渡すための見本帳です（旧名：動きの見本帳 / Motion Specimen Book）。動く見本を目で見て選び、番号でAIに頼めます。
 
 | 巻 | 番号 | 中身 |
 |---|---|---|
@@ -11,7 +11,7 @@
 
 ## 見本帳を開く
 
-公開ページ：<https://kunikunini.github.io/motion-specimen-book/>
+公開ページ：<https://kunikunini.github.io/cue-book/>
 
 手元で開く場合は、このリポジトリを取得して、フォルダの中で次を実行します。
 
@@ -28,15 +28,15 @@ python3 -m http.server 4370
 
 ## AIエージェントのスキルとして使う
 
-このリポジトリの `skills/motion-specimen/` が、Claude Code などのエージェント用のスキルです。エージェントが、番号から仕様を自分で取り出せるようになります。
+このリポジトリの `skills/cue-book/` が、Claude Code などのエージェント用のスキルです。エージェントが、番号から仕様を自分で取り出せるようになります。
 
 入れ方（どちらか）：
 
 ```bash
-npx skills add kunikunini/motion-specimen-book
+npx skills add kunikunini/cue-book
 ```
 
-または `skills/motion-specimen` フォルダを、エージェントのスキル置き場（Claude Code なら `~/.claude/skills/`）へそのままコピーします。必要なのは Node.js 18 以上だけです。
+または `skills/cue-book` フォルダを、エージェントのスキル置き場（Claude Code なら `~/.claude/skills/`）へそのままコピーします。必要なのは Node.js 18 以上だけです。
 
 頼み方の例：
 
@@ -48,14 +48,14 @@ npx skills add kunikunini/motion-specimen-book
 スクリプトを直接使うこともできます。
 
 ```bash
-node skills/motion-specimen/scripts/specimen.mjs search 文字 弾む
+node skills/cue-book/scripts/specimen.mjs search 文字 弾む
 ```
 
 ```bash
-node skills/motion-specimen/scripts/specimen.mjs get AE-058 MG-011
+node skills/cue-book/scripts/specimen.mjs get AE-058 MG-011
 ```
 
-コマンドの一覧は [skills/motion-specimen/SKILL.md](skills/motion-specimen/SKILL.md) にあります。
+コマンドの一覧は [skills/cue-book/SKILL.md](skills/cue-book/SKILL.md) にあります。
 
 ## 知っておいてほしいこと
 
@@ -89,7 +89,7 @@ node tools/build-skill.mjs
 
 ## English
 
-A specimen book for motion you can refer to by number: 322 built-in After Effects text animation presets (`AE-`), 137 motion-graphics moves with live samples and notes (`MG-`), 130 audio tags for speech synthesis (`VT-`), and 2,061 free fonts from Google Fonts and Fontshare (`FT-`, loaded from their distributors, not bundled). Open the gallery, pick what you want, and copy a block of text (number, name, spec) to paste to an AI. The `skills/motion-specimen` folder is an agent skill: `get`, `search`, `list`, `table` and `pick` let an AI agent pull the specs by number. The AE volume reproduces the presets approximately in the browser; it is not extracted from After Effects. Not affiliated with Adobe, ElevenLabs, Suno, Google or Fontshare.
+Cue Book is a specimen book for content production, where everything can be referred to by number: 322 built-in After Effects text animation presets (`AE-`), 137 motion-graphics moves with live samples and notes (`MG-`), 130 audio tags for speech synthesis (`VT-`), and 2,061 free fonts from Google Fonts and Fontshare (`FT-`, loaded from their distributors, not bundled). Open the gallery, pick what you want, and copy a block of text (number, name, spec) to paste to an AI. The `skills/cue-book` folder is an agent skill: `get`, `search`, `list`, `table` and `pick` let an AI agent pull the specs by number. The AE volume reproduces the presets approximately in the browser; it is not extracted from After Effects. Not affiliated with Adobe, ElevenLabs, Suno, Google or Fontshare.
 
 ## ライセンス
 

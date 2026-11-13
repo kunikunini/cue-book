@@ -28,7 +28,7 @@
   /* ---- 画面の文言 ---- */
   const TXT = {
     ja: {
-      brand: '見本帳', tag: '番号で伝える、動き',
+      brand: '見本帳', tag: '動き・声・書体を、番号で頼む',
       st1: '見本', st2: 'カテゴリ', st3: '通し番号', how: '使い方',
       howList: ['動きを見て、カード右上のチェックを入れる（いくつでも）', '下に出るバーで、必要ならメモを書く（例：冒頭のタイトルに）', '「選んだものをコピー」を押して、AIとの会話に貼る', 'よく使うものは「☆」でお気に入りに。一度選んだものは「履歴」に残る'],
       q: '名前・番号・動きの言葉で探す', sample: 'ここに文字を入力', sampleL: '見本の文字を、ここに入力', sampleH: '入れた文字で、下の見本がぜんぶ動きます。Enterで改行（4行まで）。空にすると元の見本に戻ります。',
@@ -76,7 +76,7 @@
       },
     },
     en: {
-      brand: 'Sample Book', tag: 'Ask for motion by number',
+      brand: 'Sample Book', tag: 'Motion, voice and type, by number',
       st1: 'samples', st2: 'categories', st3: 'serial numbers', how: 'How to use',
       howList: ['Watch the motion and tick the box at the top right of a card (as many as you like)', 'Add a note in the bar at the bottom if needed (e.g. “for the opening title”)', 'Press “Copy picks” and paste into your AI chat', 'Press “☆” to keep favourites. Anything you have ever picked stays in “History”'],
       q: 'Search by name, number or motion', sample: 'Type your text here', sampleL: 'Type the sample text here', sampleH: 'Every sample below animates with what you type. Enter for a new line (up to 4). Leave it empty to restore the default.',
@@ -150,7 +150,7 @@
   const picksText = () => {
     const memo = $('#memo').value.trim();
     return [
-      Lx(`動きの見本帳から、次の${picks.length}個を選びました。番号と正式名で指定します（AE- は After Effects 標準のテキストアニメーションプリセット、MG- はモーショングラフィックスの動き、VT- は音声合成のオーディオタグ、FT- はフォント）。それぞれの動きを下の仕様どおりに再現してください。`, `I picked these ${picks.length} from a motion sample book. They are identified by number and name (AE- = built-in After Effects text animation presets, MG- = motion-graphics moves, VT- = audio tags for speech synthesis, FT- = fonts). Reproduce each motion according to the spec below.`),
+      Lx(`Cue Book（制作用の見本帳）から、次の${picks.length}個を選びました。番号と正式名で指定します（AE- は After Effects 標準のテキストアニメーションプリセット、MG- はモーショングラフィックスの動き、VT- は音声合成のオーディオタグ、FT- はフォント）。それぞれの動きを下の仕様どおりに再現してください。`, `I picked these ${picks.length} from Cue Book, a specimen book for content production. They are identified by number and name (AE- = built-in After Effects text animation presets, MG- = motion-graphics moves, VT- = audio tags for speech synthesis, FT- = fonts). Reproduce each motion according to the spec below.`),
       '',
       ...picks.map(id => promptOf(byId[id]) + '\n'),
       memo ? Lx('メモ: ', 'Note: ') + memo : '',
@@ -491,7 +491,7 @@
   function applyLang() {
     const L = t(), B = L.books[book], all = PRESETS.filter(inBook);
     document.documentElement.lang = LANG; document.documentElement.dataset.book = book;
-    document.title = LANG === 'ja' ? '動きの見本帳' : 'Motion Specimen Book';
+    document.title = LANG === 'ja' ? 'Cue Book — 制作用の見本帳' : 'Cue Book — a specimen book for makers';
     $('#tTag').textContent = L.tag; $('#tKicker').textContent = B.kicker; $('#tH1').innerHTML = B.h1; $('#tLead').textContent = B.lead; $('#volNo').textContent = VOLNO[book];
     roll($('#stN'), all.length); roll($('#stC'), bookCats().length); $('#stId').textContent = `${PREFIX[book]}-${pad(1, DIG[book])}–${pad(all.length, DIG[book])}`;
     $('#tSt1').textContent = L.st1; $('#tSt2').textContent = L.st2; $('#tSt3').textContent = L.st3; $('#tHow').textContent = L.how.toUpperCase();
@@ -508,7 +508,7 @@
     $('#mPrev').innerHTML = ic('left'); $('#mPrev').setAttribute('aria-label', L.prev); $('#mPrev').title = L.prev;
     $('#mNext').innerHTML = ic('right'); $('#mNext').setAttribute('aria-label', L.next); $('#mNext').title = L.next;
     $('#mClose').innerHTML = ic('x'); $('#mClose').setAttribute('aria-label', L.close); $('#mClose').title = L.close;
-    $('#colo').innerHTML = `<span>${LANG === 'ja' ? '動きの見本帳' : 'MOTION SPECIMEN BOOK'}</span>` + BOOKS.map(b => `<span data-b="${b}"><i></i>${VOLNO[b]} ${L.books[b].tab} — ${PRESETS.filter(p => p.book === b).length}</span>`).join('') + `<span>${Lx('全', 'Total ')}${PRESETS.length}${Lx('見本', ' samples')}</span>`;
+    $('#colo').innerHTML = `<span>${'CUE BOOK'}</span>` + BOOKS.map(b => `<span data-b="${b}"><i></i>${VOLNO[b]} ${L.books[b].tab} — ${PRESETS.filter(p => p.book === b).length}</span>`).join('') + `<span>${Lx('全', 'Total ')}${PRESETS.length}${Lx('見本', ' samples')}</span>`;
     $('#tTocH').textContent = L.toc; $('#tTray').textContent = L.tray; $('#tKeys').textContent = L.keys;
     $('#keys').innerHTML = `<h4>${L.keys}</h4><dl>${L.keyList.map(([k, d]) => `<dt>${k.split(/\s+/).map(x => `<kbd>${x}</kbd>`).join(' ')}</dt><dd>${d}</dd>`).join('')}</dl>`;
     $('#lang').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.l === LANG));

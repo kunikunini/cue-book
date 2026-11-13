@@ -1,4 +1,4 @@
-// 見本帳のデータ（presets.js など）から、スキルが読む一覧 skills/motion-specimen/data/catalog.json を作る。
+// 見本帳のデータ（presets.js など）から、スキルが読む一覧 skills/cue-book/data/catalog.json を作る。
 // 見本帳の「コピー」と同じ文章（promptOf）をそのまま書き出すので、見本帳を直したらこれを実行し直す。
 //   node tools/build-skill.mjs [--gallery https://<user>.github.io/<repo>/]
 import fs from 'node:fs';
@@ -6,7 +6,7 @@ import vm from 'node:vm';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const out = path.join(root, 'skills/motion-specimen/data/catalog.json');
+const out = path.join(root, 'skills/cue-book/data/catalog.json');
 const arg = k => { const i = process.argv.indexOf('--' + k); return i > 0 ? process.argv[i + 1] : null; };
 const prev = fs.existsSync(out) ? JSON.parse(fs.readFileSync(out, 'utf8')) : null;
 const ctx = { console };

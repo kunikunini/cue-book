@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 動きの見本帳（Motion Specimen Book）を、AIエージェントから引くための道具。
+// Cue Book（制作用の見本帳）を、AIエージェントから引くための道具。
 // 追加のインストールは不要（Node.js 18 以上だけ）。データは同じスキルの data/catalog.json に入っている。
 //
 //   node specimen.mjs list   [--book ae|mg|vo|ft]            分類と件数。--book を付けると、その巻の全項目を1行ずつ
@@ -93,7 +93,7 @@ function cmdTable() {
 function cmdInfo() {
   const site = findSite();
   console.log([
-    `Motion Specimen Book / 動きの見本帳  catalog v${CAT.version}  (${CAT.built})`,
+    `Cue Book / 制作用の見本帳  catalog v${CAT.version}  (${CAT.built})`,
     ...Object.values(CAT.books).map(B => `  ${B.prefix}-${'1'.padStart(B.digits || 3, '0')}〜${String(B.n).padStart(B.digits || 3, '0')}  ${J(B.ja, B.en)}`),
     J('見本帳の場所: ', 'Gallery: ') + (site ? site + J('（手元のファイル）', ' (local files)') : CAT.gallery || J('未設定（pick には --site か --url が必要）', 'not set (pick needs --site or --url)')),
   ].join('\n'));
