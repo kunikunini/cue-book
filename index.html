@@ -86,12 +86,14 @@ a{color:inherit}
 .vols button:hover{background:color-mix(in srgb,var(--c) 7%,transparent)}
 .vols button.on{background:color-mix(in srgb,var(--c) 10%,transparent)}
 .vols button.on::before{transform:scaleY(1)}
-.vols .vn{font:400 30px/1 var(--num);color:var(--c);font-variant-numeric:lining-nums}
+.vols .vn{align-self:start;display:grid;place-items:center;width:38px;height:38px;border:1.5px solid var(--c);font:400 22px/1 var(--num);color:var(--c);font-variant-numeric:lining-nums;transition:background .2s var(--ease),color .2s}
+.vols button.on .vn{background:var(--c);color:var(--on-spot)}
 .vols .vt{grid-column:2/4;font:700 14px/1.35 var(--sans)}
 .vols .vc{grid-column:3;grid-row:2;align-self:start;margin-top:5px;font:500 10.5px/1 var(--mono);color:var(--ink2)}
 .vols .vs{grid-column:2;grid-row:2;font-size:11.5px;line-height:1.45;color:var(--ink2);margin-top:2px}
 .vols button.on .vt{color:var(--c)}
 
+.toc-h::before,.how h2::before,.kicker::before{content:"";display:inline-block;width:7px;height:7px;background:var(--spot);margin-right:8px}
 .toc-h{font:500 10px/1 var(--sans);letter-spacing:.24em;color:var(--ink2);margin-bottom:-12px}
 .toc{display:flex;flex-direction:column}
 .toc button{display:grid;grid-template-columns:26px 1fr auto;gap:6px;align-items:baseline;text-align:left;padding:5px 4px 5px 6px;font-size:13px;line-height:1.45;color:var(--ink2);border-left:1px solid var(--rule2);transition:color .15s,border-color .15s}
@@ -213,7 +215,7 @@ html[data-book=vo] .spd,html[data-book=vo] #pause,html[data-book=ft] .spd,html[d
 /* ---------- 章（カテゴリ）と見本の版（プレート） ---------- */
 section.cat{padding-top:52px;scroll-margin-top:84px}
 .cat-h{display:grid;grid-template-columns:auto auto 1fr auto;align-items:baseline;gap:14px;border-top:2px solid var(--ink);padding:12px 0 14px}
-.cat-no{font:400 34px/1 var(--num);color:var(--spot);min-width:1.4em;font-variant-numeric:lining-nums}
+.cat-no{align-self:center;display:grid;place-items:center;width:44px;height:44px;background:var(--spot);color:var(--on-spot);font:400 25px/1 var(--num);font-variant-numeric:lining-nums}
 .cat-h h2{margin:0;font:600 24px/1.3 var(--serif);letter-spacing:.03em}
 .cat-sub{font-size:12.5px;color:var(--ink2);letter-spacing:.04em}
 .cat-h .rng{font:500 11.5px/1 var(--mono);color:var(--ink2)}
@@ -235,8 +237,9 @@ section.cat{padding-top:52px;scroll-margin-top:84px}
 .capr button:active{transform:scale(.86)}
 .capr .cp .ic{width:16px;height:16px}
 .capr .pick{background:none!important;border:0}
-.capr .pick .box{width:16px;height:16px;border:1.6px solid currentColor;border-radius:2px;transition:background .15s,border-color .15s}
-.capr .pick .box .ic{width:12px;height:12px;stroke-width:3.2;opacity:0}
+.capr .pick .box{width:17px;height:17px;border:1.6px solid currentColor;border-radius:4px;transition:background .15s,border-color .15s}
+.capr .pick .box .ic{width:12px;height:12px;stroke-width:3;opacity:.3;transition:opacity .15s}
+.capr .pick:hover .box .ic{opacity:.75}
 .plate.sel .capr .pick{color:var(--spot)}
 .plate.sel .capr .pick .box{background:var(--spot);border-color:var(--spot)}
 .plate.sel .capr .pick .box .ic{opacity:1;color:var(--on-spot)}
@@ -342,14 +345,20 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 .keys dt{white-space:nowrap}.keys dd{margin:0}
 
 /* 巻を替えるときの「刷り色」のワイプ */
-.wipe{position:fixed;inset:0;z-index:95;pointer-events:none;background:var(--c);clip-path:inset(0 100% 0 0);display:flex;align-items:center;justify-content:center;color:var(--on-spot);font:400 34vmin/1 var(--num)}
-.wipe.run{animation:wipe .56s var(--ease) both}
-@keyframes wipe{0%{clip-path:inset(0 100% 0 0)}42%,58%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 0 100%)}}
+.wipe{--s:min(42vmin,260px);position:fixed;inset:0;z-index:95;pointer-events:none;background:var(--paper);opacity:0;display:flex;align-items:center;justify-content:center;perspective:900px}
+.wipe.run{animation:veil .68s linear both}
+.wipe .cube{position:relative;width:var(--s);height:var(--s);transform-style:preserve-3d;transform:translateZ(calc(var(--s) / -2))}
+.wipe.run .cube{animation:roll .68s var(--ease) both}
+.wipe .cube i{position:absolute;inset:0;display:grid;place-items:center;background:var(--c);color:var(--on-spot);font:400 calc(var(--s) * .52)/1 var(--num);font-style:normal;backface-visibility:hidden;transform:translateZ(calc(var(--s) / 2))}
+.wipe .cube i+i{transform:rotateY(90deg) translateZ(calc(var(--s) / 2))}
+@keyframes veil{0%{opacity:0}22%,74%{opacity:1}100%{opacity:0}}
+@keyframes roll{0%,14%{transform:translateZ(calc(var(--s) / -2)) rotateY(0)}70%,100%{transform:translateZ(calc(var(--s) / -2)) rotateY(-90deg)}}
 
 /* 下の巻ナビ（狭い画面用） */
 .bnav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--paper);border-top:1.5px solid var(--ink);padding-bottom:env(safe-area-inset-bottom)}
 .bnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 4px 8px;min-height:52px;color:var(--ink2);border-top:3px solid transparent;margin-top:-1.5px}
-.bnav .vn{font:400 20px/1 var(--num);color:var(--c)}
+.bnav .vn{display:grid;place-items:center;width:25px;height:25px;border:1.3px solid var(--c);font:400 14px/1 var(--num);color:var(--c);margin-bottom:2px}
+.bnav button.on .vn{background:var(--c);color:var(--on-spot)}
 .bnav .vt{font-size:11px;font-weight:700}
 .bnav button.on{color:var(--ink);border-top-color:var(--c);background:color-mix(in srgb,var(--c) 9%,transparent)}
 
@@ -521,17 +530,17 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 <div class="wipe" id="wipe" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="art.js?v=20261113193032"></script>
-<script src="engine.js?v=20261113193032"></script>
-<script src="presets.js?v=20261113193032"></script>
-<script src="i18n.js?v=20261113193032"></script>
-<script src="mg1.js?v=20261113193032"></script>
-<script src="mg2.js?v=20261113193032"></script>
-<script src="vo.js?v=20261113193032"></script>
-<script src="audio/manifest.js?v=20261113193032"></script>
-<script src="fonts.js?v=20261113193032"></script>
-<script src="ft.js?v=20261113193032"></script>
-<script src="spec.js?v=20261113193032"></script>
-<script src="app.js?v=20261113193032"></script>
+<script src="art.js?v=20261113194525"></script>
+<script src="engine.js?v=20261113194525"></script>
+<script src="presets.js?v=20261113194525"></script>
+<script src="i18n.js?v=20261113194525"></script>
+<script src="mg1.js?v=20261113194525"></script>
+<script src="mg2.js?v=20261113194525"></script>
+<script src="vo.js?v=20261113194525"></script>
+<script src="audio/manifest.js?v=20261113194525"></script>
+<script src="fonts.js?v=20261113194525"></script>
+<script src="ft.js?v=20261113194525"></script>
+<script src="spec.js?v=20261113194525"></script>
+<script src="app.js?v=20261113194525"></script>
 </body>
 </html>

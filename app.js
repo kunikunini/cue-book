@@ -533,9 +533,9 @@
     if (!BOOKS.includes(b) || b === book) return;
     const go = () => { stopVoice(); book = b; view = 'all'; store('ae-book', b); applyLang(); const top = $('.open').offsetTop + $('.open').offsetHeight; if (window.scrollY > top) window.scrollTo(0, top); };
     if (calm.matches || document.hidden) return go();
-    /* 刷り色が画面を横切る間に、中身を入れ替える */
+    /* 立方体が転がって次の面（次の巻）が出る間に、中身を入れ替える */
     const w = $('#wipe'); clearTimeout(wiping);
-    w.dataset.b = b; w.textContent = VOLNO[b]; w.classList.remove('run'); void w.offsetWidth; w.classList.add('run');
+    w.dataset.b = b; w.innerHTML = `<div class="cube"><i data-b="${book}">${VOLNO[book]}</i><i data-b="${b}">${VOLNO[b]}</i></div>`; w.classList.remove('run'); void w.offsetWidth; w.classList.add('run');
     wiping = setTimeout(go, 250);
     setTimeout(() => { if (w.dataset.b === b) w.classList.remove('run'); }, 900); /* 画面が裏に回って動きが止まっても、色の幕が残らないように */
   }
@@ -543,11 +543,11 @@
   function jump(move, label) {
     if (calm.matches || document.hidden) return move();
     const w = $('#wipe'); clearTimeout(wiping);
-    w.dataset.b = book; w.textContent = label; w.classList.remove('run'); void w.offsetWidth; w.classList.add('run');
+    w.dataset.b = book; w.innerHTML = `<div class="cube"><i data-b="${book}"></i><i data-b="${book}">${label}</i></div>`; w.classList.remove('run'); void w.offsetWidth; w.classList.add('run');
     wiping = setTimeout(move, 250);
     setTimeout(() => w.classList.remove('run'), 900);
   }
-  $('#wipe').addEventListener('animationend', e => e.target.classList.remove('run'));
+  $('#wipe').addEventListener('animationend', e => { if (e.target === e.currentTarget) e.target.classList.remove('run'); });
   /* 狭い画面用：下のナビから開く目次（いちばん上へ戻る・各章へ飛ぶ） */
   function toggleMenu(on) { const m = $('#msheet'); m.hidden = on == null ? !m.hidden : !on; const b = $('#bnav [data-menu]'); if (b) b.setAttribute('aria-expanded', !m.hidden); }
   const toggleKeys = on => { const k = $('#keys'); k.hidden = on == null ? !k.hidden : !on; $('#keysBtn').setAttribute('aria-expanded', !k.hidden); };
