@@ -120,7 +120,7 @@ const VO = { playing: null, src: {
 
   C('Sound Effects', '効果音', [
   ['[thunder rumbling]', '雷のごろごろ', 'せりふの前に、遠い雷の音が入る。', 'Distant thunder before the line.', '[nervous] 近づいてきてる…。', 'v4'],
-  ['[footsteps]', '足音', '近づいてくる足音が入る。', 'Approaching footsteps.', '[pause] [whispers] 誰かが、階段を上がってくる…。', 'v4'],
+  ['[footsteps]', '足音', '近づいてくる足音が入る。', 'Approaching footsteps.', '[whispers] 誰かが、階段を上がってくる…。', 'v4'],
   ['[door creaking]', 'ドアのきしみ', 'ドアがぎいっと開く音が入る。', 'A door creaking open.', '[nervous] あのー…？誰か、いますか？', 'v4'],
   ['[clapping]', '拍手', '拍手の音が入る。', 'Clapping hands.', '[delighted] ありがとう、ありがとうございます！', 'v4'],
   ['[owl hooting]', 'フクロウの鳴き声', 'フクロウがほうほうと鳴く音が入る。', 'An owl hooting.', '[whispers] 今の、聞こえた？', 'v4'],
