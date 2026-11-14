@@ -19,8 +19,8 @@
 <meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#f4f1ea">
-<link rel="icon" type="image/svg+xml" href="icons/mark.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg?v=1794651940">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-cube-32.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -327,13 +327,15 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 .promo-kick::before{content:"";width:9px;height:9px;background:var(--gold)}
 .promo h2{margin:12px 40px 8px 0;font:600 24px/1.35 var(--serif);letter-spacing:.02em}
 .promo-lead{margin:0 0 16px;font-size:14px;font-weight:700;color:var(--ink);padding:8px 12px;border-left:3px solid var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.promo h2 .nw{white-space:nowrap}
+.promo-fh{font-size:14px;font-weight:700;color:var(--ink2);margin:0 0 10px}
 .promo-list{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:8px}
 .promo-list li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink)}
 .promo-list b{flex:0 0 24px;height:24px;display:grid;place-items:center;background:var(--ink);color:var(--paper);font:400 14px/1 var(--num)}
 .promo-form-h{font-size:12.5px;color:var(--ink2);margin:0 0 8px}
 #promoFrame{display:block;width:100%;height:150px;border:1px solid var(--rule2);background:#fff}
 .promo-alt{display:inline-block;margin-top:10px;font-size:12px;color:var(--ink2);text-decoration:underline}
-@media (max-width:760px){.rail-foot{display:grid!important;grid-template-columns:repeat(3,auto);justify-content:end;gap:6px}.promo-btn{grid-column:1/-1;font-size:11.5px;min-height:30px;padding:6px 8px}}
+@media (max-width:1023px){.rail-foot{display:grid!important;grid-template-columns:repeat(3,auto);justify-content:end;gap:6px}.promo-btn{grid-column:1/-1;font-size:11.5px;min-height:30px;padding:6px 8px}}
 
 /* ---------- 拡大表示 ---------- */
 .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(14,13,11,.62)}
@@ -578,6 +580,7 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
     <div class="promo-kick" id="promoKick"></div>
     <h2 id="promoH"></h2>
     <p class="promo-lead" id="promoLead"></p>
+    <div class="promo-fh" id="promoFh"></div>
     <ol class="promo-list" id="promoList"></ol>
     <div class="promo-form-h" id="promoForm"></div>
     <iframe id="promoFrame" title="Newsletter" loading="lazy" frameborder="0" scrolling="no"></iframe>
@@ -588,17 +591,17 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 <div class="wipe" id="wipe" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="art.js?v=1794651076"></script>
-<script src="engine.js?v=1794651076"></script>
-<script src="presets.js?v=1794651076"></script>
-<script src="i18n.js?v=1794651076"></script>
-<script src="mg1.js?v=1794651076"></script>
-<script src="mg2.js?v=1794651076"></script>
-<script src="vo.js?v=1794651076"></script>
-<script src="audio/manifest.js?v=1794651076"></script>
-<script src="fonts.js?v=1794651076"></script>
-<script src="ft.js?v=1794651076"></script>
-<script src="spec.js?v=1794651076"></script>
-<script src="app.js?v=1794651076"></script>
+<script src="art.js?v=1794651940"></script>
+<script src="engine.js?v=1794651940"></script>
+<script src="presets.js?v=1794651940"></script>
+<script src="i18n.js?v=1794651940"></script>
+<script src="mg1.js?v=1794651940"></script>
+<script src="mg2.js?v=1794651940"></script>
+<script src="vo.js?v=1794651940"></script>
+<script src="audio/manifest.js?v=1794651940"></script>
+<script src="fonts.js?v=1794651940"></script>
+<script src="ft.js?v=1794651940"></script>
+<script src="spec.js?v=1794651940"></script>
+<script src="app.js?v=1794651940"></script>
 </body>
 </html>

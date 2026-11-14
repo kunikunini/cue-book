@@ -663,14 +663,14 @@
   /* ---- 拡張機能の配布（メルマガ登録）のポップアップ。ページは移動せず、登録はその場の窓で ---- */
   const NEWS_URL = 'https://adversusvideo443934.substack.com/';
   const PROMO = {
-    ja: { btn: '拡張機能を期間限定で配布中', kick: 'CHROME 拡張機能', h: 'AIの画面の横で、CUE BOOK を。', lead: 'メルマガの無料購読者に、期間限定で配布しています。', f: ['ChatGPT や Claude の画面の横に、ずっと開いておける', '選んだ見本を、ボタンひとつでAIの入力欄へ', '気になる言葉は、右クリックで見本を探せる'], form: 'メールアドレスで無料登録（届くメールに配布のご案内があります）', alt: '登録欄が出ないときはこちら', close: '閉じる' },
-    en: { btn: 'Chrome extension — limited release', kick: 'CHROME EXTENSION', h: 'CUE BOOK, right beside your AI.', lead: 'Free for newsletter subscribers, for a limited time.', f: ['Keep it open beside ChatGPT or Claude', 'Send your picks into the AI input with one click', 'Right-click any word to find samples'], form: 'Subscribe free with your email (the download link comes by email)', alt: 'If the form doesn’t load, open it here', close: 'Close' },
+    ja: { btn: '拡張機能を期間限定で配布中', kick: 'CHROME 拡張機能', h: 'AIの画面の横で、<br><span class="nw">CUE BOOK を。</span>', lead: 'メルマガの無料購読者に、期間限定で配布しています。', fh: 'Chrome拡張機能を入れると…', f: ['ChatGPT や Claude の画面の横に、ずっと開いておける', '選んだ見本を、ボタンひとつでAIの入力欄へ', '気になる言葉は、右クリックで見本を探せる'], form: 'メールアドレスで無料登録（配布の準備ができしだい、登録時のメールとは別のメールでお届けします）', alt: '登録欄が出ないときはこちら', close: '閉じる' },
+    en: { btn: 'Chrome extension — limited release', kick: 'CHROME EXTENSION', h: '<span class="nw">CUE BOOK,</span><br>right beside your AI.', lead: 'Free for newsletter subscribers, for a limited time.', fh: 'With the Chrome extension, you can…', f: ['Keep it open beside ChatGPT or Claude', 'Send your picks into the AI input with one click', 'Right-click any word to find samples'], form: 'Subscribe free with your email (we’ll send the extension in a separate email once it’s ready)', alt: 'If the form doesn’t load, open it here', close: 'Close' },
   };
   const promo = $('#promo');
   function paintPromo() {
     const P = PROMO[LANG] || PROMO.ja;
     $('#promoBtn').innerHTML = `<i></i><span>${P.btn}</span>`;
-    $('#promoKick').textContent = P.kick; $('#promoH').textContent = P.h; $('#promoLead').textContent = P.lead;
+    $('#promoKick').textContent = P.kick; $('#promoH').innerHTML = P.h; $('#promoFh').textContent = P.fh; $('#promoLead').textContent = P.lead;
     $('#promoList').innerHTML = P.f.map((x, i) => `<li><b>${i + 1}</b><span>${x}</span></li>`).join('');
     $('#promoForm').textContent = P.form; $('#promoAlt').textContent = P.alt; $('#promoClose').setAttribute('aria-label', P.close); $('#promoClose').innerHTML = ic('x');
   }
@@ -683,7 +683,7 @@
   const closePromo = () => { promo.classList.remove('show'); promo.hidden = true; if (promoFrom && promoFrom.focus) promoFrom.focus({ preventScroll: true }); };
   $('#promoBtn').addEventListener('click', openPromo);
   /* 狭い画面は右上の言語切り替えの下。広い画面は左の帯の下端が画面の外になりやすいので、ロゴの下に置く */
-  const wide = window.matchMedia('(min-width: 761px)');
+  const wide = window.matchMedia('(min-width: 1024px)');
   const placePromo = () => { const b = $('#promoBtn'); if (wide.matches) $('#mast').after(b); else $('.rail-foot').appendChild(b); b.classList.toggle('in-rail', wide.matches); };
   placePromo(); wide.addEventListener('change', placePromo);
   $('#promoClose').addEventListener('click', closePromo);
