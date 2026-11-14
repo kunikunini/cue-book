@@ -115,18 +115,18 @@ const VO = { playing: null, src: {
   ['[Australian accent]', 'オーストラリアなまり', '英語をオーストラリア風の発音で話す。', 'English with an Australian accent.', "No worries, mate, we'll sort it out.", 'v4'],
   ['[Irish accent]', 'アイルランドなまり', '英語をアイルランド風の発音で話す。', 'English with an Irish accent.', "Grand day for it, isn't it?", 'v4'],
   ['[pirate voice]', '海賊の声', 'しゃがれた、海賊らしい芝居の声になる。', 'A gravelly, theatrical pirate.', 'Hoist the sails and pass the rum.', 'v4'],
-  ['[Kansai dialect]', '関西弁', '日本語を関西のイントネーションで話させる試み。', 'An attempt at Kansai-dialect Japanese intonation.', 'ほんまに？めっちゃええやん。', 'pub'],
+  ['[Kansai dialect]', '関西弁', '日本語を関西のイントネーションで話させる試み。', 'An attempt at Kansai-dialect Japanese intonation.', 'ほんまに？それ、めっちゃええやん。', 'pub'],
   ]);
 
   C('Sound Effects', '効果音', [
-  ['[thunder rumbling]', '雷のごろごろ', 'せりふの前に、遠い雷の音が入る。', 'Distant thunder before the line.', '近づいてきてる。', 'v4'],
-  ['[footsteps]', '足音', '近づいてくる足音が入る。', 'Approaching footsteps.', '誰かが階段を上がってくる。', 'v4'],
-  ['[door creaking]', 'ドアのきしみ', 'ドアがぎいっと開く音が入る。', 'A door creaking open.', 'もしもし？誰かいますか？', 'v4'],
-  ['[clapping]', '拍手', '拍手の音が入る。', 'Clapping hands.', 'ありがとう、ありがとうございます。', 'v4'],
-  ['[owl hooting]', 'フクロウの鳴き声', 'フクロウがほうほうと鳴く音が入る。', 'An owl hooting.', '今の、聞こえた？', 'v4'],
-  ['[dog barking]', '犬の鳴き声', '犬がほえる音が入る。', 'A dog barking.', 'なんだ、ビスケットか。脅かさないでよ。', 'v4'],
-  ['[gunshot]', '銃声', '乾いた銃声が入る。', 'A gunshot.', '伏せて！', 'v3'],
-  ['[explosion]', '爆発', '爆発音が入る。', 'An explosion.', '何、今の音は！', 'v3'],
+  ['[thunder rumbling]', '雷のごろごろ', 'せりふの前に、遠い雷の音が入る。', 'Distant thunder before the line.', '[nervous] 近づいてきてる…。', 'v4'],
+  ['[footsteps]', '足音', '近づいてくる足音が入る。', 'Approaching footsteps.', '[pause] [whispers] 誰かが、階段を上がってくる…。', 'v4'],
+  ['[door creaking]', 'ドアのきしみ', 'ドアがぎいっと開く音が入る。', 'A door creaking open.', '[nervous] あのー…？誰か、いますか？', 'v4'],
+  ['[clapping]', '拍手', '拍手の音が入る。', 'Clapping hands.', '[delighted] ありがとう、ありがとうございます！', 'v4'],
+  ['[owl hooting]', 'フクロウの鳴き声', 'フクロウがほうほうと鳴く音が入る。', 'An owl hooting.', '[whispers] 今の、聞こえた？', 'v4'],
+  ['[dog barking]', '犬の鳴き声', '犬がほえる音が入る。', 'A dog barking.', '[startled] わっ！…なんだ、ビスケットか。脅かさないでよ。', 'v4'],
+  ['[gunshot]', '銃声', '乾いた銃声が入る。', 'A gunshot.', '[panicked] [shouts] 伏せて！', 'v3'],
+  ['[explosion]', '爆発', '爆発音が入る。', 'An explosion.', '[panicked] 何、今の音は！', 'v3'],
   ]);
 
   C('Natural-language Tags', '文章で書くタグ', [
