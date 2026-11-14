@@ -647,4 +647,16 @@
   window.addEventListener('hashchange', fromHash);
   requestAnimationFrame(frame);
   window.__ae = { PRESETS, cards, active, renderPreset, promptOf, picksText, indexText, setBook, state: () => ({ picks, favs, hist, view, lang: LANG, book, theme, mirrors: mirrors.length }) };
+
+  /* 「制作用の見本帳」の左右の端を「Cue Book」の文字の幅に合わせる（字間で調整） */
+  function fitMast() {
+    const ja = $('.mast-ja'), en = $('.mast-en'); if (!ja || !en) return;
+    const box = el => { const r = document.createRange(), L = {}; r.selectNodeContents(el); for (const x of r.getClientRects()) { if (!x.width) continue; const k = Math.round(x.top), o = L[k] || (L[k] = [x.left, x.right]); o[0] = Math.min(o[0], x.left); o[1] = Math.max(o[1], x.right); } return Math.max(0, ...Object.values(L).map(([a, b]) => b - a)); };
+    en.style.letterSpacing = '0px'; en.style.marginRight = '0px';
+    const n = [...en.textContent.trim()].length, gap = (box(ja) - box(en)) / Math.max(1, n - 1);
+    en.style.letterSpacing = gap + 'px'; en.style.marginRight = -gap + 'px'; en.style.whiteSpace = 'nowrap';
+  }
+  /* 切り替え画面の見出しの書体を先に読んでおく（初回だけ別の書体で出ないように） */
+  if (document.fonts) { document.fonts.load('600 20px "M PLUS 1"', 'テキストアニメーションモーショングラフィックスボイス演出フォント動きの基本原則'); document.fonts.load('600 20px Jost', 'Text Animation Motion Graphics Voice Direction Fonts'); }
+  fitMast(); if (document.fonts) document.fonts.ready.then(fitMast); window.addEventListener('resize', fitMast);
 })();
