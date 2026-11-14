@@ -6,6 +6,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { api } from './el.mjs';
 import { loadScript } from './script.mjs';
+import { execFileSync } from 'node:child_process';
+/* 頭に0.2秒の無音を足す（再生の立ち上がりで言葉の頭が欠けないように）。ffmpeg が要る */
+function padHead(f) {
+  const tmp = f + '.pad.mp3';
+  execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', f, '-af', 'adelay=200:all=1', '-ar', '44100', '-ac', '1', '-c:a', 'libmp3lame', '-b:a', '128k', tmp]);
+  fs.renameSync(tmp, f);
+}
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 ? process.argv[i + 1] : d; };
 const VOICE = { m: arg('m'), f: arg('f') }, LIMIT = +arg('limit', 10000), MODEL = arg('model', 'eleven_v4');
@@ -28,6 +35,7 @@ async function one(j) {
   if (!r.ok) { fail++; log.spent -= n; const t = (await r.text()).slice(0, 300); console.log('失敗', j.id, j.v, r.status, t); if (r.status === 401 || r.status === 402 || /quota|model/i.test(t)) stop = true; return; }
   fs.mkdirSync(path.dirname(j.out), { recursive: true });
   fs.writeFileSync(j.out, Buffer.from(await r.arrayBuffer()));
+  padHead(j.out);
   log.items[j.id + ':' + j.v] = { chars: n, cost: r.headers.get('character-cost') || r.headers.get('x-character-count') || null, at: new Date().toISOString() };
   done++;
   fs.writeFileSync(logF, JSON.stringify(log, null, 1));
