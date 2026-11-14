@@ -528,24 +528,26 @@
   function paintDetail() { const L = t(); document.documentElement.dataset.detail = detail ? '1' : '0'; $('#detail').textContent = detail ? L.detailNone : L.detailAll; $('#detail').setAttribute('aria-pressed', detail); }
   function paintPause() { const L = t(); $('#pause').innerHTML = ic(paused ? 'play' : 'pause', paused ? 'fill' : '') + `<span>${paused ? L.play : L.pause}</span>`; $('#pause').setAttribute('aria-pressed', paused); }
   function togglePause() { paused = !paused; paintPause(); }
-  let wiping = 0;
+  let wiping = 0, lastK = -1;
+  /* 切り替え画面の番号の下に出す見出し。毎回ちがう動きで出す */
+  const wTitle = t => { if (!t) return ''; let k; do k = Math.floor(Math.random() * 7); while (k === lastK); lastK = k; const st = Math.min(22, Math.round(180 / [...t].length)); return `<p class="wt k${k}" style="--st:${st}ms">${[...t].map((c, i) => `<span style="--i:${i}">${c}</span>`).join('')}</p>`; };
   function setBook(b) {
     if (!BOOKS.includes(b) || b === book) return;
     const go = () => { stopVoice(); book = b; view = 'all'; store('ae-book', b); applyLang(); const top = $('.open').offsetTop + $('.open').offsetHeight; if (window.scrollY > top) window.scrollTo(0, top); };
     if (calm.matches || document.hidden) return go();
     /* 立方体が転がって次の面（次の巻）が出る間に、中身を入れ替える */
     const w = $('#wipe'); clearTimeout(wiping);
-    w.dataset.b = b; w.innerHTML = `<div class="cube"><i data-b="${book}">${VOLNO[book]}</i><i data-b="${b}">${VOLNO[b]}</i></div>`; w.classList.remove('run'); void w.offsetWidth; w.classList.add('run');
-    wiping = setTimeout(go, 250);
-    setTimeout(() => { if (w.dataset.b === b) w.classList.remove('run'); }, 900); /* 画面が裏に回って動きが止まっても、色の幕が残らないように */
+    w.dataset.b = b; w.innerHTML = `<div class="cube"><i data-b="${book}">${VOLNO[book]}</i><i data-b="${b}">${VOLNO[b]}</i></div>` + wTitle(t().books[b].tab); w.classList.remove('run'); void w.offsetWidth; w.classList.add('run');
+    wiping = setTimeout(go, 300);
+    setTimeout(() => { if (w.dataset.b === b) w.classList.remove('run'); }, 1050); /* 画面が裏に回って動きが止まっても、色の幕が残らないように */
   }
   /* 章へ飛ぶ・いちばん上へ戻る：色の幕が横切る間に移動する（巻の切り替えと同じ動き） */
-  function jump(move, label) {
+  function jump(move, label, title) {
     if (calm.matches || document.hidden) return move();
     const w = $('#wipe'); clearTimeout(wiping);
-    w.dataset.b = book; w.innerHTML = `<div class="cube"><i data-b="${book}"></i><i data-b="${book}">${label}</i></div>`; w.classList.remove('run'); void w.offsetWidth; w.classList.add('run');
-    wiping = setTimeout(move, 250);
-    setTimeout(() => w.classList.remove('run'), 900);
+    w.dataset.b = book; w.innerHTML = `<div class="cube"><i data-b="${book}"></i><i data-b="${book}">${label}</i></div>` + wTitle(title); w.classList.remove('run'); void w.offsetWidth; w.classList.add('run');
+    wiping = setTimeout(move, 300);
+    setTimeout(() => w.classList.remove('run'), 1050);
   }
   $('#wipe').addEventListener('animationend', e => { if (e.target === e.currentTarget) e.target.classList.remove('run'); });
   /* 狭い画面用：下のナビから開く目次（いちばん上へ戻る・各章へ飛ぶ） */
@@ -556,10 +558,10 @@
   document.addEventListener('click', e => {
     const mb = e.target.closest('[data-menu]');
     if (mb) return toggleMenu();
-    if (e.target.closest('#mTop')) { toggleMenu(false); jump(() => window.scrollTo(0, 0), VOLNO[book]); return; }
+    if (e.target.closest('#mTop')) { toggleMenu(false); jump(() => window.scrollTo(0, 0), VOLNO[book], t().books[book].tab); return; }
     if (!$('#msheet').hidden && !e.target.closest('#msheet')) toggleMenu(false);
     const go = e.target.closest('[data-go]');
-    if (go) { toggleMenu(false); const s = document.getElementById(go.dataset.go), tn = go.querySelector('.tn'); if (s) jump(() => s.scrollIntoView({ block: 'start' }), tn && /\d/.test(tn.textContent) ? tn.textContent : ''); return; }
+    if (go) { toggleMenu(false); const s = document.getElementById(go.dataset.go), tn = go.querySelector('.tn'); if (s) jump(() => s.scrollIntoView({ block: 'start' }), tn && /\d/.test(tn.textContent) ? tn.textContent : '', (go.querySelector('.tt') || go).textContent.trim()); return; }
     const bk = e.target.closest('#books [data-b], #bnav [data-b]');
     if (bk) return setBook(bk.dataset.b);
     const card = e.target.closest('.plate'); if (!card) return;

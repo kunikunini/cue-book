@@ -347,11 +347,27 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 
 /* 巻を替えるときの「刷り色」のワイプ */
 .wipe{--s:min(42vmin,260px);position:fixed;inset:0;z-index:95;pointer-events:none;background:var(--paper);opacity:0;display:flex;align-items:center;justify-content:center;perspective:900px}
-.wipe.run{animation:veil .68s linear both}
+.wipe.run{animation:veil .82s linear both}
 .wipe .cube{position:relative;width:var(--s);height:var(--s);transform-style:preserve-3d;transform:translateZ(calc(var(--s) / -2))}
-.wipe.run .cube{animation:roll .68s var(--ease) both}
+.wipe.run .cube{animation:roll .82s var(--ease) both}
 .wipe .cube i{position:absolute;inset:0;display:grid;place-items:center;background:var(--c);color:var(--on-spot);font:400 calc(var(--s) * .52)/1 var(--num);font-style:normal;backface-visibility:hidden;transform:translateZ(calc(var(--s) / 2))}
 .wipe .cube i+i{transform:rotateY(90deg) translateZ(calc(var(--s) / 2))}
+.mast-logo{animation:spin4 14s var(--ease) infinite;transform-origin:50% 50%}
+@keyframes spin4{0%,21%{transform:rotate(0)}25%,46%{transform:rotate(90deg)}50%,71%{transform:rotate(180deg)}75%,96%{transform:rotate(270deg)}100%{transform:rotate(360deg)}}
+.wipe{flex-direction:column;gap:clamp(14px,3vmin,24px)}
+.wipe .wt{margin:0;max-width:86vw;text-align:center;font:700 clamp(18px,4.2vmin,30px)/1.25 var(--sans);letter-spacing:.04em;color:var(--ink);opacity:0}
+.wipe .wt span{display:inline-block;white-space:pre}
+.wipe.run .wt{opacity:1}
+.wipe.run .wt span{animation:var(--wa) .26s var(--ease) both;animation-delay:calc(.1s + var(--i) * var(--st))}
+.wipe .wt.k0{--wa:wtRise}.wipe .wt.k1{--wa:wtBlur}.wipe .wt.k2{--wa:wtPop}.wipe .wt.k3{--wa:wtFlip}.wipe .wt.k4{--wa:wtType}.wipe .wt.k5{--wa:wtSlide}.wipe .wt.k6{--wa:wtDrop}
+@keyframes wtRise{from{opacity:0;transform:translateY(.7em)}to{opacity:1;transform:none}}
+@keyframes wtBlur{from{opacity:0;filter:blur(8px);transform:scale(1.15)}to{opacity:1;filter:none;transform:none}}
+@keyframes wtPop{0%{opacity:0;transform:scale(0)}70%{opacity:1;transform:scale(1.25)}100%{transform:none}}
+@keyframes wtFlip{from{opacity:0;transform:perspective(300px) rotateX(-90deg)}to{opacity:1;transform:none}}
+@keyframes wtType{0%,30%{opacity:0}31%,100%{opacity:1}}
+@keyframes wtSlide{from{opacity:0;transform:translateX(-1.2em) skewX(-20deg)}to{opacity:1;transform:none}}
+@keyframes wtDrop{0%{opacity:0;transform:translateY(-1em) rotate(-25deg)}60%{opacity:1;transform:translateY(.12em) rotate(6deg)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.mast-logo{animation:none}}
 @keyframes veil{0%{opacity:0}22%,74%{opacity:1}100%{opacity:0}}
 @keyframes roll{0%,14%{transform:translateZ(calc(var(--s) / -2)) rotateY(0)}70%,100%{transform:translateZ(calc(var(--s) / -2)) rotateY(-90deg)}}
 
@@ -532,17 +548,17 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 <div class="wipe" id="wipe" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="art.js?v=1794638365"></script>
-<script src="engine.js?v=1794638365"></script>
-<script src="presets.js?v=1794638365"></script>
-<script src="i18n.js?v=1794638365"></script>
-<script src="mg1.js?v=1794638365"></script>
-<script src="mg2.js?v=1794638365"></script>
-<script src="vo.js?v=1794638365"></script>
-<script src="audio/manifest.js?v=1794638365"></script>
-<script src="fonts.js?v=1794638365"></script>
-<script src="ft.js?v=1794638365"></script>
-<script src="spec.js?v=1794638365"></script>
-<script src="app.js?v=1794638365"></script>
+<script src="art.js?v=1794640258"></script>
+<script src="engine.js?v=1794640258"></script>
+<script src="presets.js?v=1794640258"></script>
+<script src="i18n.js?v=1794640258"></script>
+<script src="mg1.js?v=1794640258"></script>
+<script src="mg2.js?v=1794640258"></script>
+<script src="vo.js?v=1794640258"></script>
+<script src="audio/manifest.js?v=1794640258"></script>
+<script src="fonts.js?v=1794640258"></script>
+<script src="ft.js?v=1794640258"></script>
+<script src="spec.js?v=1794640258"></script>
+<script src="app.js?v=1794640258"></script>
 </body>
 </html>
