@@ -495,7 +495,7 @@
     $('#tTag').textContent = L.tag; $('#tKicker').textContent = B.kicker; $('#tH1').textContent = B.tab; $('#tSub').innerHTML = B.h1; $('#tLead').textContent = B.lead; $('#volNo').textContent = VOLNO[book];
     roll($('#stN'), all.length); roll($('#stC'), bookCats().length); $('#stId').textContent = `${PREFIX[book]}-${pad(1, DIG[book])}–${pad(all.length, DIG[book])}`;
     $('#tSt1').textContent = L.st1; $('#tSt2').textContent = L.st2; $('#tSt3').textContent = L.st3; $('#tHow').textContent = L.how.toUpperCase();
-    $('#tHowList').innerHTML = L.howList.map(s => `<li>${s}</li>`).join(''); $('#tNote').innerHTML = B.note; $('#tNoteS').textContent = B.noteS; $('#tFoot').innerHTML = B.foot;
+    $('#tHowList').innerHTML = L.howList.map(s => `<li>${s}</li>`).join(''); $('#tNote').innerHTML = B.note; $('#tNoteS').textContent = B.noteS; $('#tFoot').innerHTML = B.foot + ' <a class="gh" href="https://github.com/kunikunini/cue-book" target="_blank" rel="noopener">GitHub</a>';
     $('#q').placeholder = L.q; $('#q').setAttribute('aria-label', L.q); $('#memo').placeholder = L.memo; $('#memo').setAttribute('aria-label', L.memo);
     $('#tSpeed').textContent = L.speed; $('#speed').setAttribute('aria-label', L.speed); $('#sample').placeholder = L.sample; $('#tSampleL').textContent = L.sampleL; $('#tSampleH').textContent = L.sampleH;
     $('.samplebox').hidden = book !== 'ae' && book !== 'ft';
