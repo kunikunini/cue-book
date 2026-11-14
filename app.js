@@ -657,6 +657,6 @@
     en.style.letterSpacing = gap + 'px'; en.style.marginRight = -gap + 'px'; en.style.whiteSpace = 'nowrap';
   }
   /* 切り替え画面の見出しの書体を先に読んでおく（初回だけ別の書体で出ないように） */
-  if (document.fonts) { document.fonts.load('600 20px "M PLUS 1"', 'テキストアニメーションモーショングラフィックスボイス演出フォント動きの基本原則'); document.fonts.load('600 20px Jost', 'Text Animation Motion Graphics Voice Direction Fonts'); }
+  if (document.fonts) document.fonts.load('400 20px DotGothic16', 'テキストアニメーションモーショングラフィックスボイス演出フォント動きの基本原則 Text Animation Motion Graphics Voice Direction Fonts');
   fitMast(); if (document.fonts) document.fonts.ready.then(fitMast); window.addEventListener('resize', fitMast);
 })();
