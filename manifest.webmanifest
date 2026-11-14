@@ -1,6 +1,6 @@
 {
-  "name": "Cue Book — 制作用の見本帳",
-  "short_name": "Cue Book",
+  "name": "CUE BOOK — 制作用の見本帳",
+  "short_name": "CUE BOOK",
   "description": "制作用の見本帳。動き・声・書体を、番号でAIに頼める。",
   "lang": "ja",
   "start_url": "./",

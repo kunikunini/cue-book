@@ -150,7 +150,7 @@
   const picksText = () => {
     const memo = $('#memo').value.trim();
     return [
-      Lx(`Cue Book（制作用の見本帳）から、次の${picks.length}個を選びました。番号と正式名で指定します（AE- は After Effects 標準のテキストアニメーションプリセット、MG- はモーショングラフィックスの動き、VT- は音声合成のオーディオタグ、FT- はフォント）。それぞれの動きを下の仕様どおりに再現してください。`, `I picked these ${picks.length} from Cue Book, a specimen book for content production. They are identified by number and name (AE- = built-in After Effects text animation presets, MG- = motion-graphics moves, VT- = audio tags for speech synthesis, FT- = fonts). Reproduce each motion according to the spec below.`),
+      Lx(`CUE BOOK（制作用の見本帳）から、次の${picks.length}個を選びました。番号と正式名で指定します（AE- は After Effects 標準のテキストアニメーションプリセット、MG- はモーショングラフィックスの動き、VT- は音声合成のオーディオタグ、FT- はフォント）。それぞれの動きを下の仕様どおりに再現してください。`, `I picked these ${picks.length} from CUE BOOK, a specimen book for content production. They are identified by number and name (AE- = built-in After Effects text animation presets, MG- = motion-graphics moves, VT- = audio tags for speech synthesis, FT- = fonts). Reproduce each motion according to the spec below.`),
       '',
       ...picks.map(id => promptOf(byId[id]) + '\n'),
       memo ? Lx('メモ: ', 'Note: ') + memo : '',
@@ -491,7 +491,7 @@
   function applyLang() {
     const L = t(), B = L.books[book], all = PRESETS.filter(inBook);
     document.documentElement.lang = LANG; document.documentElement.dataset.book = book;
-    document.title = LANG === 'ja' ? 'Cue Book — 制作用の見本帳' : 'Cue Book — a specimen book for makers';
+    document.title = LANG === 'ja' ? 'CUE BOOK — 制作用の見本帳' : 'CUE BOOK — a specimen book for makers';
     $('#tTag').textContent = L.tag; $('#tKicker').textContent = B.kicker; $('#tH1').textContent = B.tab; $('#tSub').innerHTML = B.h1; $('#tLead').textContent = B.lead; $('#volNo').textContent = VOLNO[book];
     roll($('#stN'), all.length); roll($('#stC'), bookCats().length); $('#stId').textContent = `${PREFIX[book]}-${pad(1, DIG[book])}–${pad(all.length, DIG[book])}`;
     $('#tSt1').textContent = L.st1; $('#tSt2').textContent = L.st2; $('#tSt3').textContent = L.st3; $('#tHow').textContent = L.how.toUpperCase();
@@ -648,7 +648,7 @@
   requestAnimationFrame(frame);
   window.__ae = { PRESETS, cards, active, renderPreset, promptOf, picksText, indexText, setBook, state: () => ({ picks, favs, hist, view, lang: LANG, book, theme, mirrors: mirrors.length }) };
 
-  /* 「制作用の見本帳」の左右の端を「Cue Book」の文字の幅に合わせる（字間で調整） */
+  /* 「制作用の見本帳」の左右の端を「CUE BOOK」の文字の幅に合わせる（字間で調整） */
   function fitMast() {
     const ja = $('.mast-ja'), en = $('.mast-en'); if (!ja || !en) return;
     const box = el => { const r = document.createRange(), L = {}; r.selectNodeContents(el); for (const x of r.getClientRects()) { if (!x.width) continue; const k = Math.round(x.top), o = L[k] || (L[k] = [x.left, x.right]); o[0] = Math.min(o[0], x.left); o[1] = Math.max(o[1], x.right); } return Math.max(0, ...Object.values(L).map(([a, b]) => b - a)); };
@@ -659,4 +659,37 @@
   /* 切り替え画面の見出しの書体を先に読んでおく（初回だけ別の書体で出ないように） */
   if (document.fonts) document.fonts.load('400 20px DotGothic16', 'テキストアニメーションモーショングラフィックスボイス演出フォント動きの基本原則 Text Animation Motion Graphics Voice Direction Fonts');
   fitMast(); if (document.fonts) document.fonts.ready.then(fitMast); window.addEventListener('resize', fitMast);
+
+  /* ---- 拡張機能の配布（メルマガ登録）のポップアップ。ページは移動せず、登録はその場の窓で ---- */
+  const NEWS_URL = 'https://adversusvideo443934.substack.com/';
+  const PROMO = {
+    ja: { btn: '拡張機能を期間限定で配布中', kick: 'CHROME 拡張機能', h: 'AIの画面の横で、CUE BOOK を。', lead: 'メルマガの無料購読者に、期間限定で配布しています。', f: ['ChatGPT や Claude の画面の横に、ずっと開いておける', '選んだ見本を、ボタンひとつでAIの入力欄へ', '気になる言葉は、右クリックで見本を探せる'], form: 'メールアドレスで無料登録（届くメールに配布のご案内があります）', alt: '登録欄が出ないときはこちら', close: '閉じる' },
+    en: { btn: 'Chrome extension — limited release', kick: 'CHROME EXTENSION', h: 'CUE BOOK, right beside your AI.', lead: 'Free for newsletter subscribers, for a limited time.', f: ['Keep it open beside ChatGPT or Claude', 'Send your picks into the AI input with one click', 'Right-click any word to find samples'], form: 'Subscribe free with your email (the download link comes by email)', alt: 'If the form doesn’t load, open it here', close: 'Close' },
+  };
+  const promo = $('#promo');
+  function paintPromo() {
+    const P = PROMO[LANG] || PROMO.ja;
+    $('#promoBtn').innerHTML = `<i></i><span>${P.btn}</span>`;
+    $('#promoKick').textContent = P.kick; $('#promoH').textContent = P.h; $('#promoLead').textContent = P.lead;
+    $('#promoList').innerHTML = P.f.map((x, i) => `<li><b>${i + 1}</b><span>${x}</span></li>`).join('');
+    $('#promoForm').textContent = P.form; $('#promoAlt').textContent = P.alt; $('#promoClose').setAttribute('aria-label', P.close); $('#promoClose').innerHTML = ic('x');
+  }
+  let promoFrom = null;
+  const openPromo = () => {
+    promoFrom = document.activeElement;
+    const f = $('#promoFrame'); if (!f.src) f.src = NEWS_URL + 'embed';
+    promo.hidden = false; requestAnimationFrame(() => promo.classList.add('show')); $('#promoClose').focus({ preventScroll: true });
+  };
+  const closePromo = () => { promo.classList.remove('show'); promo.hidden = true; if (promoFrom && promoFrom.focus) promoFrom.focus({ preventScroll: true }); };
+  $('#promoBtn').addEventListener('click', openPromo);
+  /* 狭い画面は右上の言語切り替えの下。広い画面は左の帯の下端が画面の外になりやすいので、ロゴの下に置く */
+  const wide = window.matchMedia('(min-width: 761px)');
+  const placePromo = () => { const b = $('#promoBtn'); if (wide.matches) $('#mast').after(b); else $('.rail-foot').appendChild(b); b.classList.toggle('in-rail', wide.matches); };
+  placePromo(); wide.addEventListener('change', placePromo);
+  $('#promoClose').addEventListener('click', closePromo);
+  promo.addEventListener('click', e => { if (e.target === promo) closePromo(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !promo.hidden) { e.stopPropagation(); closePromo(); } }, true);
+  $('#promoAlt').href = NEWS_URL;
+  paintPromo();
+  $('#lang').addEventListener('click', () => setTimeout(paintPromo, 0));
 })();

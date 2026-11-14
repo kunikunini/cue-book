@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cue Book — 制作用の見本帳</title>
+<title>CUE BOOK — 制作用の見本帳</title>
 <meta name="description" content="制作用の見本帳。動き・声・書体を、見て選んで、番号でAIに頼める。After Effects のテキストプリセット322、モーショングラフィックス137、声のオーディオタグ130、無料フォント2,061を、動く見本つきで。">
 <link rel="canonical" href="https://kunikunini.github.io/cue-book/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Cue Book">
-<meta property="og:title" content="Cue Book — 制作用の見本帳">
+<meta property="og:site_name" content="CUE BOOK">
+<meta property="og:title" content="CUE BOOK — 制作用の見本帳">
 <meta property="og:description" content="制作用の見本帳。動き・声・書体を、見て選んで、番号でAIに頼める。After Effects のテキストプリセット322、モーショングラフィックス137、声のオーディオタグ130、無料フォント2,061を、動く見本つきで。">
 <meta property="og:url" content="https://kunikunini.github.io/cue-book/">
 <meta property="og:image" content="https://kunikunini.github.io/cue-book/og.png">
@@ -24,11 +24,11 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Cue Book">
+<meta name="apple-mobile-web-app-title" content="CUE BOOK">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>
 /* ============================================================
-   Cue Book — 紙の見本帳（スペシメンブック）として組む。
+   CUE BOOK — 紙の見本帳（スペシメンブック）として組む。
    方針：飾りは罫線・活字・特色（巻ごとの1色）だけ。見本そのものを絵として使う。
    ============================================================ */
 :root{
@@ -310,6 +310,31 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
 #sendAI:disabled{opacity:.6;cursor:default}
 .agent{margin:0 0 14px;padding:10px 14px;background:var(--spot);color:var(--on-spot);font-size:13.5px;font-weight:700;line-height:1.6}
 
+
+/* ---------- 拡張機能の配布ボタンとポップアップ ---------- */
+.promo-btn{flex:1 1 100%;display:flex;align-items:center;justify-content:center;gap:8px;min-height:34px;padding:7px 10px;border:1.5px solid var(--gold);background:color-mix(in srgb,var(--gold) 9%,transparent);color:var(--ink);font-size:12.5px;font-weight:700;letter-spacing:.02em;position:relative;overflow:hidden}
+.promo-btn i{flex:0 0 9px;height:9px;background:var(--gold)}
+.promo-btn.in-rail{flex:none;width:100%;margin:2px 0 16px;text-align:left;justify-content:flex-start}
+.promo-btn::after{content:"";position:absolute;top:-10px;bottom:-10px;width:40px;left:-60px;background:linear-gradient(90deg,transparent,rgba(255,236,170,.75),transparent);transform:skewX(-20deg);animation:promoShine 4.5s ease-in-out infinite}
+@keyframes promoShine{0%,70%{left:-60px}100%{left:calc(100% + 20px)}}
+.promo-btn:hover{background:color-mix(in srgb,var(--gold) 18%,transparent)}
+.promo{position:fixed;inset:0;z-index:70;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(14,13,11,.62)}
+.promo[hidden]{display:none}
+.promo.show .promo-box{animation:rise .28s var(--ease)}
+.promo-box{position:relative;width:min(520px,100%);max-height:94dvh;overflow:auto;background:var(--paper);border:1.5px solid var(--ink);box-shadow:var(--shadow);padding:26px 24px 20px}
+.promo-x{position:absolute;right:12px;top:12px}
+.promo-kick{font:600 11.5px/1 var(--mono);letter-spacing:.16em;color:var(--gold);display:flex;align-items:center;gap:8px}
+.promo-kick::before{content:"";width:9px;height:9px;background:var(--gold)}
+.promo h2{margin:12px 40px 8px 0;font:600 24px/1.35 var(--serif);letter-spacing:.02em}
+.promo-lead{margin:0 0 16px;font-size:14px;font-weight:700;color:var(--ink);padding:8px 12px;border-left:3px solid var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.promo-list{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:8px}
+.promo-list li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink)}
+.promo-list b{flex:0 0 24px;height:24px;display:grid;place-items:center;background:var(--ink);color:var(--paper);font:400 14px/1 var(--num)}
+.promo-form-h{font-size:12.5px;color:var(--ink2);margin:0 0 8px}
+#promoFrame{display:block;width:100%;height:150px;border:1px solid var(--rule2);background:#fff}
+.promo-alt{display:inline-block;margin-top:10px;font-size:12px;color:var(--ink2);text-decoration:underline}
+@media (max-width:760px){.rail-foot{display:grid!important;grid-template-columns:repeat(3,auto);justify-content:end;gap:6px}.promo-btn{grid-column:1/-1;font-size:11.5px;min-height:30px;padding:6px 8px}}
+
 /* ---------- 拡大表示 ---------- */
 .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(14,13,11,.62)}
 .modal.show{display:flex;animation:fade .18s ease-out}
@@ -445,7 +470,7 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
   <aside class="rail">
     <a class="mast" href="#top" id="mast">
       <svg class="mast-logo" viewBox="96 78 320 356" aria-hidden="true"><polygon points="256,90 400,173 256,256 112,173" fill="var(--ink)"/><polygon points="112,173 256,256 256,422 112,339" fill="var(--ink2)"/><polygon points="112,195 256,278 256,298 112,215" fill="#c5341a"/><polygon points="112,229 256,312 256,332 112,249" fill="#2740d6"/><polygon points="112,263 256,346 256,366 112,283" fill="#0a7653"/><polygon points="112,297 256,380 256,400 112,317" fill="#7a35a8"/><polygon points="256,256 400,173 400,339 256,422" fill="var(--card)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/><line x1="256" y1="282" x2="400" y2="199" stroke="var(--ink)" stroke-width="2.4"/><line x1="256" y1="308" x2="400" y2="225" stroke="var(--ink)" stroke-width="2.4"/><line x1="256" y1="334" x2="400" y2="251" stroke="var(--ink)" stroke-width="2.4"/><line x1="256" y1="360" x2="400" y2="277" stroke="var(--ink)" stroke-width="2.4"/><line x1="256" y1="386" x2="400" y2="303" stroke="var(--ink)" stroke-width="2.4"/></svg>
-      <span class="mast-ja">Cue <br>Book</span>
+      <span class="mast-ja">CUE <br>BOOK</span>
       <span class="mast-en">制作用の見本帳</span>
       <span class="mast-tag" id="tTag"></span>
     </a>
@@ -457,6 +482,7 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
       <div class="seg" id="lang"><button data-l="ja">日本語</button><button data-l="en">EN</button></div>
       <button class="ib" id="theme"></button>
       <button class="ib" id="keysBtn" aria-expanded="false"><kbd>?</kbd><span id="tKeys"></span></button>
+      <button class="promo-btn" id="promoBtn" type="button" aria-haspopup="dialog" aria-controls="promo"></button>
     </div>
   </aside>
 
@@ -546,21 +572,33 @@ footer{margin-top:14px;padding:0;font-size:12px;line-height:1.8;color:var(--ink2
   </div>
 </div>
 
+<div class="promo" id="promo" role="dialog" aria-modal="true" aria-labelledby="promoH" hidden>
+  <div class="promo-box">
+    <button class="ib promo-x" id="promoClose" type="button"></button>
+    <div class="promo-kick" id="promoKick"></div>
+    <h2 id="promoH"></h2>
+    <p class="promo-lead" id="promoLead"></p>
+    <ol class="promo-list" id="promoList"></ol>
+    <div class="promo-form-h" id="promoForm"></div>
+    <iframe id="promoFrame" title="Newsletter" loading="lazy" frameborder="0" scrolling="no"></iframe>
+    <a class="promo-alt" id="promoAlt" target="_blank" rel="noopener"></a>
+  </div>
+</div>
 <div class="keys" id="keys" hidden></div>
 <div class="wipe" id="wipe" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="art.js?v=1794644073"></script>
-<script src="engine.js?v=1794644073"></script>
-<script src="presets.js?v=1794644073"></script>
-<script src="i18n.js?v=1794644073"></script>
-<script src="mg1.js?v=1794644073"></script>
-<script src="mg2.js?v=1794644073"></script>
-<script src="vo.js?v=1794644073"></script>
-<script src="audio/manifest.js?v=1794644073"></script>
-<script src="fonts.js?v=1794644073"></script>
-<script src="ft.js?v=1794644073"></script>
-<script src="spec.js?v=1794644073"></script>
-<script src="app.js?v=1794644073"></script>
+<script src="art.js?v=1794651076"></script>
+<script src="engine.js?v=1794651076"></script>
+<script src="presets.js?v=1794651076"></script>
+<script src="i18n.js?v=1794651076"></script>
+<script src="mg1.js?v=1794651076"></script>
+<script src="mg2.js?v=1794651076"></script>
+<script src="vo.js?v=1794651076"></script>
+<script src="audio/manifest.js?v=1794651076"></script>
+<script src="fonts.js?v=1794651076"></script>
+<script src="ft.js?v=1794651076"></script>
+<script src="spec.js?v=1794651076"></script>
+<script src="app.js?v=1794651076"></script>
 </body>
 </html>
