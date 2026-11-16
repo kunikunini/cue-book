@@ -30,12 +30,12 @@
     ja: {
       brand: '見本帳', tag: '動き・声・書体を、番号で頼む',
       st1: '見本', st2: 'カテゴリ', st3: '通し番号', how: '使い方',
-      howList: ['動きを見て、カード右上のチェックを入れる（いくつでも）', '下に出るバーで、必要ならメモを書く（例：冒頭のタイトルに）', '「選んだものをコピー」を押して、AIとの会話に貼る', 'よく使うものは「☆」でお気に入りに。一度選んだものは「履歴」に残る'],
+      howList: ['動きを見て、カード右上のチェックを入れる（いくつでも）', '下に出るバーで、必要ならメモを書く（例：冒頭のタイトルに）', '「選んだものをコピー」を押して、AIとの会話に貼る', 'よく使うものは「☆」でお気に入りに。開いたり選んだりしたものは「履歴」に残る'],
       q: '名前・番号・動きの言葉で探す', sample: 'ここに文字を入力', sampleL: '見本の文字を、ここに入力', sampleH: '入れた文字で、下の見本がぜんぶ動きます。Enterで改行（4行まで）。空にすると元の見本に戻ります。',
       speed: '速さ', pause: '一時停止', play: '再生', copyIndex: '番号表をコピー', shown: n => `${n}個を表示`, empty: '当てはまるものがありません',
-      emptyFav: 'お気に入りはまだありません。カード右上の「☆」を押すと、ここに入ります。', emptyHist: '履歴はまだありません。チェックを入れたものが、ここに残ります。',
+      emptyFav: 'お気に入りはまだありません。カード右上の「☆」を押すと、ここに入ります。', emptyHist: '履歴はまだありません。開いた・コピーした・選んだものが、ここに残ります。',
       vAll: 'すべて', vFav: '☆ お気に入り', vHist: '履歴', all: 'すべて',
-      favH: 'お気に入り', favSub: '☆を付けたもの', histH: '履歴', histSub: '一度でも選んだことがあるもの（新しい順）', clearHist: '履歴を消す',
+      favH: 'お気に入り', favSub: '☆を付けたもの', histH: '履歴', histSub: '開いた・コピーした・選んだもの（新しい順）', clearHist: '履歴を消す',
       male: '男性', female: '女性', stop: '停止', noAudio: 'この音声は、この版には入っていません', line: '例文', effect: '効果', pick: '選ぶ', picked: '選択中', unpick: '選択を外す', copy: 'コピー', favOn: 'お気に入りから外す', favOff: 'お気に入りに入れる', zoom: id => `${id} を大きく見る`,
       n: n => `${n}個`, clear: 'クリア', copyPicks: '選んだものをコピー', memo: 'メモ（任意）：どこにどう使うか。例）AE-027 を冒頭のタイトルに、MG-011 を一覧の登場に',
       prev: '前へ', next: '次へ', copyOne: 'この1つをコピー', close: '閉じる',
@@ -81,9 +81,9 @@
       howList: ['Watch the motion and tick the box at the top right of a card (as many as you like)', 'Add a note in the bar at the bottom if needed (e.g. “for the opening title”)', 'Press “Copy picks” and paste into your AI chat', 'Press “☆” to keep favourites. Anything you have ever picked stays in “History”'],
       q: 'Search by name, number or motion', sample: 'Type your text here', sampleL: 'Type the sample text here', sampleH: 'Every sample below animates with what you type. Enter for a new line (up to 4). Leave it empty to restore the default.',
       speed: 'Speed', pause: 'Pause', play: 'Play', copyIndex: 'Copy number table', shown: n => `${n} shown`, empty: 'Nothing matches',
-      emptyFav: 'No favourites yet. Press “☆” at the top right of a card to add one.', emptyHist: 'No history yet. Anything you tick is kept here.',
+      emptyFav: 'No favourites yet. Press “☆” at the top right of a card to add one.', emptyHist: 'No history yet. Anything you open, copy or tick is kept here.',
       vAll: 'All', vFav: '☆ Favourites', vHist: 'History', all: 'All',
-      favH: 'Favourites', favSub: 'Items you starred', histH: 'History', histSub: 'Everything you have ever picked (newest first)', clearHist: 'Clear history',
+      favH: 'Favourites', favSub: 'Items you starred', histH: 'History', histSub: 'Items you opened, copied or picked (newest first)', clearHist: 'Clear history',
       male: 'Male', female: 'Female', stop: 'Stop', noAudio: 'This audio is not included in this edition', line: 'Line', effect: 'Effect', pick: 'Pick', picked: 'Picked', unpick: 'Unpick', copy: 'Copy', favOn: 'Remove from favourites', favOff: 'Add to favourites', zoom: id => `View ${id} larger`,
       n: n => `${n} picked`, clear: 'Clear', copyPicks: 'Copy picks', memo: 'Note (optional): where and how to use them, e.g. AE-027 for the opening title, MG-011 for the list entrance',
       prev: 'Prev', next: 'Next', copyOne: 'Copy this one', close: 'Close',
@@ -366,7 +366,7 @@
   const inViewport = el => { if (!el || !el.isConnected || !el.offsetParent) return false; const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0; };
   let fromEl = null;
   function openModal(p, from) {
-    const show = () => { if (!cur) opener = document.activeElement; cur = p; fillModal(); modal.classList.add('show'); history.replaceState(null, '', '#' + p.id); $('#mClose').focus({ preventScroll: true }); };
+    const show = () => { if (!cur) opener = document.activeElement; cur = p; touch(p.id); fillModal(); modal.classList.add('show'); history.replaceState(null, '', '#' + p.id); $('#mClose').focus({ preventScroll: true }); };
     if (!cur && from && canVT() && inViewport(from)) {
       fromEl = from; from.style.viewTransitionName = 'plate'; modal.classList.add('vt');
       vt(() => { from.style.viewTransitionName = ''; $('.big').style.viewTransitionName = 'plate'; show(); }, () => { $('.big').style.viewTransitionName = ''; modal.classList.remove('vt'); });
@@ -381,16 +381,19 @@
       vt(() => { $('.big').style.viewTransitionName = ''; hide(); back.style.viewTransitionName = 'plate'; }, () => { back.style.viewTransitionName = ''; });
     } else hide();
     fromEl = null;
+    setTimeout(sync, 400);
   }
-  const step = d => { const l = orderNow().filter(p => !cards.get(p.id).el.hidden), i = l.indexOf(cur); if (l.length) { cur = l[(i + d + l.length) % l.length]; fillModal(); history.replaceState(null, '', '#' + cur.id); } };
+  const step = d => { const l = orderNow().filter(p => !cards.get(p.id).el.hidden), i = l.indexOf(cur); if (l.length) { cur = l[(i + d + l.length) % l.length]; touch(cur.id); fillModal(); history.replaceState(null, '', '#' + cur.id); } };
 
   /* ---- 選ぶ・お気に入り・履歴 ---- */
   function toggle(id) {
     const i = picks.indexOf(id);
     if (i >= 0) picks.splice(i, 1);
-    else { picks.push(id); hist = [id, ...hist.filter(x => x !== id)]; store('ae-history', hist); }
+    else { picks.push(id); touch(id); }
     store('ae-picks', picks); sync();
   }
+  /* 開いた・コピーした・選んだものを履歴の先頭へ（最大100件） */
+  function touch(id) { hist = [id, ...hist.filter(x => x !== id)].slice(0, 100); store('ae-history', hist); }
   function toggleFav(id) {
     const i = favs.indexOf(id);
     if (i >= 0) favs.splice(i, 1); else favs.push(id);
@@ -571,7 +574,7 @@
     else if (e.target.closest('.mt')) { const o = card.classList.toggle('open'); e.target.closest('.mt').setAttribute('aria-expanded', o); }
     else if (e.target.closest('.pick, .pickb')) toggle(p.id);
     else if (e.target.closest('.cpb')) copy(promptOf(p) + '\n', t().copied(p.id), e.target.closest('.cpb'));
-    else if (e.target.closest('.cp')) copy(promptOf(p) + '\n', t().copied(p.id), e.target.closest('.cp'));
+    else if (e.target.closest('.cp')) touch(p.id), setTimeout(sync, 900), copy(promptOf(p) + '\n', t().copied(p.id), e.target.closest('.cp'));
     else if (e.target.closest('.stage')) openModal(p, e.target.closest('.stage'));
   });
   $('#views').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; view = b.dataset.v; sync(); });
@@ -607,7 +610,7 @@
   $('#mNext').addEventListener('click', () => step(1));
   $('#mPick').addEventListener('click', () => cur && toggle(cur.id));
   $('#mFav').addEventListener('click', () => cur && toggleFav(cur.id));
-  const copyCur = () => cur && copy(promptOf(cur) + '\n', t().copied(cur.id), $('#mCopy'));
+  const copyCur = () => cur && (touch(cur.id), copy(promptOf(cur) + '\n', t().copied(cur.id), $('#mCopy')));
   $('#mCopy').addEventListener('click', copyCur);
   modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', e => {
